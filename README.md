@@ -1,4 +1,4 @@
-# 🎂 Bakery Custom Order System
+# 🎂 Bakery Management and Custom Cake Order System
 
 ## 📌 Description
 A dynamic **Bakery Custom Order System** built with Django, allowing users to customize their cake orders and 
