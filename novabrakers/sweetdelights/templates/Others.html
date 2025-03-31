@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Other Items</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="/static/js/fontawason.js"></script>
+        <script src="/static/js/jquary.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/static/css/Others.css">
+        <link rel="stylesheet" href="/static/css/Navigation.css">
+            <!-- SweetAlert2 for Attractive Popups -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+
+<body>
+
+	
+
+    {% include "navigation.html" %}
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var message = "{{ messages|join:' ' }}"; // Get Django messages as a string
+
+        if (message.trim() !== "") {
+            Swal.fire({
+                title: "Notification",
+                text: message,
+                icon: "{{ messages.tags|default:'info' }}",  // Dynamically set icon
+                confirmButtonText: "OK",
+                timer: 3000, // Auto close after 3 seconds
+                showConfirmButton: false
+            });
+        }
+    });
+</script>
+
+    {% block content %}
+
+<!-- Loop through each subcategory -->
+{% for subcategory, products in subcategory_products.items %}
+<div id="heading">
+    <h1>{{ subcategory.name }}</h1>
+    <h4>{{ subcategory.description }}</h4>
+</div>
+
+<!-- PRODUCT CARDS -->
+<div id="main">
+    {% for product in products %}
+    <div class="card">
+        <!-- Wishlist Heart Icon (Top Right) -->
+        <form action="{% url 'add_to_wishlist' product.product_id %}" method="post" class="wishlist-form">
+            {% csrf_token %}
+            <button type="submit" class="wishlist-btn">
+                <i class="fa fa-heart"></i>  <!-- ❤️ Font Awesome Heart -->
+            </button>
+        </form>
+
+        <!-- Product Image -->
+        <a href="{% url 'product_detail' product.product_id %}">
+            <img src="{{ product.image.url }}" class="item-img" alt="{{ product.name }}">
+        </a>        <h1>{{ product.name }}</h1>
+        <p class="description">{{ product.description }}</p>
+
+        <!-- Price Selection -->
+        <form action="{% url 'add_to_cart' product.product_id %}" method="post">
+            {% csrf_token %}
+            <label for="price_option_{{ product.id }}">Select Price:</label>
+            <select name="selected_price_option" id="price_option_{{ product.id }}" class="price-dropdown">
+                {% for price_option in product.price_options %}
+                    <option value="{{ price_option|default:''|striptags }}">₹{{ price_option|default:''|striptags }}</option>
+                {% endfor %}
+            </select>
+
+            {% if product.stock > 0 %}
+                <button class="button" type="submit">Add to Cart</button>
+            {% else %}
+                <button  class="button" style="background-color: red; color: white; font-weight: bold;" disabled>Out of Stock</button>
+            {% endif %}
+        </form>
+    </div>
+{% empty %}
+    <p>No products found.</p>
+{% endfor %}
+
+</div>
+{% endfor %}
+
+{% endblock %}
+    
+{% include "footer.html" %}
+    </body>
+</html>

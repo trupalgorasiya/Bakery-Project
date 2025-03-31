@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Waffles</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/Waffles.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+       //
+        /* S E L E C T I N G   I T E M S */
+
+       
+
+    </script>
+
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+
+<!--  N A V I G A T I O N   B A R  -->
+
+{% include "navigation.html" %}
+    <!--  M A I N   C O N T E N T  -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var message = "{{ messages|join:' ' }}"; // Get Django messages as a string
+    
+            if (message.trim() !== "") {
+                Swal.fire({
+                    title: "Notification",
+                    text: message,
+                    icon: "warning",  // Change to "success", "error", "info" as needed
+                    confirmButtonText: "OK",
+                    timer: 3000, // Auto close after 3 seconds
+                    showConfirmButton: false
+                });
+            }
+        });
+    </script>
+    
+    <div id="heading">
+    	<h1>Waffles</h1>
+        <h4>"The weekends are for waffles and best friends."</h4>
+    </div>
+
+
+    <!--  I T E M   C A R D S  -->
+
+    <div id="main">
+       
+    {% for product in products %}
+    <div class="card">
+        <!-- Wishlist Heart Icon (Top Right) -->
+        <form action="{% url 'add_to_wishlist' product.product_id %}" method="post" class="wishlist-form">
+            {% csrf_token %}
+            <button type="submit" class="wishlist-btn">
+                <i class="fa fa-heart"></i>  <!-- ❤️ Font Awesome Heart -->
+            </button>
+        </form>
+
+        <!-- Product Image -->
+        <a href="{% url 'product_detail' product.product_id %}">
+            <img src="{{ product.image.url }}" class="item-img" alt="{{ product.name }}">
+        </a>        <h1>{{ product.name }}</h1>
+        <p class="description">{{ product.description }}</p>
+
+        <!-- Price Selection -->
+        <form action="{% url 'add_to_cart' product.product_id %}" method="post">
+            {% csrf_token %}
+            <label for="price_option_{{ product.id }}">Select Price:</label>
+            <select name="selected_price_option" id="price_option_{{ product.id }}" class="price-dropdown">
+                {% for price_option in product.price_options %}
+                    <option value="{{ price_option|default:''|striptags }}">₹{{ price_option|default:''|striptags }}</option>
+                {% endfor %}
+            </select>
+
+            {% if product.stock > 0 %}
+                <button class="button" type="submit">Add to Cart</button>
+            {% else %}
+                <button  class="button" style="background-color: red; color: white; font-weight: bold;" disabled>Out of Stock</button>
+            {% endif %}
+        </form>
+    </div>
+{% empty %}
+    <p>No products found.</p>
+{% endfor %}
+
+</div>
+
+{% include "footer.html" %}
+
+
+</body>
+</html>
+    {% comment %} <div class="card">
+    <img src="/static/img/core-img/waffle1.jpg" class="item-img">
+    <h1>Wow Waffle</h1>
+            <form name="form">
+                <select id="a1" class="price-dropdown" name="select" Onchange="change()" value="Quanity and Price">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo" class="item-price"></p>    
+    <p class="description">Everything is better with this yummy Wow Waffles!!</p>
+    <p><button onclick="add_to_cart('1','Wow Waffle','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/waffle2.jpg" class="item-img">
+    <h1>Vegan Belgian</h1>
+    <form name="form2">
+                <select id="a2" class="price-dropdown" name="select2" Onchange="change2()" value="Quanity and Price-2">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo2" class="item-price"></p>
+    <p class="description">This just might be the best grilled cheese you'll ever have. Just sayin'..</p>
+    <p><button onclick="add_to_cart('2','Vegan Belgian','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/waffle3.jpg" class="item-img">
+    <h1>Waffle Icecream</h1>
+    <form name="form3">
+                <select id="a3" class="price-dropdown" name="select3" Onchange="change3()" value="Quanity and Price-3">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo3" class="item-price"></p>
+    <p class="description">Waffle dunked in a delicious ice-cream and sprinkles!</p>
+    <p><button onclick="add_to_cart('3','Waffle Icecream','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/waffle4.jpg" class="item-img">
+    <h1>Choco Chocolaty</h1>
+    <form name="form4">
+                <select id="a4" class="price-dropdown" name="select4" Onchange="change4()" value="Quanity and Price-4">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo4" class="item-price"></p>
+    <p class="description">You are just fall in dream with overloaded chocolate!</p>
+    <p><button onclick="add_to_cart('4','Choco chocolaty','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/waffle5.jpg" class="item-img">
+    <h1>Buttermilk waffle</h1>
+    <form name="form5">
+                <select id="a5" class="price-dropdown" name="select5" Onchange="change5()" value="Quanity and Price-5">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo5" class="item-price"></p>
+    <p class="description">You can just go right on ahead and call it breakfast if you'd like.!</p>
+    <p><button onclick="add_to_cart('5','Buttermilk waffle','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/waffle6.jpg" class="item-img">
+    <h1>Yancey's Fancy</h1>
+    <form name="form6">
+                <select id="a6" class="price-dropdown" name="select6" Onchange="change6()" value="Quanity and Price-6">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo6" class="item-price"></p>
+    <p class="description">Yeast waffles are truly divine with a more complex flavor and texture!</p>
+    <p><button onclick="add_to_cart('6','Yancey Fancy','99')">Add to Cart</button></p> {% endcomment %}
+    </div>
+
+    {% comment %} <div class="card">
+    <img src="https://s11.favim.com/orig/7/716/7164/71649/tasty-waffles-good-Favim.com-7164926.jpg" class="item-img">
+    <h1>Eggless Blurberry</h1>
+    <form name="form7">
+                <select id="a7" class="price-dropdown" name="select7" Onchange="change7()" value="Quanity and Price-7">
+                   <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo7" class="item-price"></p>
+    <p class="description">Deliciously healthy baked waffles with blueberries that are chrunchy,& perfect!</p>
+    <p><button onclick="add_to_cart('7','Eggless Blurberry','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://www.dinneratthezoo.com/wp-content/uploads/2015/09/neapolitan-waffles-3-680x1020.jpg" class="item-img">
+    <h1>Neapolitan Waffles</h1>
+    <form name="form8">
+                <select id="a8" class="price-dropdown" name="select8" Onchange="change8()" value="Quanity and Price-8">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo8" class="item-price"></p>
+    <p class="description">A muffle is a waffle made with muffin batter!</p>
+    <p><button onclick="add_to_cart('8','Neapolitan Waffles','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://thebakermama.com/wp-content/uploads/2014/04/IMG_2884.jpg" class="item-img">
+    <h1>Choco come Berry</h1>
+    <form name="form9">
+                <select id="a9" class="price-dropdown" name="select9" Onchange="change9()" value="Quanity and Price-9">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo9" class="item-price"></p>
+    <p class="description">This is a sweet flavour of chocolate and strawberry!</p>
+    <p><button onclick="add_to_cart('9','Choco come Berry','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://natashaskitchen.com/wp-content/uploads/2021/04/Waffle-Recipe-6-728x1092.jpg" class="item-img">
+    <h1>Fluffy Waffle</h1>
+    <form name="form10">
+                <select id="a10" class="price-dropdown" name="select10" Onchange="change10()" value="Quanity and Price-10">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo10" class="item-price"></p>
+    <p class="description">Super soft & fluffy,create soft waffle and mood.!</p>
+    <p><button onclick="add_to_cart('10','Fluffy Waffle','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://melaniemakes.com/images/2013/02/yogurt-waffles-7-1.jpg" class="item-img">
+    <h1>Yogurt Waffles</h1>
+    <form name="form11">
+                <select id="a11" class="price-dropdown" name="select11" Onchange="change11()" value="Quanity and Price-11">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo11" class="item-price"></p>
+    <p class="description">Yogurt treats yummy , yummy and yummy!</p>
+    <p><button onclick="add_to_cart('11','Yogurt Waffles','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEoLH58S8_cHKOtIAygi1xQbx7YGNhTpPbkQWNx41gLtgKnij8BnUsutkd6Bu9jD_lKg&usqp=CAU" class="item-img">
+    <h1>Crispy Chickpea</h1>
+    <form name="form12">
+                <select id="a12" class="price-dropdown" name="select12" Onchange="change12()" value="Quanity and Price-12">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo12" class="item-price"></p>
+    <p class="description">This is perfect when you need a crispy mood.</p>
+    <p><button onclick="add_to_cart('12','Crispy Chickpea','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfs8dMNoR2SvCowGGP-IYycJVtCeMDwGMDGg&usqp=CAU" class="item-img">
+    <h1>Vanilla Waffles</h1>
+    <form name="form13">
+                <select id="a13" class="price-dropdown" name="select13" Onchange="change13()" value="Quanity and Price-13">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo13" class="item-price"></p>
+    <p class="description">Look at this yummmy vanilla waffles. You are Welcome!</p>
+    <p><button onclick="add_to_cart('13','Vanilla Waffles','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a0741bcda49_-_cos-09-banana-bread-waffles-de.jpg?resize=768:*" class="item-img">
+    <h1>Banana Bread</h1>
+    <form name="form14">
+                <select id="a14" class="price-dropdown" name="select14" Onchange="change14()" value="Quanity and Price-14">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo14" class="item-price"></p>
+    <p class="description">Banana bread in a handy,waffle form is what you've been looking for your life!</p>
+    <p><button onclick="add_to_cart('14','Banana Bread','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a0741e920e1_-_cos-12-coconut-raspberry-waffles-de.jpg?resize=768:*" class="item-img">
+    <h1>Coconut-Raspberry</h1>
+    <form name="form15">
+                <select id="a15" class="price-dropdown" name="select15" Onchange="change15()" value="Quanity and Price-15">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo15" class="item-price"></p>
+    <p class="description">Topped with coconut whipped cream be most delicious breakfast ever!</p>
+    <p><button onclick="add_to_cart('15','Coconut-Raspberry','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a07427a7445_-_cos-17-sweet-potato-waffles-de.jpg?resize=768:*" class="item-img">
+    <h1>Sweet Potato</h1>
+    <form name="form16">
+                <select id="a16" class="price-dropdown" name="select16" Onchange="change16()" value="Quanity and Price-16">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo16" class="item-price"></p>
+    <p class="description">Sweet potato are good enough for pie,they're certain good for waffle!</p>
+    <p><button onclick="add_to_cart('16','Sweet potato','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a0741b52d2f_-_cos-19-mint-chocolate-chip-ice-cream-waffles-sandwiches-de.jpg?resize=768:*" class="item-img">
+    <h1>Icecreamy</h1>
+    <form name="form17">
+                <select id="a17" class="price-dropdown" name="select17" Onchange="change17()" value="Quanity and Price-17">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo17" class="item-price"></p>
+    <p class="description">Ice cream sandwiches just got even better. No joke!</p>
+    <p><button onclick="add_to_cart('17','Icecreamy','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a07424cca2a_-_cos-20-red-velvet-waffles-de.jpg?resize=768:*" class="item-img">
+    <h1>Red Velvet</h1>
+    <form name="form18">
+                <select id="a18" class="price-dropdown" name="select18" Onchange="change18()" value="Quanity and Price-18">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo18" class="item-price"></p>
+    <p class="description">OfCourse they look amazing, especially drizzled in cream cheese icing!</p>
+    <p><button onclick="add_to_cart('18','Red Velvet','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a0741ac4ef2_-_cos-14-cake-mix-waffles-de.jpg?resize=768:*" class="item-img">
+    <h1>Cake Mix Waffle</h1>
+    <form name="form19">
+                <select id="a19" class="price-dropdown" name="select19" Onchange="change19()" value="Quanity and Price-19">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo19" class="item-price"></p>
+    <p class="description">These waffles are made with cake mix & then topped with cinnamon roll glaze!</p>
+    <p><button onclick="add_to_cart('19','Cake Mix Waffle','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a07423ac36f_-_cos-13-liege-belgian-waffles-de.jpg?resize=768:*" class="item-img">
+    <h1>Liege Belgian</h1>
+    <form name="form20">
+                <select id="a20" class="price-dropdown" name="select20" Onchange="change20()" value="Quanity and Price-20">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo20" class="item-price"></p>
+    <p class="description">Crispy, sweet, delicious goodness you won't be able to resist!</p>
+    <p><button onclick="add_to_cart('20','Liege Belgian','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a074289d819_-_cos-11-freezer-waffles-de.jpg?resize=768:*" class="item-img">
+    <h1>Freezer Waffles</h1>
+    <form name="form21">
+                <select id="a21" class="price-dropdown" name="select21" Onchange="change21()" value="Quanity and Price-21">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo21" class="item-price"></p>
+    <p class="description">These are waiting patiently in freezer for whenever the craving strikes!</p>
+    <p><button onclick="add_to_cart('21','Freezer Waffles','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a0741c74000_-_cos-07-chocolate-stout-waffle-sundae-de.jpg?resize=768:*" class="item-img">
+    <h1>Chocolate Sundae</h1>
+    <form name="form22">
+                <select id="a22" class="price-dropdown" name="select22" Onchange="change22()" value="Quanity and Price-22">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo22" class="item-price"></p>
+    <p class="description">I won't tell anyone if you eat this sundae for breakfast!</p>
+    <p><button onclick="add_to_cart('22','Chocolate Sundae','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://hips.hearstapps.com/cos.h-cdn.co/assets/cm/14/25/53a07426147f7_-_cos-06-cinnamon-roll-waffles-de.jpg?resize=768:*" class="item-img">
+    <h1>Cinnamon Roll</h1>
+    <form name="form23">
+                <select id="a23" class="price-dropdown" name="select23" Onchange="change23()" value="Quanity and Price-23">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo23" class="item-price"></p>
+    <p class="description">Seriously, you put a cinnamon roll on the waffle iron. Total awesome!</p>
+    <p><button onclick="add_to_cart('23','Cinnamon Roll','99')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://bakerish.com/wp-content/uploads/2020/05/CHOCOLATE-WAFFLES-3.jpg" class="item-img">
+    <h1>Yummy Waffles</h1>
+    <form name="form24">
+                <select id="a24" class="price-dropdown" name="select24" Onchange="change24()" value="Quanity and Price-24">
+                    <option value="1 Piece ~ ₹99">1 Piece ~ ₹99</option>
+                    <option value="2 Pieces ~ ₹819">2 Pieces ~ ₹819</option>
+                    <option value="3 Pieces ~ ₹918">3 Pieces ~ ₹918</option>
+                    <option value="4 Pieces ~ ₹1017">4 Pieces ~ ₹1017</option>
+                </select>
+            </form>
+            <p id="demo24" class="item-price"></p>
+    <p class="description">Waffle for breakfast? Yes,Especially when there is Greek yogurt involved!</p>
+    <p><button onclick="add_to_cart('24','Yummy Waffles','99')">Add to Cart</button></p>
+    </div> {% endcomment %}

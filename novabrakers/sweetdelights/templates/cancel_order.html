@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Order</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #f9e0db;
+            font-family: "initial";
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        h2 {
+            color: #dc3545;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-top: 15px;
+            display: none; /* ✅ Initially hidden */
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 16px;
+            resize: none;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .li {
+            background: #f1f1f1;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        label {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            text-align: center;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        .btn {
+            width: 100%;
+            font-size: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background: #b02a37;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            border: none;
+            color: #333;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        /* ✅ Custom Checkbox Styling */
+        input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 8px;
+        }
+
+        /* When checkbox is checked, change to red */
+        input[type="checkbox"]:checked {
+            background-color: red;
+            border-color: red;
+        }
+
+        /* Add a checkmark when checked */
+        input[type="checkbox"]:checked::after {
+            content: '\2714'; /* Unicode checkmark */
+            font-size: 14px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* ✅ Gray-out disabled checkboxes */
+        input[type="checkbox"]:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+    <div class="container">
+        <h2>Cancel Order</h2>
+        <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+        <p><strong>Date:</strong> {{ order.order_datetime|date:"Y-m-d h:i A" }}</p>
+        <p><strong>Total:</strong> ₹{{ order.total_amount }}</p>
+
+        <form method="POST" action="{% url 'process_cancel_order' order.order_id %}">
+            {% csrf_token %}
+
+            <h4>Select items to cancel:</h4>
+            <ul>
+                {% for item in order_items %}
+                {% if item.quantity > 0 %}  <!-- ✅ Only show items with quantity greater than 0 -->
+                    <li class="li">
+                        <label>
+                            <input type="checkbox" name="cancel_items" value="{{ item.order_detail_id }}" 
+                                onclick="toggleReasonBox('{{ item.order_detail_id }}')"> 
+                            {{ item.product.name }} - Price / waight: ({{ item.selected_price_option }})
+                        </label>
+                        <input type="number" name="cancel_quantity_{{ item.order_detail_id }}" 
+                               min="1" max="{{ item.quantity }}" value="1">
+                    </li>
+            
+                    <!-- ✅ Reason for cancellation (Initially hidden) -->
+                    <div class="form-group" id="reason_box_{{ item.order_detail_id }}">
+                        <label>Reason for canceling {{ item.product.name }}:</label>
+                        <textarea name="cancel_reason_{{ item.order_detail_id }}" placeholder="Enter your reason here..."></textarea>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
+            </ul>
+
+            <!-- Cancel Entire Order Button -->
+            <button type="submit" name="cancel_all" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel the entire order?');">
+                Cancel Entire Order
+            </button>
+
+            <!-- Cancel Selected Items Button -->
+            <button type="submit" name="cancel_selected" class="btn btn-warning" onclick="return confirm('Are you sure you want to cancel selected items?');">
+                Cancel Selected Items
+            </button>
+        </form>
+    </div>
+
+    <script>
+        function toggleReasonBox(itemId) {
+            var reasonBox = document.getElementById("reason_box_" + itemId);
+            var checkbox = document.querySelector("input[value='" + itemId + "']");
+
+            if (checkbox.checked) {
+                reasonBox.style.display = "block"; // ✅ Show reason box if checked
+            } else {
+                reasonBox.style.display = "none";  // ✅ Hide if unchecked
+            } 
+        }
+    </script>
+    {% include "footer.html" %}
+</body>
+</html>

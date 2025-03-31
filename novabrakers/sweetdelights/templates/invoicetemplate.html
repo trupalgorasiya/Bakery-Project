@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Order #{{ order.id }}</title>
+    <style>
+        body {
+            font-family: 'initial';
+            background: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        .invoice-container {
+            max-width: 900px;
+            background: #fff;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 26px;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .header .shop-name {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+        .header .total-amount {
+            font-size: 22px;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .info-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .info-box {
+            flex: 1;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .info-box h3 {
+            margin-bottom: 12px;
+            font-size: 18px;
+            color: #007bff;
+        }
+        .info-box p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .info-box strong {
+            font-weight: bold;
+        }
+        .table-container {
+            margin-bottom: 30px;
+        }
+        .items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .items th, .items td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+            font-size: 14px;
+            color: #333;
+        }
+        .header img {
+            width: 150px; /* Adjust the width */
+            height: auto; /* Keep the aspect ratio intact */
+        }
+        
+        .items th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        .summary {
+            width: 100%;
+            text-align: right;
+            font-size: 16px;
+        }
+        .summary p {
+            margin: 8px 0;
+        }
+        .summary .total {
+            font-weight: bold;
+            font-size: 24px;
+            color: #007bff;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px;
+            background: #007bff;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .info-container {
+                flex-direction: column;
+            }
+            .info-box {
+                margin-bottom: 20px;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="header">
+            <div class="shop-name">
+                <h1><img src="/static/img/bg-img/logo.png" alt="Description of the image" /></h1>
+                <h1>Invoice</h1>
+            </div>
+            <p class="total-amount">Total: ₹{{ order.total_price }}</p>
+        </div>
+
+        <div class="info-container">
+            <div class="info-box">
+                <h3>From:</h3>
+                <p><strong>{{ shop.shop_name }}</strong></p>
+                
+                <p><strong>Phone:</strong> {{ shop.mobile_no }}</p>
+                <p><strong>Email:</strong> {{ shop.email_id }}</p>
+                <p><strong>Address:</strong> {{ shop.shop_address }}</p>
+            </div>
+            <div class="info-box">
+                <h3>To:</h3>
+                <p><strong>{{ order.user.first_name }} </strong></p>
+              
+                <p><strong>Phone:</strong> {{ order.user.contact_no }}</p>
+                <p><strong>Email:</strong> {{ order.user.email_id }}</p>
+                {% comment %} <p><strong>Shipping Address:</strong>{{ order.shipping_address }}</p> {% endcomment %}
+                <p><strong>Address:</strong>{{ order.user.address }}</p>
+            </p>
+            </div>
+        </div>
+
+        <div class="info-container">
+            <div class="info-box">
+                <h3>Invoice Details:</h3>
+                
+                <p><strong>Order ID:</strong> #{{ order.id }}</p>
+                <p><strong>Order Date:</strong> {{ order.created_at|date:"Y-m-d h:i A" }}</p>
+            </div>
+            <div class="info-box">
+                <h3>Pickup Details:</h3>
+               
+                <p><strong>Pickup Date:</strong> {{ order.pickup_date }}</p>
+                <p><strong>Pickup Time:</strong> {{ order.pickup_time }}</p>
+            </div>
+        </div>
+
+        <h3>Order Items:</h3>
+        <div class="table-container">
+            <table class="items">
+                <tr>
+                    <th>Item</th>
+                    <th>Details</th>
+                </tr>
+                {% if order.cake_type %}<tr><td>Cake Type</td><td>{{ order.cake_type }}</td></tr>{% endif %}
+                {% if order.size %}<tr><td>Size</td><td>{{ order.size }}</td></tr>{% endif %}
+                {% if order.shape %}<tr><td>Shape</td><td>{{ order.shape }}</td></tr>{% endif %}
+                {% if order.flavor %}<tr><td>Flavor</td><td>{{ order.flavor }}</td></tr>{% endif %}
+                {% if order.filling %}<tr><td>Filling</td><td>{{ order.filling }}</td></tr>{% endif %}
+                {% if order.icing %}<tr><td>Icing</td><td>{{ order.icing }}</td></tr>{% endif %}
+                {% if order.cake_layers %}<tr><td>Layer</td><td>{{ order.cake_layers }}</td></tr>{% endif %}
+                {% if order.occasion %}<tr><td>Occasion</td><td>{{ order.occasion }}</td></tr>{% endif %}
+                {% if order.cake_texture %}<tr><td>Cake Texture</td><td>{{ order.cake_texture }}</td></tr>{% endif %}
+                {% if order.sweetness_level %}<tr><td>Sweetness Level</td><td>{{ order.sweetness_level }}</td></tr>{% endif %}
+                {% if order.serving_size %}<tr><td>Serving Size</td><td>{{ order.serving_size }}</td></tr>{% endif %}
+                {% if order.cake_theme %}<tr><td>Theme</td><td>{{ order.cake_theme }}</td></tr>{% endif %}
+                {% if order.allergy_info %}<tr><td>Allergy info</td><td>{{ order.allergy_info }}</td></tr>{% endif %}
+                {% if order.egg_preference %}<tr><td>Egg Preference</td><td>{{ order.egg_preference }}</td></tr>{% endif %}
+                {% if order.dietary_preferences %}<tr><td>Dietary Preference</td><td>{{ order.dietary_preferences }}</td></tr>{% endif %}
+                {% if order.extra_addons %}<tr><td>Extra Add</td><td>{{ order.extra_addons }}</td></tr>{% endif %}
+                {% if order.packaging %}<tr><td>Packaging</td><td>{{ order.packaging }}</td></tr>{% endif %}
+                {% if order.message %}<tr><td>Message</td><td>{{ order.message }}</td></tr>{% endif %}
+                {% if order.additional_customization %}<tr><td>Additional Customization</td><td>{{ order.additional_customization }}</td></tr>{% endif %}
+                {% if order.hidden_surprise %}<tr><td>Hidden Surprise</td><td>{{ order.hidden_surprise }}</td></tr>{% endif %}
+                {% if order.notes %}<tr><td>Nuts</td><td>{{ order.notes }}</td></tr>{% endif %}
+            </table>
+        </div>
+
+        <div class="summary">
+            <p><strong>Discount:</strong> ₹{{ order.discount_amount }}</p>
+            <p><strong>Shipping Charges:</strong> ₹50</p>
+            <p class="total">Total: ₹{{ order.total_price }}</p>
+        </div>
+
+        <div class="footer">
+            Thank you for shopping with us!
+        </div>
+    </div>
+</body>
+</html>

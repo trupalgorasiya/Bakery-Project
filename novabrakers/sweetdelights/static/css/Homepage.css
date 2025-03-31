@@ -1,0 +1,599 @@
+body{
+    background-color: #ffffff;
+    font-family: "initial";
+    margin: 0px;
+}
+
+.silde{
+    height: 80vh;
+}
+/* N A V I G A T I O N */
+
+
+
+
+/* M A I N - C O N T E N T */
+
+/*  B A K E R Y   N A M E   A N D   I C O N  */
+
+#bakery-name{
+    background-image: url(https://i.pinimg.com/564x/dc/ad/77/dcad777dd875e31bd7b361a3e4c0c012.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+     background-size: cover; 
+    padding: 2%;
+}
+
+#bakery-name img{
+    height: 25%;
+    width: 25%;
+    border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/*  S L I D E S H O W  */
+
+.slider {
+    width: 100vw; /* Use viewport width to take up the full width of the screen */
+    height: 100vh; /* Use viewport height to take up the full height of the screen */
+    overflow: hidden;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
+.slides {
+    width: 500%; /* Keep this for your sliding logic */
+    height: 80%; /* Match the height of the slider */
+    display: flex;
+    position: relative;
+    top: 0;
+}
+
+.slides input {
+    display: none;
+}
+
+.slide {
+    width: 20%; /* Each slide takes up 20% for a 5-image slider */
+    transition: 2s;
+    height: 100%; /* Match the height of the slider */
+}
+
+.slide img {
+    width: 100%; /* Stretch image to fit the slide width */
+    height: 100%; /* Stretch image to fit the slide height */
+    object-fit: cover; /* Ensures the image covers the entire container without distortion */
+}
+
+
+/* css for manual slide navigation */
+.navigation-manual{
+    position:absolute;
+    width:100vh;
+    margin-top:-730px;
+    display:flex;
+    justify-content:center;
+}
+
+.manual-btn{
+    border:2px solid black;
+    padding:5px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:1s;
+}
+
+.manual-btn:not(:last-child){
+    margin-right:40px;
+}
+
+.manual-btn:hover{
+    background: grey;
+}
+
+#radio1:checked ~ .first{
+    margin-left:0;
+}
+
+#radio2:checked ~ .first{
+    margin-left:-20%;
+}
+
+#radio3:checked ~ .first{
+    margin-left:-40%;
+}
+
+#radio4:checked ~ .first{
+    margin-left:-60%;
+}
+
+#radio5:checked ~ .first{
+    margin-left:-80%;
+}
+
+#radio6:checked ~ .first{
+    margin-left:-100%;
+}
+
+#radio7:checked ~ .first{
+    margin-left:-120%;
+}
+
+/* css for automatic navigation */
+.navigation-auto{
+    position:absolute;
+    display:flex;
+    width:800px;
+    justify-content:center;
+    margin-top:460px;
+}
+
+.navigation-auto div{
+    border:2px solid black;
+    padding: 5px;
+    border-radius:10px;
+    transition:1s;
+}
+
+.navigation-auto div:not(:last-child){
+    margin-right:40px;
+}
+
+#radio1:checked ~ .navigation-auto .auto-btn1{
+    background:gray;
+}
+
+#radio2:checked ~ .navigation-auto .auto-btn2{
+    background:gray;
+}
+
+#radio3:checked ~ .navigation-auto .auto-btn3{
+    background:gray;
+}
+
+#radio4:checked ~ .navigation-auto .auto-btn4{
+    background:gray;
+}
+
+#radio5:checked ~ .navigation-auto .auto-btn5{
+    background:gray;
+}
+
+#radio6:checked ~ .navigation-auto .auto-btn6{
+    background:gray;
+}
+
+#radio7:checked ~ .navigation-auto .auto-btn7{
+    background:gray;
+}
+/*chat box*/
+.open-button {
+    background-color:#E8A49E;
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    bottom: 5%;
+    left: 93%;
+    }
+
+    /* The popup chat - hidden by default */
+    .chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    }
+
+/* Add styles to the form container */
+.form-container {
+max-width: 300px;
+padding: 10px;
+background-color: white;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+width: 100%;
+padding: 15px;
+margin: 5px 0 22px 0;
+border: none;
+background: #f1f1f1;
+resize: none;
+min-height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+background-color: #ddd;
+outline: none;
+}
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+background-color: #04AA6D;
+color: white;
+padding: 16px 20px;
+border: none;
+cursor: pointer;
+width: 100%;
+margin-bottom:10px;
+opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+opacity: 1;
+}
+
+
+/*  I T E M S   D I V S  */
+
+#items-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 50px;
+}
+
+.items{
+    /* border: 1.5px solid black; */
+    margin:30px;
+    /* box-shadow: 3px 3px 15px grey; */
+    transition: 1s ease-in-out;
+}
+
+.items img{
+    height: 200px;
+    width: 200px;
+}
+
+.items:hover{
+    box-shadow: 5px 5px 25px white;
+}
+
+.item-names{
+    background-color: white;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0px;
+    padding: 2%;
+    
+}
+
+a:link{
+    text-decoration: none;
+    color: black;
+}
+
+a:visited{
+    text-decoration: none;
+    color: #454545;
+} 
+
+/* P A R T Y   P R O P S */
+
+#props {
+    position: relative;
+    text-align: center;
+    margin: 8%;
+    border: 3px solid black;
+}
+
+#props img{
+    height: 300px; 
+    width: 100%;           
+}
+
+#props-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white; 
+    padding: 0.5% 3%;
+    font-size: 35px;
+    font-style: italic;
+    text-shadow: 2px 2px yellow;
+}
+
+/* P O L L   S E C T I O N */
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 4%;
+}
+
+.flex-child {
+    flex: 1;
+    background-color: lightblue;
+    padding: 2%;
+    margin-bottom: 2rem;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+
+.poll1{
+    display :flex;
+    height:260px;
+    width:400px;
+    flex-direction:row;
+    flex-wrap:wrap-reverse;
+    position:relative;
+    background-color:#f0e9e9;
+    border-radius:7px;    
+}
+
+.poll{
+    width:22px;
+    margin-left:20px;
+    border-radius:8px;
+    color:white;
+    font-size:20px;
+    text-indent:30px;
+}
+
+#div1{
+    height:200px;
+    background-color:#b33380;
+    writing-mode: vertical-rl;
+}
+
+#div2{
+    height:260px;
+    background-color:pink;
+    writing-mode: vertical-rl;
+}
+
+#div3{
+    height:100px;
+    background-color:#b33380;
+    writing-mode: vertical-rl;
+}
+
+#div4{
+    height:200px;
+    background-color:pink;
+    writing-mode: vertical-rl;
+}
+
+#div5{
+    height:150px;
+    background-color:#b33380;
+    writing-mode: vertical-rl;
+}
+
+#div6{
+    height:170px;
+    background-color:pink;
+    writing-mode: vertical-rl;
+}
+
+#div7{
+    height:200px;
+    background-color:#b33380;
+    writing-mode: vertical-rl;
+}
+
+#div8{
+    height:90px;
+    background-color:pink;
+    writing-mode: vertical-rl;
+}
+
+/* S P E C I A L S   +   C O N T E S T S */
+
+#new-item-container{
+    margin:2% 0%;
+    padding: 2%;
+
+}
+
+.newitem{
+    border-radius:18px;
+    margin: 4% 0%;
+}
+
+#contest{
+    height:500px;
+    width:500px;
+}
+
+#special-heading{
+    color:#b33380; 
+    background-color:pink; 
+    font-style: italic; 
+    text-decoration: underline;
+    font-size: 30px;
+    padding: 5px;
+}
+
+.special-image{
+    height:300px;
+    width:80%;   
+    margin: 2%;
+}
+
+.blink{
+    color:#b33380; 
+    font-size:45px;
+    font-style: italic;
+    text-decoration: underline;
+    animation:blink 2.5s infinite alternate;
+}
+
+@keyframes blink{
+    0%{color: yellow;}
+    100%{color: red;};
+}
+
+.participate:hover{
+    font-weight: bold;
+}
+
+
+/* G A L L E R Y */
+.slideshow{
+    height: 80vh;
+}
+#gallery{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    position:relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.pics{
+    height:200px;
+    width:200px;
+    border-radius:20%;
+    margin:2% 0 0 5%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin:30px;
+    transition: 1s ease-in-out;
+}
+
+div.pics:hover{transform:scaleX(1.1);
+    box-shadow:1px 1px 2px red,0 0 25px pink,0 0 5px darkblue;
+}
+
+#pic1{
+    background-image:url("https://i.pinimg.com/564x/5c/35/16/5c35162a9108a131e32c855aa3756864.jpg");
+}
+
+#pic2{
+    background-image:url("https://i.pinimg.com/originals/40/c1/fb/40c1fbd12c0efadaa3833727f28e32e0.jpg");
+}
+
+#pic3{
+    background-image:url("https://i.pinimg.com/originals/c5/f9/eb/c5f9eb4505b4c26d7cfd10de1f85dc23.jpg");
+}
+
+#pic4{
+    background-image:url("https://www.deliciaecakes.com/static/b2a765e9068817f9bcf60a222d191416/33aa5/cover-Animal%20%26%20Water%20Theme.jpg");
+}
+
+#pic5{
+    background-image:url("http://www.sru.edu//images/news/2019/June/062719a-Inline.jpg");
+}
+
+#pic6{
+    background-image:url("https://i.pinimg.com/originals/23/6c/de/236cde3fefca613d4dac24147083591e.jpg");
+}
+
+#pic7{
+    background-image:url("https://i.pinimg.com/originals/0a/5d/0f/0a5d0f5cb6fcd65635daf06cf3056be5.jpg");
+}
+
+#pic9{
+    background-image:url("https://i1.fnp.com/images/pr/l/v20201219020946/hearty-choco-kitkat-cake-half-kg_1.jpg");
+}
+
+#pic10{
+    background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY2RjR3mJ1Ge4zCVwrpFlNIc5Qc-bsnn84Ag&usqp=CAU");
+}
+
+#pic11{
+    background-image:url("https://image.slidesharecdn.com/imageservice-190624130124/95/send-happy-birthday-cake-for-your-mother-1-638.jpg?cb=1561381301");
+}
+
+#pic12{
+    background-image:url("https://thumbs.dreamstime.com/b/two-beautiful-kids-little-preschool-boys-celebrating-birthday-blowing-candles-homemade-baked-cake-indoor-birthday-party-114545200.jpg");
+}
+
+#pic15{
+    background-image:url("https://images.indianexpress.com/2020/09/Abhishek-Nigam-Siddharth-photo.jpg?w=350");
+}
+
+#pic16{
+    background-image:url("https://i.pinimg.com/originals/34/c0/43/34c04314a94cd691806cae92cf9a72a3.jpg");
+}
+
+#pic17{
+    background-image:url("https://live.staticflickr.com/5293/5431619947_749702661f_b.jpg");
+}
+
+#pic18{
+    background-image:url("https://i.pinimg.com/originals/e9/2c/25/e92c25838da94fa815fea65e2c05caa0.png");
+}
+
+#pic19{
+    background-image:url("https://imgix.bustle.com/uploads/shutterstock/2019/10/21/48e0074c-6e41-4da0-bc77-d85b59f76198-shutterstock-538408189.jpg?w=610&fit=max&auto=format%2Ccompress");
+}
+
+#pic20{
+    background-image:url("https://i.pinimg.com/564x/82/a8/ba/82a8ba7c589de134899bf8dc6477313e.jpg");
+}
+
+#pic21{
+    background-image:url("https://i.pinimg.com/474x/04/42/06/044206a2478c0d43dd7b2d99ab2d5a0e.jpg");
+}
+
+
+
+/* A B O U T */
+
+#about{
+    border: 3px solid black;
+    margin: 5%;
+    padding: 3% 3%;
+}
+
+#values-img{
+    height: 10px;
+    width: 100%; 
+    margin: 2% 0%;
+}
+
+#details-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    margin: 50px;
+    padding: 2%;
+}
+
+.details-child{
+    margin: 2% 5%;
+}
+
+.about-subheading{
+    font-style: italic; 
+    text-align: center;
+    color: red;
+}
+
+.subheading-content{
+    font-style: italic; 
+    text-align: center; 
+    color: grey; 
+    font-size: 18px;
+}
+
+
+marquee{
+    width: 100%;
+    font-size: 45px;
+    background-color: rgb(145 52 7 / 56%);
+    color: black;
+}

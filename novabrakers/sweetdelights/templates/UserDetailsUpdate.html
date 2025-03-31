@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Information</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/Userdetailsup.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <style>
+        .message-box {
+            {% comment %} background-color: #d4edda; /* Light green */ {% endcomment %}
+            color:rgb(218, 40, 40); /* Dark green */
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            {% comment %} border: 1px solid #c3e6cb; {% endcomment %}
+        }
+    </style>        
+</head>
+<body>
+    {% include "navigation.html" %}
+    <div class="container">
+        {% if messages %}
+            <div class="message-box">
+                {% for message in messages %}
+                    <p class="{% if message.tags %} {{ message.tags }} {% endif %}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    
+        <h2>Edit Personal Information</h2>
+        <form id="editForm" method="POST">
+            {% csrf_token %}
+            <div class="info-row">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" value="{{ user.first_name }}">
+            </div>
+            <div class="info-row">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" value="{{ user.email_id }}">
+            </div>
+            <div class="info-row">
+                <label for="mobile">Mobile Number</label>
+                <input type="text" id="mobile" name="mobile" value="{{ user.contact_no }}">
+            </div>
+            <div class="info-row">
+                <label for="dob_date">Date Of Birth</label>
+                <input type="date" id="dob_date" name="dob_date" value="{{ user.dob_date|date:'Y-m-d' }}">
+            </div>
+            <div class="info-row">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" value="{{ user.address }}">
+            </div>
+            <button type="submit" class="save-btn">Save</button>
+        </form>
+    </div>
+    
+    {% include "footer.html" %}
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>     

@@ -1,0 +1,129 @@
+body{
+    background-color:#fdeeee;}
+    #image{
+        height:93%;
+        width:40%;
+        border-radius:20px;
+        margin:2% 2% 2% 2%;
+    }
+    .whole{
+    height:93%;
+    width:80%;
+    background-color:#fdfbfb;
+    border-radius:20px;
+    margin:3% 10% 3% 10%;
+    }
+    .form{
+    height:94%;
+    width:44%;
+    background-color:#f4cdd4;
+    margin-left:50%;
+    margin-top:-56%;
+    position:relative;
+    border-radius:16px;
+    }
+    .text1{
+    font-family: 'Parisienne', cursive;
+    font-size: 2em;
+    text-shadow: 2px 2px #249eaa;
+    text-align:center;
+    font-style: italic;
+    }
+    .text{
+    font-family: 'Parisienne', cursive;
+    font-size: 1.3em;
+    /*text-shadow: 2px 2px #249eaa;*/
+    text-align:center;
+    font-style: italic;
+    }
+    .text2{
+    color:#b33380;
+    border-radius:5px;
+    font-weight:light;
+    font-style:italic;
+    font-size:1em;
+    }
+    
+    @media only screen and (max-width:49em){
+        .form{
+            width : 47%;
+        }
+    }
+    
+    @media only screen and (max-width:48em){
+        .form{
+            width : 49%;
+        }
+    }
+    
+    @media only screen and (max-width:46em){
+        .whole{
+            width : 82%;
+        }
+        .form{
+            width : 49%;
+        }
+    }
+    
+    @media only screen and (max-width:44em){
+        .whole{
+            width : 84%;
+        }
+        .form{
+            width : 49%;
+        }
+    }
+    
+    @media only screen and (max-width:42em){
+        .whole{
+            width : 87%;
+        }
+        .form{
+            width : 49%;
+        }
+    }
+    
+    @media only screen and (max-width:40em){
+        .whole{
+            width : 90%;
+        }
+        .form{
+            width : 49%;
+        }
+    }
+    
+    @media only screen and (max-width:39em){
+        .whole{
+            width : 92%;
+        }
+        .form{
+            width : 49%;
+        }
+    }
+    
+    @media only screen and (max-width:37em){
+        .whole{
+            width : 95%;
+        }
+        .form{
+            width : 49%;
+        }
+    }
+    
+    @media only screen and (max-width:35em){
+        .whole{
+            width : 700px;
+        }
+        .form{
+            width : 49%;
+        }
+    }
+    
+    @media only screen and (max-width:32em){
+        .whole{
+            width : 700px;
+        }
+        .form{
+            width : 49%;
+        }
+    }

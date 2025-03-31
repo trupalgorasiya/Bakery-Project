@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Breads</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="/static/js/fontawason.js"></script>
+        <script src="/static/js/jquary.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/static/css/Breads.css">
+        <link rel="stylesheet" href="/static/css/Navigation.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- SweetAlert2 for Attractive Popups -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+
+</head>
+
+<body>
+
+	<!--  N A V I G A T I O N   B A R  -->
+    <!--  N A V I G A T I O N   B A R  -->
+{% include "navigation.html" %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var message = "{{ messages|join:' ' }}"; // Get Django messages as a string
+
+        if (message.trim() !== "") {
+            Swal.fire({
+                title: "Notification",
+                text: message,
+                icon: "warning",  // Change to "success", "error", "info" as needed
+                confirmButtonText: "OK",
+                timer: 3000, // Auto close after 3 seconds
+                showConfirmButton: false
+            });
+        }
+    });
+</script>
+
+{% comment %} {% if messages %}
+    <div id="messageBox" class="alert alert-warning text-center">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Automatically hide the message after 3 seconds
+        setTimeout(function() {
+            document.getElementById("messageBox").style.display = "none";
+        }, 3000);
+    </script>
+{% endif %} {% endcomment %}
+    <!--  M A I N   C O N T E N T  -->
+
+    <div id="heading">
+    	<h1>Breads</h1>
+		<h4>"I like bread, and I like butter - but I like bread with butter best!"</h4>
+    </div>
+
+    <!--  I T E M   C A R D S  -->
+
+    <div id="main">
+
+
+    {% comment %} <div class="card">
+        <img src="{{ product.image.url }}" class="item-img" alt="{{ product.name }}">
+        <h1>{{ product.name }}</h1>
+
+        <form name="form{{ product.name }}">
+            <select id="a{{ product.name }}" class="price-dropdown" name="select{{ product.name }}" onchange="change('{{ product.name }}')">
+                {% for price_option in product.price_options %}
+                    {% if ',' in price_option %}
+                        <option value="{{ price_option }}">{{ price_option }}</option>  {# Display price and weight (kg) as an option #}
+                    {% else %}
+                        <option value="{{ price_option }}">₹{{ price_option }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </form>
+        
+
+        <!-- Price Display -->
+        <p id="demo{{ product.name }}" class="item-price">₹{{ product.price_options.0|default:"0" }}</p>
+
+        <p class="description">{{ product.description }}</p>
+        <p>
+            <button onclick="add_to_cart('{{ product.name }}', '{{ product.name }}', document.getElementById('a{{ product.name }}').value)">Add to Cart</button>
+
+
+
+        </p>
+    </div> {% endcomment %}
+
+    
+    {% for product in products %}
+    <div class="card">
+        <!-- Wishlist Heart Icon (Top Right) -->
+        <form action="{% url 'add_to_wishlist' product.product_id %}" method="post" class="wishlist-form">
+            {% csrf_token %}
+            <button type="submit" class="wishlist-btn">
+                <i class="fa fa-heart"></i>  <!-- ❤️ Font Awesome Heart -->
+            </button>
+        </form>
+
+        <!-- Product Image -->
+        <a href="{% url 'product_detail' product.product_id %}">
+            <img src="{{ product.image.url }}" class="item-img" alt="{{ product.name }}">
+        </a>
+                <h1>{{ product.name }}</h1>
+        <p class="description">{{ product.description }}</p>
+
+        <!-- Price Selection -->
+        <form action="{% url 'add_to_cart' product.product_id %}" method="post">
+            {% csrf_token %}
+            <label for="price_option_{{ product.id }}">Select Price:</label>
+            <select name="selected_price_option" id="price_option_{{ product.id }}" class="price-dropdown">
+                {% for price_option in product.price_options %}
+                    <option value="{{ price_option|default:''|striptags }}">₹{{ price_option|default:''|striptags }}</option>
+                {% endfor %}
+            </select>
+
+            {% if product.stock > 0 %}
+                <button class="button" type="submit">Add to Cart</button>
+            {% else %}
+                <button  class="button" style="background-color: red; color: white; font-weight: bold;" disabled>Out of Stock</button>
+            {% endif %}
+        </form>
+    </div>
+{% empty %}
+    <p>No products found.</p>
+{% endfor %}
+
+
+
+</div>
+{% include "footer.html" %}        
+</body>
+</html>
+        {% comment %} <div class="card">
+            <img src="/static/img/core-img/bread1.jpg" class="item-img">
+            <h1>Baguette Bread</h1>
+            <form name="form22">
+                <select id="a22" class="price-dropdown" name="select22" Onchange="change22()" value="Quanity and Price-22">
+                    <option value="1 piece ~ ₹85">1 piece ~ ₹85</option>
+                    <option value="2 pieces ~ ₹160">2 pieces ~ ₹160</option>
+                    <option value="3 pieces ~ ₹240">3 pieces ~ ₹240</option>
+                    <option value="4 pieces ~ ₹320">4 pieces ~ ₹320</option>
+					<option value="5 pieces ~ ₹415">5 pieces ~ ₹415</option>
+                </select>
+            </form>
+            <p id="demo22" class="item-price"></p>
+            <p class="description">Savour the taste of French sticks; made from flour, water, yeast and salt!</p>
+            <p><button onclick="add_to_cart('1','Baguette Bread','85')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="/static/img/core-img/bread2.jpg" class="item-img">
+            <h1>Brioche Bread</h1>
+            <form name="form23">
+                <select id="a23" class="price-dropdown" name="select23" Onchange="change23()" value="Quanity and Price-23">
+                    <option value="1 piece ~ ₹85">1 piece ~ ₹85</option>
+                    <option value="2 pieces ~ ₹160">2 pieces ~ ₹160</option>
+                    <option value="3 pieces ~ ₹240">3 pieces ~ ₹240</option>
+                    <option value="4 pieces ~ ₹320">4 pieces ~ ₹320</option>
+					<option value="5 pieces ~ ₹415">5 pieces ~ ₹415</option>
+                </select>
+            </form>
+            <p id="demo23" class="item-price"></p>
+            <p class="description">Unique French bread made with butter and eggs!</p>
+            <p><button onclick="add_to_cart('2','Brioche Bread','85')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="/static/img/core-img/bread3.jpg" class="item-img">
+            <h1>Ciabatta Bread</h1>
+            <form name="form24">
+                <select id="a24" class="price-dropdown" name="select24" Onchange="change24()" value="Quanity and Price-24">
+                    <option value="1 piece ~ ₹85">1 piece ~ ₹85</option>
+                    <option value="2 pieces ~ ₹160">2 pieces ~ ₹160</option>
+                    <option value="3 pieces ~ ₹240">3 pieces ~ ₹240</option>
+                    <option value="4 pieces ~ ₹320">4 pieces ~ ₹320</option>
+					<option value="5 pieces ~ ₹415">5 pieces ~ ₹415</option>
+                </select>
+            </form>
+            <p id="demo24" class="item-price"></p>
+            <p class="description">Perfect for paninis and sandwiches; consists of water, yeast, salt and flour!</p>
+            <p><button onclick="add_to_cart('3','Ciabatta Bread','85')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="/static/img/core-img/bread4.jpg" class="item-img">
+            <h1>Multigrain Bread</h1>
+            <form name="form20">
+                <select id="a20" class="price-dropdown" name="select20" Onchange="change20()" value="Quanity and Price-20">
+                    <option value="1 piece ~ ₹90">1 piece ~ ₹90</option>
+                    <option value="2 pieces ~ ₹160">2 pieces ~ ₹160</option>
+                    <option value="3 pieces ~ ₹250">3 pieces ~ ₹250</option>
+                    <option value="4 pieces ~ ₹330">4 pieces ~ ₹330</option>
+					<option value="5 pieces ~ ₹425">5 pieces ~ ₹425</option>
+                </select>
+            </form>
+            <p id="demo20" class="item-price"></p>
+            <p class="description">Specially for fitness freaks-contains oats, barley, flax, millet, and more!</p>
+            <p><button onclick="add_to_cart('4','Multigrain Bread','90')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="/static/img/core-img/bread5.jpg" class="item-img">
+            <h1>Pita Bread</h1>
+            <form name="form21">
+                <select id="a21" class="price-dropdown" name="select21" Onchange="change21()" value="Quanity and Price-21">
+                    <option value="1 piece ~ ₹100">1 piece ~ ₹100</option>
+                    <option value="2 pieces ~ ₹180">2 pieces ~ ₹180</option>
+                    <option value="3 pieces ~ ₹275">3 pieces ~ ₹275</option>
+                    <option value="4 pieces ~ ₹350">4 pieces ~ ₹350</option>
+					<option value="5 pieces ~ ₹450">5 pieces ~ ₹450</option>
+                </select>
+            </form>
+            <p id="demo21" class="item-price"></p>
+            <p class="description">Stuff any food item into it and enjoy its delicious taste!</p>
+            <p><button onclick="add_to_cart('5','Pita Bread','100')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="/static/img/core-img/bread6.jpg" class="item-img">
+            <h1>Rye Bread</h1>
+            <form name="form19">
+                <select id="a19" class="price-dropdown" name="select19" Onchange="change19()" value="Quanity and Price-19">
+                    <option value="1 piece ~ ₹100">1 piece ~ ₹100</option>
+                    <option value="2 pieces ~ ₹180">2 pieces ~ ₹180</option>
+                    <option value="3 pieces ~ ₹275">3 pieces ~ ₹275</option>
+                    <option value="4 pieces ~ ₹350">4 pieces ~ ₹350</option>
+					<option value="5 pieces ~ ₹450">5 pieces ~ ₹450</option>
+                </select>
+            </form>
+            <p id="demo19" class="item-price"></p>
+            <p class="description">It is what gives food items the signature taste that most people love!</p>
+            <p><button onclick="add_to_cart('6','Rye Bread','100')">Add to Cart</button></p>
+        </div>aa thloo {% endcomment %}
+
+        {% comment %} <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/sourdough-bread-july222020-min.jpg" class="item-img">
+            <h1>Sourdough Bread </h1>
+            <form name="form12">
+                <select id="a12" class="price-dropdown" name="select12" Onchange="change12()" value="Quanity and Price-12">
+                    <option value="1 piece ~ ₹100">1 piece ~ ₹100</option>
+                    <option value="2 pieces ~ ₹180">2 pieces ~ ₹180</option>
+                    <option value="3 pieces ~ ₹275">3 pieces ~ ₹275</option>
+                    <option value="4 pieces ~ ₹350">4 pieces ~ ₹350</option>
+					<option value="5 pieces ~ ₹450">5 pieces ~ ₹450</option>
+                </select>
+            </form>
+            <p id="demo12" class="item-price"></p>
+            <p class="description">Has a distinct taste with nice thick crust and a soft chewy center!</p>
+            <p><button onclick="add_to_cart('7','Sourdough Bread','100')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/whole-wheat-bread-july222020-min.jpg" class="item-img">
+            <h1>Whole Wheat</h1>
+            <form name="form15">
+                <select id="a15" class="price-dropdown" name="select15" Onchange="change15()" value="Quanity and Price-15">
+                    <option value="1 packet ~ ₹50">1 packet ~ ₹50</option>
+                    <option value="2 packets ~ ₹100">2 packets ~ ₹100</option>
+                    <option value="3 packets ~ ₹150">3 packets ~ ₹150</option>
+                    <option value="4 packets ~ ₹200">4 packets ~ ₹200</option>
+					<option value="5 packets ~ ₹250">5 packets ~ ₹250</option>
+                </select>
+            </form>
+            <p id="demo15" class="item-price"></p>
+            <p class="description">Nutritious and has more fibre than regular bread!</p>
+            <p><button onclick="add_to_cart('8','Whole Wheat Bread','50')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/arepa-bread-july222020-min-e1595406791599.jpg" class="item-img">
+            <h1>Arepa Bread</h1>
+            <form name="form16">
+                <select id="a16" class="price-dropdown" name="select16" Onchange="change16()" value="Quanity and Price-16">
+                    <option value="1 packet ~ ₹150">1 packet ~ ₹150</option>
+                    <option value="2 packets ~ ₹275">2 packets ~ ₹275</option>
+                    <option value="3 packets ~ ₹400">3 packets ~ ₹400</option>
+                    <option value="4 packets ~ ₹550">4 packets ~ ₹550</option>
+					<option value="5 packets ~ ₹750">5 packets ~ ₹750</option>
+                </select>
+            </form>
+            <p id="demo16" class="item-price"></p>
+            <p class="description">Unique small, round and flat type of bread made of white or whole wheat.</p>
+            <p><button onclick="add_to_cart('9','Arepa Bread','150')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/grissini-bread-july222020-min-e1595407060147.jpg" class="item-img">
+            <h1>Grissini Bread</h1>
+            <form name="form14">
+                <select id="a14" class="price-dropdown" name="select14" Onchange="change14()" value="Quanity and Price-14">
+                    <option value="1 piece ~ ₹40">1 piece ~ ₹40</option>
+                    <option value="2 pieces ~ ₹75">2 pieces ~ ₹75</option>
+                    <option value="3 pieces ~ ₹100">3 pieces ~ ₹100</option>
+                    <option value="4 pieces ~ ₹150">4 pieces ~ ₹150</option>
+					<option value="5 pieces ~ ₹175">5 pieces ~ ₹175</option>
+                </select>
+            </form>
+            <p id="demo14" class="item-price"></p>
+            <p class="description">Similar to breadsticks; made of crisp and dry bread!</p>
+            <p><button onclick="add_to_cart('10','Grissini Bread','40')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/lavash-bread-july222020-min.jpg" class="item-img">
+            <h1>Lavash Bread</h1>
+            <form name="form11">
+                <select id="a11" class="price-dropdown" name="select11" Onchange="change11()" value="Quanity and Price-11">
+                    <option value="1 piece ~ ₹150">1 piece ~ ₹150</option>
+                    <option value="2 pieces ~ ₹275">2 pieces ~ ₹275</option>
+                    <option value="3 pieces ~ ₹400">3 pieces ~ ₹400</option>
+                    <option value="4 pieces ~ ₹550">4 pieces ~ ₹550</option>
+					<option value="5 pieces ~ ₹750">5 pieces ~ ₹750</option>
+                </select>
+            </form>
+            <p id="demo11" class="item-price"></p>
+            <p class="description">Low in fat and made with flour, salt and water!</p>
+            <p><button onclick="add_to_cart('11','Lavash Bread','150')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/matzo-bread-july222020-min.jpg" class="item-img">
+            <h1>Matzo Bread</h1>
+            <form name="form13">
+                <select id="a13" class="price-dropdown" name="select13" Onchange="change13()" value="Quanity and Price-13">
+                    <option value="1 piece ~ ₹150">1 piece ~ ₹150</option>
+                    <option value="2 pieces ~ ₹275">2 pieces ~ ₹275</option>
+                    <option value="3 pieces ~ ₹400">3 pieces ~ ₹400</option>
+                    <option value="4 pieces ~ ₹550">4 pieces ~ ₹550</option>
+					<option value="5 pieces ~ ₹750">5 pieces ~ ₹750</option>
+                </select>
+            </form>
+            <p id="demo13" class="item-price"></p>
+            <p class="description">Tasty jewish bread made from wheat, barley, rice, oats and spelt!</p>
+            <p><button onclick="add_to_cart('12','Matzo Bread','150')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/naan-bread-july222020-min.jpg" class="item-img">
+            <h1>Naan Bread</h1>
+            <form name="form17">
+                <select id="a17" class="price-dropdown" name="select17" Onchange="change17()" value="Quanity and Price-17">
+                    <option value="1 piece ~ ₹150">1 piece ~ ₹150</option>
+                    <option value="2 pieces ~ ₹275">2 pieces ~ ₹275</option>
+                    <option value="3 pieces ~ ₹400">3 pieces ~ ₹400</option>
+                    <option value="4 pieces ~ ₹550">4 pieces ~ ₹550</option>
+					<option value="5 pieces ~ ₹750">5 pieces ~ ₹750</option>
+                </select>
+            </form>
+            <p id="demo17" class="item-price"></p>
+            <p class="description">Delicious naan that uses yogurt as its main ingredient!</p>
+            <p><button onclick="add_to_cart('13','Naan Bread','150')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/soda-bread-july222020-min.jpg" class="item-img">
+            <h1>Soda Bread</h1>
+            <form name="form18">
+                <select id="a18" class="price-dropdown" name="select18" Onchange="change18()" value="Quanity and Price-18">
+                    <option value="1 piece ~ ₹175">1 piece ~ ₹175</option>
+                    <option value="2 pieces ~ ₹350">2 pieces ~ ₹350</option>
+                    <option value="3 pieces ~ ₹525">3 pieces ~ ₹525</option>
+                    <option value="4 pieces ~ ₹700">4 pieces ~ ₹700</option>
+					<option value="5 pieces ~ ₹875">5 pieces ~ ₹875</option>
+                </select>
+            </form>
+            <p id="demo18" class="item-price"></p>
+            <p class="description">Irish bread made from buttermlk, baking soda and flour!</p>
+            <p><button onclick="add_to_cart('14','Soda Bread','175')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.simplyrecipes.com/thmb/5CwZnEVZ8oMkHfLhL_3elleg4L8=/450x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2006__09__Garlic-Bread-LEAD-2b-24b3ef3eb22647f4b9e57340b8dbe50a.jpg" class="item-img">
+            <h1>Garlic Bread</h1>
+            <form name="form4">
+                <select id="a4" class="price-dropdown" name="select4" Onchange="change4()" value="Quanity and Price-4">
+                    <option value="1 piece ~ ₹79">1 piece ~ ₹79</option>
+                    <option value="2 pieces ~ ₹159">2 pieces ~ ₹159</option>
+                    <option value="3 pieces ~ ₹239">3 pieces ~ ₹239</option>
+                    <option value="4 pieces ~ ₹329">4 pieces ~ ₹329</option>
+					<option value="5 pieces ~ ₹415">5 pieces ~ ₹415</option>
+                </select>
+            </form>
+            <p id="demo4" class="item-price"></p>
+            <p class="description">Perfect bread for garlic lovers: bread topped with garlic, herbs and butter!</p>
+            <p><button onclick="add_to_cart('15','Garlic Bread','79')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/vanocka-bread-july222020-min.jpg" class="item-img">
+            <h1>Vanoca Bread</h1>
+            <form name="form5">
+                <select id="a5" class="price-dropdown" name="select5" Onchange="change5()" value="Quanity and Price-5">
+                    <option value="1 piece ~ ₹199">1 piece ~ ₹199</option>
+                    <option value="2 pieces ~ ₹398">2 pieces ~ ₹398</option>
+                    <option value="3 pieces ~ ₹597">3 pieces ~ ₹597</option>
+                    <option value="4 pieces ~ ₹796">4 pieces ~ ₹796</option>
+					<option value="5 pieces ~ ₹995">5 pieces ~ ₹995</option>
+                </select>
+            </form>
+            <p id="demo5" class="item-price"></p>
+            <p class="description"> Sweet bread topped with sugar and almonds!</p>
+            <p><button onclick="add_to_cart('16','Vanoca Bread','199')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://images-gmi-pmc.edge-generalmills.com/8383f125-6d6d-47a3-9ae3-aaa44eb60daa.jpg" class="item-img">
+            <h1>Turtle Bread</h1>
+            <form name="form6">
+                <select id="a6" class="price-dropdown" name="select6" Onchange="change6()" value="Quanity and Price-6">
+                    <option value="1 piece ~ ₹79">1 piece ~ ₹79</option>
+                    <option value="2 pieces ~ ₹159">2 pieces ~ ₹159</option>
+                    <option value="3 pieces ~ ₹239">3 pieces ~ ₹239</option>
+                    <option value="4 pieces ~ ₹329">4 pieces ~ ₹329</option>
+					<option value="5 pieces ~ ₹415">5 pieces ~ ₹415</option>
+                </select>
+            </form>
+            <p id="demo6" class="item-price"></p>
+            <p class="description">Extremely delicious turtle bread for you or your kids!</p>
+            <p><button onclick="add_to_cart('17','Turtle Bread','79')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/zopf-bread-july222020-min.jpg" class="item-img">
+            <h1>Zopf Bread</h1>
+            <form name="form3">
+                <select id="a3" class="price-dropdown" name="select3" Onchange="change3()" value="Quanity and Price-3">
+                    <option value="1 piece ~ ₹199">1 piece ~ ₹199</option>
+                    <option value="2 pieces ~ ₹398">2 pieces ~ ₹398</option>
+                    <option value="3 pieces ~ ₹597">3 pieces ~ ₹597</option>
+                    <option value="4 pieces ~ ₹796">4 pieces ~ ₹796</option>
+					<option value="5 pieces ~ ₹995">5 pieces ~ ₹995</option>
+                </select>
+            </form>
+            <p id="demo3" class="item-price"></p>
+            <p class="description">Unique type of bread made of white flour, yeast, milk, butter and eggs!</p>
+            <p><button onclick="add_to_cart('18','Zopf Bread','199')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/tortilla-bread-july222020-min-e1595407483238.jpg" class="item-img">
+            <h1>Tortilla</h1>
+            <form name="form8">
+                <select id="a8" class="price-dropdown" name="select8" Onchange="change8()" value="Quanity and Price-8">
+                    <option value="1 piece ~ ₹100">1 piece ~ ₹100</option>
+                    <option value="2 pieces ~ ₹180">2 pieces ~ ₹180</option>
+                    <option value="3 pieces ~ ₹275">3 pieces ~ ₹275</option>
+                    <option value="4 pieces ~ ₹350">4 pieces ~ ₹350</option>
+					<option value="5 pieces ~ ₹450">5 pieces ~ ₹450</option>
+                </select>
+            </form>
+            <p id="demo8" class="item-price"></p>
+            <p class="description">Soft, thin flatbreads utilised in various Mexican dishes, wraps and tacos!</p>
+            <p><button onclick="add_to_cart('19','Tortilla','100')">Add to Cart</button></p>
+        </div>
+
+        <div class="card">
+            <img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/qistibi-bread-july222020-min.jpg" class="item-img">
+            <h1>Qistibi Bread</h1>
+            <form name="form10">
+                <select id="a10" class="price-dropdown" name="select10" Onchange="change10()" value="Quanity and Price-10">
+                    <option value="1 piece ~ ₹99">1 piece ~ ₹99</option>
+                    <option value="2 pieces ~ ₹179">2 pieces ~ ₹179</option>
+                    <option value="3 pieces ~ ₹259">3 pieces ~ ₹259</option>
+                    <option value="4 pieces ~ ₹349">4 pieces ~ ₹349</option>
+					<option value="5 pieces ~ ₹400">5 pieces ~ ₹400</option>
+                </select>
+            </form>
+            <p id="demo10" class="item-price"></p>
+            <p class="description">Fill up your own filling inside it and enjoy its taste!</p>
+            <p><button onclick="add_to_cart('20','Qistibi Bread','99')">Add to Cart</button></p>
+        </div>
+
+    	<div class="card">
+    		<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/obi-non-bread-july222020-min.jpg" class="item-img">
+    		<h1>Obi Non Bread</h1>
+            <form name="form">
+                <select id="a1" class="price-dropdown" name="select" Onchange="change()" value="Quanity and Price">
+                    <option value="1 piece ~ ₹150">1 piece ~ ₹150</option>
+                    <option value="2 pieces ~ ₹275">2 pieces ~ ₹275</option>
+                    <option value="3 pieces ~ ₹400">3 pieces ~ ₹400</option>
+                    <option value="4 pieces ~ ₹550">4 pieces ~ ₹550</option>
+					<option value="5 pieces ~ ₹750">5 pieces ~ ₹750</option>
+                </select>
+            </form>
+            <p id="demo" class="item-price"></p>    
+    		<p class="description">Type of flatbread made from flour, yeast, salt, water and milk!</p>
+    		<p><button onclick="add_to_cart('21','Obi Non Bread','150')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/banana-bread-1581535174.jpg?crop=0.9990570485619991xw:1xh;center,top&resize=980:*" class="item-img">
+    		<h1>Banana Bread</h1>
+    		<form name="form2">
+                <select id="a2" class="price-dropdown" name="select2" Onchange="change2()" value="Quanity and Price-2">
+                    <option value="1 piece ~ ₹150">1 piece ~ ₹150</option>
+                    <option value="2 pieces ~ ₹275">2 pieces ~ ₹275</option>
+                    <option value="3 pieces ~ ₹400">3 pieces ~ ₹400</option>
+                    <option value="4 pieces ~ ₹550">4 pieces ~ ₹550</option>
+					<option value="5 pieces ~ ₹750">5 pieces ~ ₹750</option>
+                </select>
+            </form>
+            <p id="demo2" class="item-price"></p>
+    		<p class="description">Dense, moist, sweet treat chemically leavened with baking soda!</p>
+    		<p><button onclick="add_to_cart('22','Banana Bread','150')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cornbread-1581537027.jpg?crop=1xw:1xh;center,top&resize=980:*" class="item-img">
+    		<h1>Corn Bread</h1>
+    		<form name="form7">
+                <select id="a7" class="price-dropdown" name="select7" Onchange="change7()" value="Quanity and Price-7">
+                    <option value="1 piece ~ ₹119">1 piece ~ ₹119</option>
+                    <option value="2 pieces ~ ₹199">2 pieces ~ ₹199</option>
+                    <option value="3 pieces ~ ₹279">3 pieces ~ ₹279</option>
+                    <option value="4 pieces ~ ₹369">4 pieces ~ ₹369</option>
+					<option value="5 pieces ~ ₹415">5 pieces ~ ₹415</option>
+                </select>
+            </form>
+            <p id="demo7" class="item-price"></p>
+    		<p class="description">Made from finely-ground corn, wheat flour, eggs and milk!</p>
+    		<p><button onclick="add_to_cart('23','Corn Bread','119')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/pumpernickel-bread-1581604376.jpg?crop=1xw:1xh;center,top&resize=980:*" class="item-img">
+    		<h1>Pumpernickel</h1>
+    		<form name="form9">
+                <select id="a9" class="price-dropdown" name="select9" Onchange="change9()" value="Quanity and Price-9">
+                    <option value="1 piece ~ ₹119">1 piece ~ ₹119</option>
+                    <option value="2 pieces ~ ₹199">2 pieces ~ ₹199</option>
+                    <option value="3 pieces ~ ₹279">3 pieces ~ ₹279</option>
+                    <option value="4 pieces ~ ₹369">4 pieces ~ ₹369</option>
+					<option value="5 pieces ~ ₹415">5 pieces ~ ₹415</option>
+                </select>
+            </form>
+            <p id="demo9" class="item-price"></p>
+    		<p class="description">A type of rye bread, flavorful pumpernickel hails from Germany!</p>
+    		<p><button onclick="add_to_cart('24','Pumpernickel','119')">Add to Cart</button></p>
+    	</div> {% endcomment %}
+
+
+

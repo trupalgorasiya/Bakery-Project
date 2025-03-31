@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>CupCakes</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/Cupcakes.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+
+<body>
+
+<!--  N A V I G A T I O N   B A R  -->
+
+{% include "navigation.html" %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var message = "{{ messages|join:' ' }}"; // Get Django messages as a string
+
+        if (message.trim() !== "") {
+            Swal.fire({
+                title: "Notification",
+                text: message,
+                icon: "warning",  // Change to "success", "error", "info" as needed
+                confirmButtonText: "OK",
+                timer: 3000, // Auto close after 3 seconds
+                showConfirmButton: false
+            });
+        }
+    });
+</script>
+
+    <!--  M A I N   C O N T E N T  -->
+
+    <div>
+    <h1 id="heading">CupCakes</h1>
+    </div>
+
+ 
+    <!--  I T E M   C A R D S  -->
+
+    <div id="main">
+        {% for product in products %}
+    <div class="card">
+        <!-- Wishlist Heart Icon (Top Right) -->
+        <form action="{% url 'add_to_wishlist' product.product_id %}" method="post" class="wishlist-form">
+            {% csrf_token %}
+            <button type="submit" class="wishlist-btn">
+                <i class="fa fa-heart"></i>  <!-- ❤️ Font Awesome Heart -->
+            </button>
+        </form>
+
+        <!-- Product Image -->
+        <a href="{% url 'product_detail' product.product_id %}">
+            <img src="{{ product.image.url }}" class="item-img" alt="{{ product.name }}">
+        </a>        <h1>{{ product.name }}</h1>
+        <p class="description">{{ product.description }}</p>
+
+        <!-- Price Selection -->
+        <form action="{% url 'add_to_cart' product.product_id %}" method="post">
+            {% csrf_token %}
+            <label for="price_option_{{ product.id }}">Select Price:</label>
+            <select name="selected_price_option" id="price_option_{{ product.id }}" class="price-dropdown">
+                {% for price_option in product.price_options %}
+                    <option value="{{ price_option|default:''|striptags }}">₹{{ price_option|default:''|striptags }}</option>
+                {% endfor %}
+            </select>
+
+            {% if product.stock > 0 %}
+                <button class="button" type="submit">Add to Cart</button>
+            {% else %}
+                <button  class="button" style="background-color: red; color: white; font-weight: bold;" disabled>Out of Stock</button>
+            {% endif %}
+        </form>
+    </div>
+{% empty %}
+    <p>No products found.</p>
+{% endfor %}
+</div>
+{% include "footer.html" %}
+
+</body>
+</html>
+    {% comment %} <div class="card">
+    <img src="/static/img/core-img/cupcake1.jpg" class="item-img">
+    <h1>Happy Smile</h1>
+            <form name="form">
+                <select id="a1" class="price-dropdown" name="select" Onchange="change()" value="Quanity and Price">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo" class="item-price"></p>    
+    <p class="description">The finest, cost-friendly blend of chocolate topped with rich and smooth cream!</p>
+    <p><button onclick="add_to_cart('1','Happy Smile','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/cupcake2.jpg" class="item-img">
+    <h1>Daisy Dance</h1>
+    <form name="form2">
+                <select id="a2" class="price-dropdown" name="select2" Onchange="change2()" value="Quanity and Price-2">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo2" class="item-price"></p>
+    <p class="description">Classic vanilla adorned with juicy strawberries!</p>
+    <p><button onclick="add_to_cart('2','Snow Mud','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/cupcake3.jpg" class="item-img">
+    <h1>Colourful Forest</h1>
+    <form name="form3">
+                <select id="a3" class="price-dropdown" name="select3" Onchange="change3()" value="Quanity and Price-3">
+                    \<option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo3" class="item-price"></p>
+    <p class="description">An exquisite blend of overflowing colours to satisfy all your cravings!</p>
+    <p><button onclick="add_to_cart('3','Colorful Forest','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/cupcake4.jpg" class="item-img">
+    <h1>Colorful Memories</h1>
+    <form name="form4">
+                <select id="a4" class="price-dropdown" name="select4" Onchange="change4()" value="Quanity and Price-4">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo4" class="item-price"></p>
+    <p class="description">Bright colours with the goodness of fruits to get your mouth watering!</p>
+    <p><button onclick="add_to_cart('4','Colorful Memories','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/cupcake5.jpg" class="item-img">
+    <h1>Choco Delight</h1>
+    <form name="form5">
+                <select id="a5" class="price-dropdown" name="select5" Onchange="change5()" value="Quanity and Price-5">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo5" class="item-price"></p>
+    <p class="description">The all time favorite dark chocolate topped with choco-sprinkles!</p>
+    <p><button onclick="add_to_cart('5','Choco Delight','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="/static/img/core-img/cupcake6.jpg" class="item-img">
+    <h1>Cute Bugs</h1>
+    <form name="form6">
+                <select id="a6" class="price-dropdown" name="select6" Onchange="change6()" value="Quanity and Price-6">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo6" class="item-price"></p>
+    <p class="description">perfect cupcake to make your children fascinated with the art and colours.</p>
+    <p><button onclick="add_to_cart('6','Cute Bugs','80')">Add to Cart</button></p>
+    </div> {% endcomment %}
+
+    {% comment %} <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9k518VlN1yf7XoCfn2jzkBO7e3jvj9ji0iA&usqp=CAU" class="item-img">
+    <h1>Galaxy</h1>
+    <form name="form7">
+                <select id="a7" class="price-dropdown" name="select7" Onchange="change7()" value="Quanity and Price-7">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo7" class="item-price"></p>
+    <p class="description">Just the right cupcake to taste the galaxy and unreveal it's secret ;) </p>
+    <p><button onclick="add_to_cart('7','Galaxy','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqv_dOwyA2jSDTu_VR0W4XM2VvpfOvk-kw-A&usqp=CAU" class="item-img">
+    <h1>Daisy Dance</h1>
+    <form name="form8">
+                <select id="a8" class="price-dropdown" name="select8" Onchange="change8()" value="Quanity and Price-8">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+					 </select>
+            </form>
+    <p class="description">Classic vanilla adorned with juicy strawberries!</p>
+    <p><button onclick="add_to_cart('8','Daisy Dance','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ2Gp93YX0aLin7fKFgzrrQnGqTM_OWnSQJQ&usqp=CAU" class="item-img">
+    <h1>Simply Pretty</h1>
+    <form name="form9">
+                <select id="a9" class="price-dropdown" name="select9" Onchange="change9()" value="Quanity and Price-9">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo9" class="item-price"></p>
+    <p class="description">Simply pretty design with an unmatched flavour!</p>
+    <p><button onclick="add_to_cart('9','Simply Pretty','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ82RThr6r9OzhlCyk_eV8in1oZYr6rD0f5ng&usqp=CAU" class="item-img">
+    <h1>Choco Lava</h1>
+    <form name="form10">
+                <select id="a10" class="price-dropdown" name="select10" Onchange="change10()" value="Quanity and Price-10">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo10" class="item-price"></p>
+    <p class="description">Delightful chocolate flowing out with every bite!</p>
+    <p><button onclick="add_to_cart('10','Choco Lava','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6AOQpNN8_6sn9fbX-A4LirMk86NdrtqOLkA&usqp=CAU" class="item-img">
+    <h1>Oreo Delight</h1>
+    <form name="form11">
+                <select id="a11" class="price-dropdown" name="select11" Onchange="change11()" value="Quanity and Price-11">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo11" class="item-price"></p>
+    <p class="description">Chocolate enhanced with sweet chocolate cream and oreo biscuits!</p>
+    <p><button onclick="add_to_cart('11','Oreo Delight','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUgCK0mdoleFrVj63K1ZfLAWftjOJQzxaiGQ&usqp=CAU" class="item-img">
+    <h1>Dad's Special</h1>
+    <form name="form12">
+                <select id="a12" class="price-dropdown" name="select12" Onchange="change12()" value="Quanity and Price-12">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo12" class="item-price"></p>
+    <p class="description">Eggless chocolate Cupcake themed moustaches and his suit.</p>
+    <p><button onclick="add_to_cart('12','Dads Special','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStCgprTJSengGGt8kmipYhkt7Cn28aSpVIWQ&usqp=CAU" class="item-img">
+    <h1>Moon Walk</h1>
+    <form name="form13">
+                <select id="a13" class="price-dropdown" name="select13" Onchange="change13()" value="Quanity and Price-13">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo13" class="item-price"></p>
+    <p class="description">A creamy two layered Cupcake which melts into your mouth instantly.</p>
+    <p><button onclick="add_to_cart('13','Moon Walk','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL8oBFW2IHwX8Uzvn3sWYbg2OMrPVrSuq3Qw&usqp=CAU" class="item-img">
+    <h1>Rabbit Love</h1>
+    <form name="form14">
+                <select id="a14" class="price-dropdown" name="select14" Onchange="change14()" value="Quanity and Price-14">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo14" class="item-price"></p>
+    <p class="description">Soft vanila Cupcake shaped as a rabbit  and overflowing with strawberry cream, topped with milk chocolate!</p>
+    <p><button onclick="add_to_cart('14','Rabbit Love','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKepUb3lNAQB0Zuyfxn6EjjGhgzkqfDJUyCw&usqp=CAU" class="item-img">
+    <h1>Choco Delight</h1>
+    <form name="form15">
+                <select id="a15" class="price-dropdown" name="select15" Onchange="change15()" value="Quanity and Price-15">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo15" class="item-price"></p>
+    <p class="description">Chocolate enhanced with sweet and mouth watering chocolate ganache!</p>
+    <p><button onclick="add_to_cart('15','Choco Delight','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrxQ8pdU7guPsnVW8BEGtViyPd4oXXaNZbtA&usqp=CAU" class="item-img">
+    <h1>Melting Memories</h1>
+    <form name="form16">
+                <select id="a16" class="price-dropdown" name="select16" Onchange="change16()" value="Quanity and Price-16">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo16" class="item-price"></p>
+    <p class="description">Cake with rich belgian chocolate which instantly melts in your mouth!</p>
+    <p><button onclick="add_to_cart('16','Melting Memories','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFvLAqwk3YoP4qhoChpc9QecEcPBT7M-Kvkg&usqp=CAU" class="item-img">
+    <h1>Unicorn</h1>
+    <form name="form17">
+                <select id="a17" class="price-dropdown" name="select17" Onchange="change17()" value="Quanity and Price-17">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo17" class="item-price"></p>
+    <p class="description">Luscious fruit cake teamed up with colourful cream decorated with a white horn!</p>
+    <p><button onclick="add_to_cart('17','Unicorn','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYZVaK0ekXFckovuLGSHED9ODuXPjbUeGWYA&usqp=CAU" class="item-img">
+    <h1>Sweet Dreams</h1>
+    <form name="form18">
+                <select id="a18" class="price-dropdown" name="select18" Onchange="change18()" value="Quanity and Price-18">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo18" class="item-price"></p>
+    <p class="description">A creamy strawberry delight with the goodness of fruits!</p>
+    <p><button onclick="add_to_cart('18','Sweet Dreams','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaTiRuBJNvn87SK_FyAM_UJBAUj6YQjwGcLw&usqp=CAU" class="item-img">
+    <h1>Blossoming Love</h1>
+    <form name="form19">
+                <select id="a19" class="price-dropdown" name="select19" Onchange="change19()" value="Quanity and Price-19">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo19" class="item-price"></p>
+    <p class="description">This combination of cake and colours will surely make happiness bloom!</p>
+    <p><button onclick="add_to_cart('19','Blossoming Love','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpvOF5B53CahPv1kTNf7Or1Lg-EBInHe7GuQ&usqp=CAU" class="item-img">
+    <h1>Bloom</h1>
+    <form name="form20">
+                <select id="a20" class="price-dropdown" name="select20" Onchange="change20()" value="Quanity and Price-20">
+                   <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo20" class="item-price"></p>
+    <p class="description">A beautiful combination of Cupcake and cream to brighten up your special day!</p>
+    <p><button onclick="add_to_cart('20','Bloom','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQljxZhyeR13KPwQTf-Ezbjffyu4O5j_KpCsA&usqp=CAU" class="item-img">
+    <h1>Nature's Beauty</h1>
+    <form name="form21">
+                <select id="a21" class="price-dropdown" name="select21" Onchange="change21()" value="Quanity and Price-21">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo21" class="item-price"></p>
+    <p class="description">A refreshing  nature's treat for nature lovers!</p>
+    <p><button onclick="add_to_cart('21','Nature Beauty','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo3zJtNMDNBOrrC_QonTbkIz2tK87JAVivyQ&usqp=CAU" class="item-img">
+    <h1>Extravaganza</h1>
+    <form name="form22">
+                <select id="a22" class="price-dropdown" name="select22" Onchange="change22()" value="Quanity and Price-22">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo22" class="item-price"></p>
+    <p class="description">Crunchy butterscotch overflowing with vanilla cream, topped with blue-berries and strawberries!</p>
+    <p><button onclick="add_to_cart('22','Extravaganza','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNRlSPBihzPhQq_AFavCkkwdJISaH7WgdT0g&usqp=CAU" class="item-img">
+    <h1>Counting Years</h1>
+    <form name="form23">
+                <select id="a23" class="price-dropdown" name="select23" Onchange="change23()" value="Quanity and Price-23">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo23" class="item-price"></p>
+    <p class="description">The perfect Cupcake to make your special day even more memorable!</p>
+    <p><button onclick="add_to_cart('23','Counting Years','80')">Add to Cart</button></p>
+    </div>
+
+    <div class="card">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVLj7ySXHUs-F9wAzplt4nh_MTUq5N769KAw&usqp=CAU" class="item-img">
+    <h1>Levitating</h1>
+    <form name="form24">
+                <select id="a24" class="price-dropdown" name="select24" Onchange="change24()" value="Quanity and Price-24">
+                    <option value="1piece ~ ₹80">1piece ~ ₹80</option>
+                    <option value="2pieces ~ ₹160">2pieces ~ ₹160</option>
+                    <option value="3pieces ~ ₹220">3pieces ~ ₹220</option>
+                    <option value="4pieces ~ ₹340">4pieces ~ ₹340</option>
+                </select>
+            </form>
+            <p id="demo24" class="item-price"></p>
+    <p class="description">Chocolate enhanced with caramel to provide you a rich, fulfilling experience!</p>
+    <p><button onclick="add_to_cart('24','Levitating','80')">Add to Cart</button></p>
+    </div> {% endcomment %}
+
+  

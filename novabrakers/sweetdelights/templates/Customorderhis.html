@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Order History</title>
+    
+    <!-- Bootstrap 3.4.1 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            font-family: "initial";
+            background-color: #f9e0db;
+        }
+        .order-history-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size:16px;
+        }
+        .order-table th, .order-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        .order-table th {
+            background: #f1f1f1;
+            font-weight: bold;
+        }
+        .status-label {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        /* Pagination Styles */
+.pagination-container {
+    margin-top: 20px;
+}
+
+.pagination-container .btn {
+    margin: 0 5px;
+    padding: 5px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border: none;
+    transition: 0.3s;
+}
+
+.pagination-container .btn:hover {
+    background-color: #0056b3;
+}
+
+.page-info {
+    font-weight: bold;
+    margin: 0 10px;
+    font-size: 16px;
+    color: #333;
+}
+.bt{
+    background-color: #007bff;
+}
+.status-label.ordered { color: orange; font-weight: bold; }
+.status-label.accepted { color: green; font-weight: bold; }
+.status-label.declined { color: darkred; font-weight: bold; } /* Declined orders */
+.status-label.processing { color: blue; font-weight: bold; }
+.status-label.ready-for-pickup { color: purple; font-weight: bold; } /* Adjusted class */
+.status-label.completed { color: teal; font-weight: bold; }
+.status-label.cancelled { color: red; font-weight: bold; }
+
+
+
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+    
+    <div class="order-history-container">
+        <h2>Your Customize Orders</h2>
+        <!-- Order Table -->
+        <table class="order-table table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date & Time</th>
+                    <th>Total (₹)</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><a href="{% url 'custom_order_details' order.id %}">{{ order.id }}</a></td>
+                    <td>{{ order.created_at|date:"Y-m-d h:i A" }}</td>
+                    <td>₹{{ order.total_price }}</td>
+                    <td>
+                        <span class="status-label {{ order.status|slugify }}">{{ order.get_status_display }}</span>
+                    </td>    
+                    <td>
+                        <a href="{% url 'Trackcustomorder' order.id %}" class="btn bt btn-info">Track Order</a>
+
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No customized orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>    
+        </table>
+         <!-- Pagination Controls -->
+        <div class="pagination-container text-center">
+            {% if orders.has_previous %}
+                <a href="?page=1" class="btn btn-primary">First</a>
+                <a href="?page={{ orders.previous_page_number }}" class="btn btn-primary">Previous</a>
+            {% endif %}
+        
+            <span class="page-info">Page {{ orders.number }} of {{ orders.paginator.num_pages }}</span>
+        
+            {% if orders.has_next %}
+                <a href="?page={{ orders.next_page_number }}" class="btn btn-primary">Next</a>
+                <a href="?page={{ orders.paginator.num_pages }}" class="btn btn-primary">Last</a>
+            {% endif %}
+        </div>
+    </div>
+    {% include "footer.html" %}
+</body>
+</html>

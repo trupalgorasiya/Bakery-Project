@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Order Details</title>
+    
+    <!-- Bootstrap 3.4.1 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            font-family: "initial";
+            background-color: #f9e0db;
+            color: #333;
+        }
+        .tracking-container {
+            max-width: 900px;
+            background: #fff;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .order-header {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .order-details {
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .status-box {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .tracking-steps {
+            list-style: none;
+            padding: 0;
+            position: relative;
+        }
+        .tracking-steps::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: #d1d1d1;
+            transform: translateX(-50%);
+        }
+        .tracking-steps li {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            position: relative;
+        }
+        .tracking-steps li span {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+            z-index: 2;
+        }
+        .tracking-steps li.completed span {
+            background: #007bff;
+        }
+        .tracking-steps li.cancelled span {
+            background: #dc3545; /* Red for cancelled */
+        }
+        .tracking-steps li.declined span {
+            background: #ff6347; /* Light red for declined */
+        }
+        .order-info {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+       
+        
+        .order-info p {
+            font-size: 16px;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+        
+        @media (max-width: 768px) {
+            .order-info .left, .order-info .right {
+                width: 100%; /* Stacks on small screens */
+            }
+        }
+        .order-info
+        .order-info {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .q{
+            text-align: right;
+        }
+        /* Default Status Box */
+.status-box {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+/* Status-Specific Styling */
+.Ordered {
+    background: #fff3cd; /* Light Yellow */
+    color: #856404;
+}
+
+.Accepted {
+    background: #d1ecf1; /* Light Blue */
+    color: #0c5460;
+}
+
+.Declined {
+    background: #f8d7da; /* Light Red */
+    color: #721c24;
+}
+
+.Processing {
+    background: #ffeeba; /* Light Orange */
+    color: #856404;
+}
+
+.Ready {
+    background: #cce5ff; /* Light Blue */
+    color: #004085;
+}
+
+.Completed {
+    background: #d4edda; /* Light Green */
+    color: #155724;
+}
+
+.Cancelled {
+    background: #f5c6cb; /* Light Red */
+    color: #721c24;
+}
+
+/* Tracking Steps */
+.tracking-steps li.Ordered span {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.tracking-steps li.Accepted span {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.tracking-steps li.Declined span {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.tracking-steps li.Processing span {
+    background: #ffeeba;
+    color: #856404;
+}
+
+.tracking-steps li.Ready span {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.tracking-steps li.Completed span {
+    background: #d4edda;
+    color: #155724;
+}
+
+.tracking-steps li.Cancelled span {
+    background: #f5c6cb;
+    color: #721c24;
+}
+
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+
+    <div class="tracking-container">
+        <div class="order-header">Track Your Order</div>
+        <div class="order-info">
+            <div class="left">
+                <p><strong>Order ID:</strong> {{ custom_order.id }}</p>
+                <p><strong>Order Date:</strong> {{ custom_order.created_at|date:"Y-m-d h:i A" }}</p>
+                <p><strong>Total Amount:</strong> ₹{{ custom_order.total_price }}</p>
+                <p><strong>Payment Method:</strong> {{ custom_order.payment.payment_method }}</p>
+               
+                <p><strong>Pickup Time:</strong> {{ custom_order.pickup_date }} at {{ custom_order.pickup_time }}</p>
+            </div>
+            <div class="right">
+                <p><strong>Order Status:</strong> <span class="status-label {{ custom_order.status }}">{{ custom_order.status }}</span></p>
+                <p><strong>Shipping Address:</strong> {{ custom_order.shipping_address }}</p>
+                <p><strong>Payment Status:</strong> {{ custom_order.payment.status }}</p>
+                <p><strong>Admin Response:</strong> {{ custom_order.admin_response }}</p>
+                <p><strong>Estimated Completion:</strong> Please check your email.</p>
+            </div>
+        </div>
+      
+        
+        <div class="order-details">
+            
+
+
+            {% if custom_order.admin_response %}
+            <p><strong>Admin Response:</strong> {{ custom_order.admin_response }}</p>
+
+            {% endif %}
+        </div>
+        <!-- Order Progress with Status Box on the Right -->
+    <div class="order-info-container">
+        <h4 style="text-align: center;">Order Progress</h4>
+        <div class="status-box-container">
+            <p class="q"><strong>Order Status:</strong> 
+                <span class="status-box {{ custom_order.status|title }}">{{ custom_order.status }}</span>
+            </p>
+            
+        </div>
+    </div>
+      
+        <ul class="tracking-steps">
+            <!-- Order Placed -->
+            <li class="{% if custom_order.status in 'ordered accepted processing ready completed' %}completed{% endif %}">
+                <span>✔</span>
+                <p>Order Placed</p>
+            </li>
+
+            <!-- Accepted -->
+            <li class="{% if custom_order.status in 'accepted processing ready completed' %}completed{% endif %}">
+                <span>✔</span>
+                <p>Accepted</p>
+            </li>
+
+            <!-- Declined (Only shown if status is 'declined') -->
+            {% if custom_order.status == "declined" %}
+            <li class="declined">
+                <span>✖</span>
+                <p>Declined</p>
+            </li>
+            {% endif %}
+            
+            <!-- Processing -->
+            <li class="{% if custom_order.status in 'processing ready completed' %}completed{% endif %}">
+                <span>✔</span>
+                <p>Processing</p>
+            </li>
+
+            <!-- Ready for Pickup -->
+            <li class="{% if custom_order.status in 'ready completed' %}completed{% endif %}">
+                <span>✔</span>
+                <p>Ready for Pickup</p>
+            </li>
+
+            <!-- Completed -->
+            <li class="{% if custom_order.status == 'completed' %}completed{% endif %}">
+                <span>✔</span>
+                <p>Completed</p>
+            </li>
+
+            <!-- Cancelled (Only shown if status is 'cancelled') -->
+            {% if custom_order.status == "cancelled" %}
+            <li class="cancelled">
+                <span>✖</span>
+                <p>Cancelled</p>
+            </li>
+            {% endif %}
+        </ul>
+
+        <a href="{% url 'Customorderhis' %}" class="btn btn-primary mt-3">Back to Orders</a>
+    </div>
+
+    {% include "footer.html" %}
+</body>
+</html>

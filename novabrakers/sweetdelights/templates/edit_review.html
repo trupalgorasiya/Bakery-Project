@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ product.name }} - Edit Review</title>
+
+    <!-- Bootstrap 3.4.1 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <!-- FontAwesome -->
+    <script src="/static/js/fontawesome.js"></script>
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- jQuery & Bootstrap -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+
+    <style>
+        /* Background */
+        body {
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            font-family: 'initial';
+            color: #333;
+        }
+        
+        /* Container */
+        .review-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 25px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .review-container:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Title */
+        .review-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #d63384;
+        }
+        
+        /* Star Rating */
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .rating input {
+            display: none;
+        }
+        
+        .rating label {
+            font-size: 30px;
+            color: #ccc;
+            cursor: pointer;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .rating label:hover,
+        .rating label:hover ~ label,
+        .rating input:checked ~ label {
+            color: #ffcc00;
+            transform: scale(1.2);
+        }
+        
+        /* Form Fields */
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        /* Input Fields */
+        .form-control {
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #ff758c;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 117, 140, 0.5);
+        }
+        
+        /* Image Preview */
+        .image-preview {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-preview img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            border: none;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            border: none;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+            transform: scale(1.05);
+        }
+        
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+
+    <div class="container">
+        <div class="review-container">
+            <h2 class="review-title">Edit Your Review</h2>
+
+            <form method="post" enctype="multipart/form-data" id="reviewForm">
+                {% csrf_token %}
+
+                <!-- Star Rating -->
+                <div class="form-group">
+                    <label>Rating:</label>
+                    <div class="rating">
+                        {% for i in "54321" %}
+                        <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if form.instance.rating == i|add:0 %}checked{% endif %}>
+                        <label for="star{{ i }}">&#9733;</label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Comment Box -->
+                <div class="form-group">
+                    <label for="id_comment">Your Review:</label>
+                    {{ form.comment }}
+                </div>
+
+                <!-- Image Upload & Preview -->
+                <div class="form-group">
+                    <label for="id_photo">Upload Image (Optional):</label>
+                    {{ form.photo }}
+                    <div class="image-preview">
+                        {% if form.instance.photo %}
+                        <img id="previewImage" src="{{ form.instance.photo.url }}" alt="Review Image">
+                        {% else %}
+                        <img id="previewImage" style="display: none;">
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="btn-container">
+                    <button type="submit" class="btn btn-success">Update Review</button>
+                    <a href="{% url 'product_detail' review.product.product_id %}" class="btn btn-danger">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+
+    <script>
+        // Image Preview
+        document.getElementById("id_photo").addEventListener("change", function(event) {
+            let reader = new FileReader();
+            reader.onload = function() {
+                let img = document.getElementById("previewImage");
+                img.style.display = "block";
+                img.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+    </script>
+</body>
+</html>

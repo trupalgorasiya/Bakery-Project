@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    
+    <!-- Bootstrap 3.4.1 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            font-family: "initial";
+            background-color: #f9e0db;
+        }
+        .order-history-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size:16px;
+        }
+        .order-table th, .order-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        .order-table th {
+            background: #f1f1f1;
+            font-weight: bold;
+        }
+        .status-label {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .Returned { 
+            color: orange; /* Change to any color you prefer */
+            font-weight: bold;
+        }
+        
+        .Delivered { color: green; }
+        .shipped { color: blue; }
+        .cancelled { color: red; }
+        .track-btn, .cancel-btn {
+            padding: 8px 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 3px;
+        }
+        .track-btn {
+            background: #007bff;
+        }
+        .track-btn:hover {
+            background: #0056b3;
+        }
+        .cancel-btn {
+            background: #dc3545;
+        }
+        .cancel-btn:hover {
+            background: #a71d2a;
+        }
+        .pagination-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination-container a {
+            margin: 0 5px;
+            padding: 5px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .pagination-container span {
+            margin: 0 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .alert {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+    
+    <div class="order-history-container">
+        <h2>Your Orders</h2>
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+        <!-- Order Table -->
+        <table class="order-table table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date & Time</th>
+                    <th>Total (₹)</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><a href="{% url 'order_details' order.order_id %}">{{ order.order_id }}</a></td>
+                    <td>{{ order.order_datetime|date:"Y-m-d h:i A" }}</td>
+                    <td>₹{{ order.total_amount }}</td>
+                    <td>
+                        <span class="status-label 
+                            {% if order.delivery_status == 'Delivered' %} Delivered 
+                            {% elif order.delivery_status == 'Shipped' %} shipped 
+                            {% elif order.delivery_status == 'Cancelled' %} cancelled
+                             {% elif order.delivery_status == 'Returned' %} Returned 
+                            {% endif %}">{{ order.delivery_status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'track_order' order.order_id %}">
+                            <button class="track-btn">Track Order</button>
+                        </a>
+                        
+                        {% if order.delivery_status == "Processing" %}
+                        <a href="{% url 'cancel_order_page' order.order_id %}" class="btn btn-danger">
+                            Cancel Order
+                        </a>
+                        {% endif %}
+                    
+                        {% if order.delivery_status == "Delivered" %}
+<a href="{% url 'return_order_page' order.order_id %}" class="btn btn-warning">
+    Return Order
+</a>
+{% endif %}
+
+                    </td>
+                    
+                    
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-container">
+            {% if orders.has_previous %}
+                <a href="?page=1">First</a>
+                <a href="?page={{ orders.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span>Page {{ orders.number }} of {{ orders.paginator.num_pages }}</span>
+
+            {% if orders.has_next %}
+                <a href="?page={{ orders.next_page_number }}">Next</a>
+                <a href="?page={{ orders.paginator.num_pages }}">Last</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function confirmCancel(orderId) {
+            if (confirm("Are you sure you want to cancel this order?")) {
+                window.location.href = `/cancel_order/${orderId}/`;
+            }
+        }
+    </script>
+
+    {% include "footer.html" %}
+</body>
+</html>

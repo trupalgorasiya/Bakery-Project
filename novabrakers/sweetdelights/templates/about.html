@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Sweet Delights Bakery</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <!-- Load FontAwesome from CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* General Styling */
+        body {
+            font-family: "initial";
+            background-color: rgb(244, 223, 223);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* About Section */
+        .about {
+            padding: 60px 0;
+            text-align: center;
+            background-color: rgb(244, 223, 223);
+        }
+        .about h1 {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2b2d42;
+        }
+        .about p {
+            font-size: 3rem;
+            color: #4a4a4a;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            padding: 0 20px;
+        }
+
+        /* Icon Section */
+        .about-icons {
+            margin-top: 40px;
+        }
+        .about-icons .icon-box {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 180px;
+        }
+        .about-icons .icon-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+        }
+        .about-icons p {
+            font-size: 1.9rem; /* Slightly larger for readability */
+            color: #4a4a4a;
+        }
+        
+        .about-icons i {
+            font-size: 4.5rem;
+            color: #ff6f61;
+        }
+        .about-icons h4 {
+            font-size: 1.6rem;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #2b2d42;
+        }
+
+        /* Bakery Image Section */
+        .about-image {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+    align-items: center;
+            
+        }
+        .about-image img {
+            width: 60%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+
+    <!-- About Us Section -->
+    <section id="about-us" class="about py-5">
+        <div class="container text-center">
+            <h1>About Us</h1>
+            <p>Welcome to <strong>Sweet Delights Bakery</strong>, where every bite is a moment of joy!  
+               Our passion is to craft the finest cakes, pastries, and baked goods using premium ingredients,  
+               ensuring freshness and a delightful experience for our customers.</p>
+    
+            <!-- Icon Section -->
+            <div class="row about-icons">
+                <div class="col-xs-12 col-sm-4">
+                    <div class="icon-box">
+                        <i class="fas fa-cookie-bite fa-3x"></i>
+                        <h4>Freshly Baked</h4>
+                        <p>We bake everything fresh daily,  rich flavors and the best quality.</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="icon-box">
+                        <i class="fas fa-leaf fa-3x"></i>
+                        <h4>Organic Ingredients</h4>
+                        <p>We use fresh, natural, and organic ingredients for a healthier treat.</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="icon-box">
+                        <i class="fas fa-hand-holding-heart fa-3x"></i>
+                        <h4>Handcrafted with Love</h4>
+                        <p>Every cake and pastry is made with love and attention to detail.</p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Additional Services -->
+            <div class="row about-icons">
+                <div class="col-xs-12 col-sm-4">
+                    <div class="icon-box">
+                        <i class="fas fa-smile-beam fa-3x"></i>
+                        <h4>Customer Satisfaction</h4>
+                        <p>Our goal is to bring a smile to every customer with our delicious treats.</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="icon-box">
+                        <i class="fas fa-mug-hot fa-3x"></i>
+                        <h4>Bakery & Café</h4>
+                        <p>Enjoy our cozy café with delicious coffee, cakes, and a warm ambiance.</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="icon-box">
+                        <i class="fas fa-award fa-3x"></i>
+                        <h4>Award-Winning Bakery</h4>
+                        <p>Recognized for excellence in quality and taste in the baking industry.</p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Bakery Image -->
+            <div class="about-image">
+                <img src="/static/img/bg-img/about.jpg" alt="Our Bakery" class="img-responsive">
+            </div>
+        </div>
+    </section>
+    
+    {% include "footer.html" %}
+
+</body>
+</html>

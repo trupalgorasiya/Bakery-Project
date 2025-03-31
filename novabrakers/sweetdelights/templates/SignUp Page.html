@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Sign Up</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+		<link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+		<script src="https://kit.fontawesome.com/815d5311a8.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="mystyle.css">
+		<script src="/static/js/myscript.js"></script>
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Great+Vibes&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="/static/css/SignUp Page.css">
+		<style>
+			
+		</style>
+	</head>
+	<body>
+	
+	<div id="signUp">
+	<div id="letsGo" style="font-size:10vh;font-family: 'Great Vibes', cursive;">Let's Go!!</div>
+	
+	<form>
+	
+		<label for="fname" class="field"><b>Name</b><span style="color:red;"><b>*</b></span></b></label>
+		<input class="inp" type="text" name="name" id="fname" pattern=[A-Za-z] title="Can only contain alphabets." placeholder="Enter your Name" size="35" required/>
+		
+		<label for="mail" class="field"><b>Email</b><span style="color:red;"><b>*</b></span></b></label>
+		<input class="inp" type="email" name="email" id="mail" placeholder="Enter your Email id" size="35"/>
+		
+		<label for="num" class="field"><b>Mobile No.</b><span style="color:red;"><b>*</b></span></label>
+		<input class="inp" type="tel" name="mobile" id="num" placeholder="Enter your Mobile number" size="35" required/>
+		
+		<label for="userN" class="field"><b>Date Of Birth</b><span style="color:red;"><b>*</b></span></label>
+		<input class="inp" type="date" name="Date Of Birth" id="userN" pattern="[a-z0-9_]" title="Can only contain lowercase letters, numbers and underscore." placeholder="Enter your Birth Date" size="35" required/>
+		
+		<label for="pass" class="field"><b>Password</b><span style="color:red;"><b>*</b></span></label>
+		<input class="inp" type="password" name="password" id="pass" pattern="(?=.\d)(?=.[a-z])(?=.*[A-Z).{8,}" title="Enter atleast 8 or more characters with atleast one uppercase letter, one lowercase letter and one number." placeholder="Enter your Password" size="35" required/>
+		
+		<button type="submit" value="Submit" class="btn" name="submit" style="font-size:2.7vh; align-self: stretch; margin-bottom: 0.6rem; ">Sign Up</button>
+		
+		Already have an account? <a href="Login.html" class="login"><u>Click here to login!</u></a>
+	</form>
+	</div>
+	<!--{% include "footer.html" %}-->
+	</body>
+</html>

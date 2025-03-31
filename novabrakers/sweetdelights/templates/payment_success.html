@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 50px;
+        }
+        .success-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        .success-icon {
+            font-size: 50px;
+            color: green;
+        }
+        .btn-home {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+    {% if messages %}
+<div style="background-color: black; color: white; padding: 10px; text-align: center; margin-bottom: 10px;">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+</div>
+{% endif %}
+    <div class="success-container">
+        <h2 class="success-icon">✅</h2>
+        <h2>Payment Successful!</h2>
+        <p>Thank you for your order. Your payment has been successfully processed.</p>
+        <p><strong>Order ID:</strong> {{ order_id }}</p>
+        <p><strong>Payment ID:</strong> {{ payment_id }}</p>
+
+        <a href="{% url 'Homepage' %}" class="btn btn-primary btn-home">Go to Home</a>
+    </div>
+
+</body>
+</html>
+

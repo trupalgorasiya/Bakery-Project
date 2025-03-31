@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Page</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="/static/css/Userdetails.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+
+</head>
+<body>
+    {% include "navigation.html" %}
+    <div class="container">
+        {% comment %} <a href="UserDetailsUpdate.html" class="edit-link">Edit</a> {% endcomment %}
+        <a class="edit-link" href="{% url 'UserDetailsUpdate' %}">Edit Profile</a>
+        <div class="sidebar">
+            <div class="profile-picture">U</div>
+            <h2>{{ user.first_name }}</h2>
+            <ul>
+                <a class="change" href="Myorder.html"><li>My Orders</li></a>
+                <a class="change" href="/Customorderhis/"><li>Custom Cake Orders</li></a>
+                
+                <a class="change" href="wishlist/"><li> Wishlist</li></a> 
+                <a class="change" href="discounts/"><li>My Coupons</li></a>
+                {% comment %} <li>Payments</li> {% endcomment %}
+                <a class="change" href="{% url 'Changepassword' %}"><li>Change Password</li></a> 
+
+
+            {% comment %} <a class="change" href="Changepassword.html"><li>Change Password</li></a>  {% endcomment %}
+            <a class="logout change" href="{% url 'Logout' %}"><li class="logout">Log Out</li> </a><!-- Log Out option added -->
+            </ul>
+        </div>
+        <div class="content">
+            <h2>Personal Information</h2>
+            <div class="info-row">
+                <label>Full Name:</label>
+                <input type="text" value="{{ user.first_name }}" readonly>
+            </div>
+            <div class="info-row">
+                <label>Email Address:</label>
+                <input type="text" value="{{ user.email_id }}" readonly>
+            </div>
+            <div class="info-row">
+                <label>Mobile Number:
+                </label>
+                <input type="text" value="{{ user.contact_no }}" readonly>
+            </div>
+            <div class="info-row">
+                <label>Date Of Birth:
+                </label>
+                <input type="date" value="{{ user.dob_date|date:'Y-m-d' }}" readonly>
+            </div>
+           
+            
+            <div class="info-row">
+                <label>Address:</label>
+                <input type="text" value="{{ user.address }}" readonly>
+            </div>
+        </div>
+    </div>
+    {% include "footer.html" %}
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>

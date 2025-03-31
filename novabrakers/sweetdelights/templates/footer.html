@@ -1,0 +1,193 @@
+
+<style>
+    /* Footer Styles */
+    .footer {
+        background-color: #ae8281;
+        color:rgb(0, 0, 0);
+        padding: 40px 20px;
+        font-family: "initial";
+        width:100%
+    }
+    
+    .footer-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    /* Footer Section */
+    .footer-section {
+        flex: 1;
+        min-width: 250px;
+        margin-bottom: 20px;
+    }
+    
+    /* Bakery Logo */
+    .bakery-logo {
+        width: 150px;
+        margin-bottom: 15px;
+        height: 100px;
+    }
+    
+    .social-icons img {
+        width: 30px;
+        margin-right: 10px;
+        transition: transform 0.3s;
+    }
+    
+    .social-icons img:hover {
+        transform: scale(1.2);
+    }
+    
+    /* Quick Links */
+    .footer-links {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+        color:rgb(0, 0, 0);
+        text-decoration: none;
+        font-size: 14px;
+    }
+    
+    .footer-links a:hover {
+        color: #f39c12; /* Highlight color */
+    }
+    
+    /* Contact Info */
+    .footer-section p {
+        {% comment %} margin: 5px 0; {% endcomment %}
+    }
+    
+    /* Footer Bottom Bar */
+    .footer-bottom {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #444444;
+        padding-top: 15px;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+    
+    .footer-bottom-links {
+        list-style: none;
+        display: flex;
+        gap: 15px;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .footer-bottom-links a {
+        color:rgb(0, 0, 0);
+        text-decoration: none;
+    }
+    
+    .footer-bottom-links a:hover {
+        color: #f39c12;
+    }
+    
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+        .footer-container {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    
+        .footer-bottom {
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+        }
+    
+        .footer-bottom-links {
+            justify-content: center;
+            gap: 10px;
+        }
+    
+        .social-icons img {
+            margin: 0 5px;
+        }
+    }
+    
+    @media screen and (max-width: 480px) {
+        .footer-section {
+            min-width: 100%;
+            text-align: center;
+        }
+    
+        .bakery-logo {
+            margin: 0 auto 15px auto;
+        }
+    
+        .footer-links a {
+            font-size: 12px;
+        }
+    
+        .footer-bottom {
+            flex-direction: column;
+            text-align: center;
+            font-size: 12px;
+        }
+    }
+    </style>
+    
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Left Corner: Bakery Image -->
+            <div class="footer-section">
+                <img src="/static/img/bg-img/logo.png" alt="Bakery Logo" class="bakery-logo">
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank">
+                        <img src="/static/img/bg-img/facebook.png" alt="Facebook">
+                    </a>
+                    <a href="https://instagram.com" target="_blank">
+                        <img src="/static/img/bg-img/instagram.png" alt="Instagram">
+                    </a>
+                    <a href="https://youtube.com" target="_blank">
+                        <img src="/static/img/bg-img/youtube.png" alt="YouTube">
+                    </a>
+                </div>
+            </div>
+    
+            <!-- Middle Section: Quick Links -->
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="Homepage.html">Home</a></li>
+                    <li><a href="Ourservices.html">Our Services</a></li>
+                    <li><a href="Customizeorder.html">Customize Order</a></li>
+                    <li><a href="Gallery.html">Gallery</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+            </div>
+    
+            <!-- Right Section: Contact Info -->
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><strong>Phone:</strong> +91 94288 58666</p>
+                <p><strong>Email:</strong> sweetretreat@gmail.com</p>
+                <p><strong>Address:</strong> 22/2, Nehru Nagar Cir, nr. Jay Bhavani Vadapav, opp. L Colony, Ambavadi, Ahmedabad, Gujrat 380015</p>
+            </div>
+        </div>
+    
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Bakery Delights. All Rights Reserved.</p>
+            <ul class="footer-bottom-links">
+                <li><a href="PrivacyPolicy.html">Privacy Policy</a></li>
+                <li><a href="TermsOfUse.html">Terms of Use</a></li>
+                <li><a href="CookiesPolicy.html">Cookies Policy</a></li>
+            </ul>
+        </div>
+    </footer>
+    

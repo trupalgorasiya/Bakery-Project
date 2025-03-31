@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Available Discounts</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .discount-container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .coupon-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px dashed #28a745;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coupon-left {
+            flex: 1;
+        }
+
+        .coupon-right {
+            text-align: center;
+        }
+
+        .coupon-code {
+            font-size: 20px;
+            font-weight: bold;
+            background: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        .copy-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .copy-btn:hover {
+            background: #0056b3;
+        }
+
+        .apply-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .apply-btn:hover {
+            background: #218838;
+        }
+
+        .coupon-divider {
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background: white;
+            border-radius: 50%;
+            top: 0;
+            left: -10px;
+            box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .coupon-divider-right {
+            left: auto;
+            right: -10px;
+            box-shadow: -5px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+<div class="container">
+    <h1 class="text-center">🎉 Available Discounts 🎉</h1>
+    <div class="discount-container">
+        {% for discount in discounts %}
+            <div class="coupon-card">
+                <div class="coupon-divider"></div>
+                <div class="coupon-divider coupon-divider-right"></div>
+                
+                <div class="coupon-left">
+                    <h4>{{ discount.get_discount_type_display }}</h4>
+                    <p>
+                        <strong>Value:</strong>
+                        {% if discount.discount_type == "percentage" %}
+                            {{ discount.value }}%
+                        {% else %}
+                            ₹{{ discount.value }}
+                        {% endif %}
+                    </p>
+                    <p><strong>Min Order:</strong> ₹{{ discount.min_order_amount|default:"No Minimum" }}</p>
+                    <p><strong>Max Discount:</strong> ₹{{ discount.max_discount|default:"No Limit" }}</p>
+                    <p><strong>Start Date:</strong> {{ discount.start_date|date:"M d, Y H:i" }}</p>
+                    <p><strong>End Date:</strong> {{ discount.end_date|date:"M d, Y H:i" }}</p>
+                    <p><strong>Active:</strong> {% if discount.is_active %} Yes {% else %} No {% endif %}</p>
+                </div>
+
+                <div class="coupon-right">
+                    <p class="coupon-code">{{ discount.code }}</p>
+                    <button class="copy-btn" onclick="copyToClipboard('{{ discount.code }}')">Copy</button>
+                    
+                    <form action="{% url 'apply_discount' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="discount_code" value="{{ discount.code }}">
+                        <button type="submit" class="apply-btn">Apply</button>
+                    </form>
+                </div>
+            </div>
+        {% empty %}
+            <p>No discounts available.</p>
+        {% endfor %}
+    </div>
+
+    <div class="text-center">
+        <a href="{% url 'cart_view' %}" class="btn btn-primary">Back to Cart</a>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(code) {
+        navigator.clipboard.writeText(code).then(function() {
+            alert("Copied: " + code);
+        }, function(err) {
+            alert("Failed to copy: " + err);
+        });
+    }
+</script>
+{% include "footer.html" %}
+</body>
+</html>

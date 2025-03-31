@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <title>Custom Order Details</title>
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- Bootstrap 3.4.1 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: "initial";
+            background-color: #f9e0db;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        
+        .table th {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .table tr:hover {
+            background-color: #e6f7ff;
+        }
+        
+        .table img {
+            border-radius: 8px;
+            display: block;
+            margin: 5px auto;
+            max-width: 100px;
+            height: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .table, .table th, .table td {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+        
+        .order-info {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .order-info .left, .order-info .right {
+            width: 48%; /* Adjusts both columns */
+        }
+        
+        .order-info p {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .order-info .left, .order-info .right {
+                width: 100%; /* Stacks on small screens */
+            }
+        }
+        .order-info
+        .order-info {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    {% include "navigation.html" %}
+    
+    <div class="container">
+        <h2 class="text-center">Custom Cake Order Details</h2>
+        <div class="order-info">
+            <div class="left">
+                <p><strong>Order ID:</strong> {{ custom_order.id }}</p>
+                <p><strong>Order Date:</strong> {{ custom_order.created_at|date:"Y-m-d h:i A" }}</p>
+                <p><strong>Total Amount:</strong> ₹{{ custom_order.total_price }}</p>
+                <p><strong>Payment Method:</strong> {{ custom_order.payment.payment_method }}</p>
+                <p><strong>Pickup Time:</strong> {{ custom_order.pickup_date }} at {{ custom_order.pickup_time }}</p>
+                
+            </div>
+            <div class="right">
+                <p><strong>Order Status:</strong> <span class="status-label {{ custom_order.status }}">{{ custom_order.status }}</span></p>
+                <p><strong>Shipping Address:</strong> {{ custom_order.shipping_address }}</p>
+               
+                <p><strong>Payment Status:</strong> {{ custom_order.payment.status }}</p>
+                <p><strong>Admin Response:</strong> {{ custom_order.admin_response }}</p>
+                <p><strong>Estimated Completion:</strong> Please check your email.</p>
+            </div>
+        </div>
+      
+        <table class="table table-bordered">
+            {% if custom_order.cake_type %}
+                <tr><th>Cake Type</th><td>{{ custom_order.cake_type }}</td></tr>
+            {% endif %}
+            {% if custom_order.size %}
+                <tr><th>Size</th><td>{{ custom_order.size }}</td></tr>
+            {% endif %}
+            {% if custom_order.shape %}
+                <tr><th>Shape</th><td>{{ custom_order.shape }}</td></tr>
+            {% endif %}
+            {% if custom_order.flavor %}
+                <tr><th>Flavor</th><td>{{ custom_order.flavor }}</td></tr>
+            {% endif %}
+            {% if custom_order.filling %}
+                <tr><th>Filling</th><td>{{ custom_order.filling }}</td></tr>
+            {% endif %}
+            {% if custom_order.icing %}
+                <tr><th>Icing</th><td>{{ custom_order.icing }}</td></tr>
+            {% endif %}
+            {% if custom_order.cake_layers %}
+                <tr><th>Layers</th><td>{{ custom_order.cake_layers }}</td></tr>
+            {% endif %}
+            {% if custom_order.occasion %}
+                <tr><th>Occasion</th><td>{{ custom_order.occasion }}</td></tr>
+            {% endif %}
+            {% if custom_order.cake_texture %}
+                <tr><th>Texture</th><td>{{ custom_order.cake_texture }}</td></tr>
+            {% endif %}
+            {% if custom_order.sweetness_level %}
+                <tr><th>Sweetness Level</th><td>{{ custom_order.sweetness_level }}</td></tr>
+            {% endif %}
+            {% if custom_order.serving_size %}
+                <tr><th>Serving Size</th><td>{{ custom_order.serving_size }}</td></tr>
+            {% endif %}
+            {% if custom_order.cake_theme %}
+                <tr><th>Theme</th><td>{{ custom_order.cake_theme }}</td></tr>
+            {% endif %}
+            {% if custom_order.allergy_info %}
+                <tr><th>Allergy Info</th><td>{{ custom_order.allergy_info }}</td></tr>
+            {% endif %}
+            {% if custom_order.egg_preference %}
+                <tr><th>Egg Preference</th><td>{{ custom_order.get_egg_preference_display }}</td></tr>
+            {% endif %}
+            {% if custom_order.dietary_preferences %}
+                <tr><th>Dietary Preferences</th><td>{{ custom_order.dietary_preferences }}</td></tr>
+            {% endif %}
+            {% if custom_order.extra_addons %}
+                <tr><th>Extra Addons</th><td>{{ custom_order.extra_addons }}</td></tr>
+            {% endif %}
+            {% if custom_order.packaging %}
+                <tr><th>Packaging</th><td>{{ custom_order.packaging }}</td></tr>
+            {% endif %}
+            {% if custom_order.message %}
+                <tr><th>Message</th><td>{{ custom_order.message }}</td></tr>
+            {% endif %}
+            {% if custom_order.additional_customization %}
+                <tr><th>Additional Customization</th><td>{{ custom_order.additional_customization }}</td></tr>
+            {% endif %}
+            {% if custom_order.hidden_surprise %}
+                <tr><th>Hidden Surprise</th><td>{{ custom_order.hidden_surprise }}</td></tr>
+            {% endif %}
+            {% if custom_order.notes %}
+                <tr><th>Notes</th><td>{{ custom_order.notes }}</td></tr>
+            {% endif %}
+            {% if custom_order.discount_amount and custom_order.discount_amount > 0 %}
+                <tr><th>Discount Amount</th><td>₹{{ custom_order.discount_amount }}</td></tr>
+            {% endif %}
+            {% if custom_order.photo %}
+                <tr><th>Uploaded Cake Image</th><td><img src="{{ custom_order.photo.url }}" alt="Cake Image" width="150"></td></tr>
+            {% endif %}
+        </table>
+       <!-- View Invoice (Opens in New Tab) -->
+<a href="{% url 'invoice_view' custom_order.id %}" target="_blank" class="btn btn-primary">
+    View Invoice
+</a>
+
+<!-- Download Invoice -->
+<a href="{% url 'invoice_view' custom_order.id %}?download=TRUE" class="btn btn-success">
+    Download Invoice
+</a>
+
+        <a href="{% url 'Customorderhis' %}" class="btn btn-primary">Back to Orders</a>
+    </div>
+
+    {% include "footer.html" %}
+
+</body>
+</html>

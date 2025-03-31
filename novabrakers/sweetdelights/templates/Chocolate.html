@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Chocolate Cakes</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/mycart.js"></script>
+	<script src="/static/js/myscript.js"></script>
+    <script src="/static/js/selectingitem.js"> </script>
+    <link rel="stylesheet" href="/static/css/Chocolate.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+
+    <script>
+
+        //
+
+        /* S E L E C T I N G   I T E M S */
+
+    </script>
+
+    <style>
+
+       
+
+    </style>
+
+</head>
+
+<body>
+
+	<!--  N A V I G A T I O N   B A R  -->
+
+    {% include "navigation.html" %}
+    <!--  M A I N   C O N T E N T  -->
+
+    <div>
+    	<h1 id="heading">Chocolate Cakes</h1>
+    </div>
+
+
+    <!--  I T E M   C A R D S  -->
+
+    <div id="main">
+
+    	{% comment %} <div class="card">
+    		<img src="/static/img/core-img/ccake1.jpg" class="item-img">
+    		<h1>Happy Smile</h1>
+            <form name="form">
+                <select id="a1" class="price-dropdown" name="select" Onchange="change()" value="Quanity and Price">
+                    <option value="1kg ~ ₹499">1kg ~ ₹499</option>
+                    <option value="2kg ~ ₹949">2kg ~ ₹949</option>
+                    <option value="3Kg ~ ₹1399">3Kg ~ ₹1399</option>
+                    <option value="4Kg ~ ₹1849">4Kg ~ ₹1849</option>
+                </select>
+            </form>
+            <p id="demo" class="item-price"></p>    
+    		<p class="description">The finest, cost-friendly blend of chocolate topped with choco-chips!</p>
+    		<p><button onclick="add_to_cart('1','Happy Smile','499')">Add to Cart</button></p>
+    	</div>
+         {% endcomment %}
+        <div class="card">
+            <img src="/static/img/core-img/ccake1.jpg" class="item-img">
+            <h1>Happy Smile</h1>
+            <form name="form">
+                <select id="a1" class="price-dropdown" name="select" onchange="change(1)">
+                    <option value="499,1KG">1kg ~ ₹499</option>
+                    <option value="949,2KG">2kg ~ ₹949</option>
+                    <option value="1399,3KG">3kg ~ ₹1399</option>
+                    <option value="1849,4KG">4kg ~ ₹1849</option>
+                </select>
+            </form>
+            
+            <p id="demo1" class="item-price"></p> <!-- Default price for 1kg -->
+            <p class="description">The finest, cost-friendly blend of chocolate topped with choco-chips!</p>
+            <p><button onclick="add_to_cart('1', 'Happy Smile', document.getElementById('a1').value)">Add to Cart</button></p>
+        </div>
+        {% comment %}  
+        {% for product in products %}
+<div class="card">
+    <img src="{{ product.image.url }}" class="item-img">
+    <h1>{{ product.name }}</h1>
+
+    {% if product.has_variants %}
+    <form name="form">
+        <select id="a{{ product.product_id }}" class="price-dropdown" name="select" onchange="updatePrice('{{ product.product_id }}')">
+            {% for variation in product.variations.all %}
+                <option value="{{ variation.price }},{{ variation.weight }}">{{ variation.weight }} ~ ₹{{ variation.price }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <p id="demo{{ product.product_id }}" class="item-price">₹{{ product.variations.first.price }}</p> 
+    {% else %}
+    <p class="item-price">₹{{ product.price }}</p> 
+    {% endif %}
+
+    <p class="description">{{ product.description }}</p>
+    <p><button onclick="add_to_cart('{{ product.product_id }}', '{{ product.name }}', document.getElementById('a{{ product.product_id }}')?.value || '{{ product.price }}')">Add to Cart</button></p>
+</div>
+{% endfor %} 
+        
+     {% endcomment %}
+    	<div class="card">
+    		<img src="/static/img/core-img/ccake2.jpg" class="item-img">
+    		<h1>Choco Mud</h1>
+    		<form name="form2">
+                <select id="a2" class="price-dropdown" name="select" Onchange="change(2)">
+                    <option value="499,1">1kg ~ ₹499</option>
+                    <option value="949,2">2kg ~ ₹949</option>
+                    <option value="1399,3">3Kg ~ ₹1399</option>
+                    <option value="1849,4">4Kg ~ ₹1849</option>
+                </select>
+            </form>
+            <p id="demo2" class="item-price"></p>
+    		<p class="description">Mild milk chocolate cake with sprinkles for a sweet, but not overpowering taste.</p>
+    		<p><button onclick="add_to_cart('2','Choco Mud',document.getElementById('a2').value)">Add to Cart</button></p>
+        </div>
+
+    	<div class="card">
+    		<img src="/static/img/core-img/ccake3.jpg" class="item-img">
+    		<h1>Dark Forest</h1>
+    		<form name="form3">
+                <select id="a3" class="price-dropdown" name="select3" Onchange="change(3)">
+                    <option value="549,1">1kg ~ ₹549</option>
+                    <option value="1149,2">2kg ~ ₹1149</option>
+                    <option value="1549,3">3Kg ~ ₹1549</option>
+                    <option value="2049,4">4Kg ~ ₹2049</option>
+                </select>
+            </form>
+            <p id="demo3" class="item-price"></p>
+    		<p class="description">An exquisite blend of overflowing dark chocolate to satisfy all your cravings!</p>
+    		<p><button onclick="add_to_cart('3','Dark Forest',document.getElementById('a3').value)">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="/static/img/core-img/ccake4.jpg" class="item-img">
+    		<h1>Colorful Memories</h1>
+    		<form name="form4">
+                <select id="a4" class="price-dropdown" name="select4" Onchange="change(4)" value="Quanity and Price-4">
+                    <option value="649,1">1kg ~ ₹649</option>
+                    <option value="1249,2">2kg ~ ₹1249</option>
+                    <option value="1849,3">3Kg ~ ₹1849</option>
+                    <option value="2449,4">4Kg ~ ₹2449</option>
+                </select>
+            </form>
+            <p id="demo4" class="item-price"></p>
+    		<p class="description">Bright colours with the goodness of fruits to get your mouth watering!</p>
+    		<p><button onclick="add_to_cart('4','Colorful Memories',document.getElementById('a4').value)">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="/static/img/core-img/ccake5.jpg" class="item-img">
+    		<h1>Overload</h1>
+    		<form name="form5">
+                <select id="a5" class="price-dropdown" name="select5" Onchange="change(5)" value="Quanity and Price-5">
+                    <option value="699,1">1kg ~ ₹699</option>
+                    <option value="1349,2">2kg ~ ₹1349</option>
+                    <option value="1999,3">3Kg ~ ₹1999</option>
+                    <option value="2649,4">4Kg ~ ₹2649</option>
+                </select>
+            </form>
+            <p id="demo5" class="item-price"></p>
+    		<p class="description">An overload of chocolate indide and out!</p>
+    		<p><button onclick="add_to_cart('5','Overload',document.getElementById('a5').value)">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="/static/img/core-img/ccake6.jpg" class="item-img">
+    		<h1>Melting Memories</h1>
+    		<form name="form6">
+                <select id="a6" class="price-dropdown" name="select6" Onchange="change(6)" value="Quanity and Price-6">
+                    <option value="699,1">1kg ~ ₹699</option>
+                    <option value="1349,2">2kg ~ ₹1349</option>
+                    <option value="1999,3">3Kg ~ ₹1999</option>
+                    <option value="2649,4">4Kg ~ ₹2649</option>
+                </select>
+            </form>
+            <p id="demo6" class="item-price"></p>
+    		<p class="description">Cake with rich belgian chocolate which instantly melts in your mouth!</p>
+    		<p><button onclick="add_to_cart('6','Melting Memories',document.getElementById('a6').value)">Add to Cart</button></p>
+    	</div>
+
+    	{% comment %} <div class="card">
+    		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-GCBOb4wvGYqLpOFtrWIKnWihKz-8l8UfUw&usqp=CAU" class="item-img">
+    		<h1>Happy Moments</h1>
+    		<form name="form7">
+                <select id="a7" class="price-dropdown" name="select7" Onchange="change7()" value="Quanity and Price-7">
+                    <option value="1kg ~ ₹799">1kg ~ ₹799</option>
+                    <option value="2kg ~ ₹1549">2kg ~ ₹1549</option>
+                    <option value="3Kg ~ ₹2299">3Kg ~ ₹2299</option>
+                    <option value="4Kg ~ ₹3049">4Kg ~ ₹3049</option>
+                </select>
+            </form>
+            <p id="demo7" class="item-price"></p>
+    		<p class="description">Just the right cake to make your kids even happier on their birthday!</p>
+    		<p><button onclick="add_to_cart('7','Happy Moments','799')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/564x/a1/e3/91/a1e3914a70a9f75335345e3964d884c4.jpg" class="item-img">
+    		<h1>Daisy Dance</h1>
+    		<form name="form8">
+                <select id="a8" class="price-dropdown" name="select8" Onchange="change8()" value="Quanity and Price-8">
+                    <option value="1kg ~ ₹799">1kg ~ ₹799</option>
+                    <option value="2kg ~ ₹1549">2kg ~ ₹1549</option>
+                    <option value="3Kg ~ ₹2299">3Kg ~ ₹2299</option>
+                    <option value="4Kg ~ ₹3049">4Kg ~ ₹3049</option>
+                </select>
+            </form>
+            <p id="demo8" class="item-price"></p>
+    		<p class="description">Classic chocolate adorned with beautiful daisies!</p>
+    		<p><button onclick="add_to_cart('8','Daisy Dance','799')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/564x/1d/a6/51/1da651429ff22cfe4289d982d554687c.jpg" class="item-img">
+    		<h1>Simply Pretty</h1>
+    		<form name="form9">
+                <select id="a9" class="price-dropdown" name="select9" Onchange="change9()" value="Quanity and Price-9">
+                    <option value="1kg ~ ₹799">1kg ~ ₹799</option>
+                    <option value="2kg ~ ₹1549">2kg ~ ₹1549</option>
+                    <option value="3Kg ~ ₹2299">3Kg ~ ₹2299</option>
+                    <option value="4Kg ~ ₹3049">4Kg ~ ₹3049</option>
+                </select>
+            </form>
+            <p id="demo9" class="item-price"></p>
+    		<p class="description">Simply pretty design with an unmatched flavour!</p>
+    		<p><button onclick="add_to_cart('9','Simply Pretty','799')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://images.unsplash.com/photo-1569929232526-d9c6578e1531?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" class="item-img">
+    		<h1>Choco Lava</h1>
+    		<form name="form10">
+                <select id="a10" class="price-dropdown" name="select10" Onchange="change10()" value="Quanity and Price-10">
+                    <option value="1kg ~ ₹849">1kg ~ ₹849</option>
+                    <option value="2kg ~ ₹1649">2kg ~ ₹1649</option>
+                    <option value="3Kg ~ ₹2449">3Kg ~ ₹2449</option>
+                    <option value="4Kg ~ ₹3249">4Kg ~ ₹3249</option>
+                </select>
+            </form>
+            <p id="demo10" class="item-price"></p>
+    		<p class="description">Delightful chocolate flowing out with every bite!</p>
+    		<p><button onclick="add_to_cart('10','Choco Lava','849')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/474x/d2/2b/50/d22b5023e16c42a0a2b3f18e2047279f.jpg" class="item-img">
+    		<h1>Rich Cocoa</h1>
+    		<form name="form11">
+                <select id="a11" class="price-dropdown" name="select11" Onchange="change11()" value="Quanity and Price-11">
+                    <option value="1kg ~ ₹899">1kg ~ ₹899</option>
+                    <option value="2kg ~ ₹1749">2kg ~ ₹1749</option>
+                    <option value="3Kg ~ ₹2599">3Kg ~ ₹2599</option>
+                    <option value="4Kg ~ ₹3449">4Kg ~ ₹3499</option>
+                </select>
+            </form>
+            <p id="demo11" class="item-price"></p>
+    		<p class="description">What's a better way to make your chocolate vake more special than choco balls?</p>
+    		<p><button onclick="add_to_cart('11','Rich Cocoa','899')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/564x/69/60/1e/69601ef0f2f09691446c821a18d16889.jpg" class="item-img">
+    		<h1>Blue Snow</h1>
+    		<form name="form12">
+                <select id="a12" class="price-dropdown" name="select12" Onchange="change12()" value="Quanity and Price-12">
+                    <option value="1kg ~ ₹899">1kg ~ ₹899</option>
+                    <option value="2kg ~ ₹1749">2kg ~ ₹1749</option>
+                    <option value="3Kg ~ ₹2599">3Kg ~ ₹2599</option>
+                    <option value="4Kg ~ ₹3449">4Kg ~ ₹3499</option>
+                </select>
+            </form>
+            <p id="demo12" class="item-price"></p>
+    		<p class="description">White chocolate cake with the goodness of fresh blueberries!</p>
+    		<p><button onclick="add_to_cart('12','Blue Snow','899')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://images.unsplash.com/photo-1618508369765-6099b7207c06?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=925&q=80" class="item-img">
+    		<h1>Nature Walk</h1>
+    		<form name="form13">
+                <select id="a13" class="price-dropdown" name="select13" Onchange="change13()" value="Quanity and Price-13">
+                    <option value="1kg ~ ₹899">1kg ~ ₹899</option>
+                    <option value="2kg ~ ₹1749">2kg ~ ₹1749</option>
+                    <option value="3Kg ~ ₹2599">3Kg ~ ₹2599</option>
+                    <option value="4Kg ~ ₹3449">4Kg ~ ₹3499</option>
+                </select>
+            </form>
+            <p id="demo13" class="item-price"></p>
+    		<p class="description">A creamy four layered cake topped with juicy fruits!</p>
+    		<p><button onclick="add_to_cart('13','Nature Walk','899')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz_oUAkOLNixv7W9AHnk2xEH4K7JokZOYZsw&usqp=CAU" class="item-img">
+    		<h1>Wafer Delight</h1>
+    		<form name="form15">
+                <select id="a15" class="price-dropdown" name="select15" Onchange="change15()" value="Quanity and Price-15">
+                    <option value="1kg ~ ₹999">1kg ~ ₹999</option>
+                    <option value="2kg ~ ₹1949">2kg ~ ₹1949</option>
+                    <option value="3Kg ~ ₹2899">3Kg ~ ₹2899</option>
+                    <option value="4Kg ~ ₹3849">4Kg ~ ₹3849</option>
+                </select>
+            </form>
+            <p id="demo15" class="item-price"></p>
+    		<p class="description">Chocolate enhanced with sweet wafers and oreo biscuits!</p>
+    		<p><button onclick="add_to_cart('14','Wafer Delight','999')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/236x/90/0e/c6/900ec6f85e46fad2536990d81fe44343.jpg" class="item-img">
+    		<h1>Soft Spring</h1>
+    		<form name="form16">
+                <select id="a16" class="price-dropdown" name="select16" Onchange="change16()" value="Quanity and Price-16">
+                    <option value="1kg ~ ₹999">1kg ~ ₹999</option>
+                    <option value="2kg ~ ₹1949">2kg ~ ₹1949</option>
+                    <option value="3Kg ~ ₹2899">3Kg ~ ₹2899</option>
+                    <option value="4Kg ~ ₹3849">4Kg ~ ₹3849</option>
+                </select>
+            </form>
+            <p id="demo16" class="item-price"></p>
+    		<p class="description">Simple flowers with a simple cake, to take you back to spring!</p>
+    		<p><button onclick="add_to_cart('15','Soft Spring','999')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/564x/26/c7/e1/26c7e11d8cf8ec16739c8fcf4f1b7607.jpg" class="item-img">
+    		<h1>Berrylicious</h1>
+    		<form name="form17">
+                <select id="a17" class="price-dropdown" name="select17" Onchange="change17()" value="Quanity and Price-17">
+                    <option value="1kg ~ ₹999">1kg ~ ₹999</option>
+                    <option value="2kg ~ ₹1949">2kg ~ ₹1949</option>
+                    <option value="3Kg ~ ₹2899">3Kg ~ ₹2899</option>
+                    <option value="4Kg ~ ₹3849">4Kg ~ ₹3849</option>
+                </select>
+            </form>
+            <p id="demo17" class="item-price"></p>
+    		<p class="description">Luscious strawberries teamed up with white chocolate!</p>
+    		<p><button onclick="add_to_cart('16','Berrylicious','999')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/564x/33/3b/66/333b6627f517cdf0ec36c7859d538f53.jpg" class="item-img">
+    		<h1>Sweet Dreams</h1>
+    		<form name="form18">
+                <select id="a18" class="price-dropdown" name="select18" Onchange="change18()" value="Quanity and Price-18">
+                    <option value="1kg ~ ₹1099">1kg ~ ₹1099</option>
+                    <option value="2kg ~ ₹2149">2kg ~ ₹2149</option>
+                    <option value="3Kg ~ ₹3199">3Kg ~ ₹3199</option>
+                    <option value="4Kg ~ ₹4249">4Kg ~ ₹4249</option>
+                </select>
+            </form>
+            <p id="demo18" class="item-price"></p>
+    		<p class="description">A creamy vanilla delight with the goodness of fruits!</p>
+    		<p><button onclick="add_to_cart('17','Sweet Dreams','1099')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/564x/1a/aa/cd/1aaacd69bcf9e84f750f65bd5d8d923d.jpg" class="item-img">
+    		<h1>Blossoming Love</h1>
+    		<form name="form14">
+                <select id="a14" class="price-dropdown" name="select14" Onchange="change14()" value="Quanity and Price-14">
+                    <option value="1kg ~ ₹1099">1kg ~ ₹1099</option>
+                    <option value="2kg ~ ₹2149">2kg ~ ₹2149</option>
+                    <option value="3Kg ~ ₹3199">3Kg ~ ₹3199</option>
+                    <option value="4Kg ~ ₹4249">4Kg ~ ₹4249</option>
+                </select>
+            </form>
+            <p id="demo14" class="item-price"></p>
+    		<p class="description">This combination of cake and flowers will surely make happiness bloom!</p>
+    		<p><button onclick="add_to_cart('18','Blossoming Love','1099')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/564x/00/aa/0c/00aa0cb09707c07d639df57c3a03387e.jpg" class="item-img">
+    		<h1>Bloom</h1>
+    		<form name="form20">
+                <select id="a20" class="price-dropdown" name="select20" Onchange="change20()" value="Quanity and Price-20">
+                    <option value="1kg ~ ₹1099">1kg ~ ₹1099</option>
+                    <option value="2kg ~ ₹2149">2kg ~ ₹2149</option>
+                    <option value="3Kg ~ ₹3199">3Kg ~ ₹3199</option>
+                    <option value="4Kg ~ ₹4249">4Kg ~ ₹4249</option>
+                </select>
+            </form>
+            <p id="demo20" class="item-price"></p>
+    		<p class="description">A beautiful combination of cake and cream to brighten up your special day!</p>
+    		<p><button onclick="add_to_cart('19','Bloom','1099')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/564x/2f/40/40/2f40406ee88a54fc7108f2f0a5d3cccc.jpg" class="item-img">
+    		<h1>Choco Berries</h1>
+    		<form name="form21">
+                <select id="a21" class="price-dropdown" name="select21" Onchange="change21()" value="Quanity and Price-21">
+                    <option value="1kg ~ ₹1299">1kg ~ ₹1299</option>
+                    <option value="2kg ~ ₹2549">2kg ~ ₹2549</option>
+                    <option value="3Kg ~ ₹3799">3Kg ~ ₹3799</option>
+                    <option value="4Kg ~ ₹5049">4Kg ~ ₹5049</option>
+                </select>
+            </form>
+            <p id="demo21" class="item-price"></p>
+    		<p class="description">A refreshing treat for chocolate and fruit lovers!</p>
+    		<p><button onclick="add_to_cart('20','Choco Berries','1299')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://images.unsplash.com/photo-1503525642560-ecca5e2e49e9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=761&q=80" class="item-img">
+    		<h1>Extravaganza</h1>
+    		<form name="form19">
+                <select id="a19" class="price-dropdown" name="select19" Onchange="change19()" value="Quanity and Price-19">
+                    <option value="1kg ~ ₹1499">1kg ~ ₹1499</option>
+                    <option value="2kg ~ ₹2949">2kg ~ ₹2949</option>
+                    <option value="3Kg ~ ₹4399">3Kg ~ ₹4399</option>
+                    <option value="4Kg ~ ₹5850">4Kg ~ ₹5850</option>
+                </select>
+            </form>
+            <p id="demo19" class="item-price"></p>
+    		<p class="description">The perfect combo of flowers and cake for your special day!</p>
+    		<p><button onclick="add_to_cart('21','Extravaganza','1499')">Add to Cart</button></p>
+    	</div> {% endcomment %}
+
+    </div>
+
+    <!-- Modal -->
+    {% include "Model.html"%}
+
+    <!-- F O O T E R   S O C I A L   I C O N S -->
+
+    {% include "footer.html" %}
+
+</body>
+</html>

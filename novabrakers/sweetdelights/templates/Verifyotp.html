@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/static/css/Verifyotp.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+    
+ <style>
+                .error-messages {
+                    color: red;
+                    font-size: 14px;
+                    margin-bottom: 10px;
+                }
+            
+                .error {
+                    color: red;
+                }
+                .message-container {
+                    color: red;
+                }
+                .error input,
+                .error textarea {
+                    border-color: red;
+                }
+ </style>
+   
+</head>
+<body>
+    {% include 'navigation.html'%}
+
+    <form method="POST" >
+        {% csrf_token %}
+        <div class="verify-otp-container">
+            <h2>Verify OTP</h2>
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message-container {% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+            <p>Enter the OTP sent to your email.</p>
+    
+            <div class="form-group">
+                <label for="otp">OTP</label>
+                <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+            </div>
+    
+            <button type="submit">Verify OTP</button>
+            <a href="{% url 'Login' %}" class="back-to-login">Back to Login</a>
+        </div>
+        
+    </form>
+    
+    <!-- Back to Login Link -->
+    
+    
+    
+    {% include "footer.html" %}
+   
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html> 

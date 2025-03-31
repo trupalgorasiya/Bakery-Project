@@ -1,0 +1,56 @@
+header {
+    position: fixed;  /* Fixes navbar to the viewport */
+    top: 0;           /* Sticks to the top */
+    width: 100%;      /* Full width */
+    z-index: 1000;    /* Stays on top of other content */
+    background-color: #f8f9fa;  /* Background color */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+}
+.logo {
+    margin-right: auto; /* Align logo to the left */
+    padding-left: 10px; /* Adjust this value to move it further left */
+}
+.nav-list {
+    list-style-type: none; /* Removes dots from list items */
+    padding: 0; /* Removes default padding */
+    margin: 0; /* Removes default margin */
+}
+.product-list {
+    list-style-type: none; /* Remove dots from main list */
+    padding: 0;
+}
+
+.product-list > li {
+    font-weight: bold; /* Make main items bold */
+    margin-bottom: 10px;
+}
+
+.product-list > li > ul {
+    list-style-type: circle; /* Add circles for nested items */
+    margin-left: 20px; /* Indent nested list */
+}
+
+.product-list li ul li {
+    font-weight: normal;
+}
+/* Ensure the entire page height is utilized */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Content area grows to fill space between header and footer */
+.content {
+    flex: 1;
+    
+}
+
+/* Footer styling */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}

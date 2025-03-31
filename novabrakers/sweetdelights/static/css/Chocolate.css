@@ -1,0 +1,361 @@
+body{
+    /* background-color: #ca948b; */
+    background-color: white;
+    font-family: "Initial";
+    margin: 0px;
+}
+
+/* N A V I G A T I O N */
+
+.navtop {
+    overflow: hidden;
+    background-color: #a15a55;
+}
+
+.navtop a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navtop .icon {
+    display: none;
+}
+
+.drop_down {
+    float: left;
+    overflow: hidden;
+}
+
+.drop_down .dropdown_btn {
+    font-size: 17px;    
+    border: none;
+    outline: none;
+    color: black;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.drop-content {
+    display: none;
+    position: absolute;
+    background-color: #e6ccb2;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.drop-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.navtop a:hover, .drop_down:hover .dropdown_btn, .search-container button:hover{
+    background-color: #c7897f;
+    color: white;
+}
+
+.drop-content a:hover {
+    background-color: #835e40;
+    color: white;
+}
+
+.drop_down:hover .drop-content {
+    display: block;
+}
+
+@media screen and (max-width: 920px) {
+    .navtop input[type=text] {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 698px) {
+    .navtop a:not(:first-child), .dropdown .dropbtn {
+        display: none;
+    }
+
+    .navtop a.icon {
+        float: right;
+        display: block;
+    }
+}
+
+@media screen and (max-width: 698px) {
+    .navtop.responsive {position: relative;}
+    .navtop.responsive .icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .navtop.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+
+    .navtop.responsive .drop_down {float: none;}
+    .navtop.responsive .drop-content {position: relative;}
+    .navtop.responsive .drop_down .dropdown_btn {
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+
+    .navtop input[type=text] {
+        display: inline;
+        padding: 6px;
+        margin-top: 8px;
+        font-size: 17px;
+        border: none;
+    }
+
+}
+
+@media screen and (max-width: 488px) {
+    .navtop input[type=text] {
+        display: none;
+    }
+}
+
+.search-container {
+    float: right;
+}
+
+.navtop input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+}
+
+.search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddbea9;
+    font-size: 17px;
+    border: none;
+}
+
+.open-button {
+    background-color:rgba(255, 255, 255, 0.6);
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    bottom: 5%;
+    left: 93%;
+    }
+
+    /* The popup chat - hidden by default */
+    .chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    }
+
+/* Add styles to the form container */
+.form-container {
+max-width: 300px;
+padding: 10px;
+background-color: white;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+width: 100%;
+padding: 15px;
+margin: 5px 0 22px 0;
+border: none;
+background: #f1f1f1;
+resize: none;
+min-height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+background-color: #ddd;
+outline: none;
+}
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+background-color: #04AA6D;
+color: white;
+padding: 16px 20px;
+border: none;
+cursor: pointer;
+width: 100%;
+margin-bottom:10px;
+opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+opacity: 1;
+}
+
+
+
+/* M A I N - C O N T E N T */
+
+#main{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 5%;
+    background-color: rgba(255, 255, 255, 0.6);
+    font-family: "Initial";
+}
+
+#heading{
+    background-color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    font-family: "Initial";
+    font-size: 40px;
+    margin: 5% 5% 0% 5%;
+    padding: 2%;
+    text-shadow: 2px 2px #ddbea9;
+}
+
+
+/* I T E M   D E T A I L S */
+
+.card {
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+    max-width: 300px;
+    margin: 3%; 
+    text-align: center;
+    background-color: white;
+    /* border: 1.5px solid black; */
+    transition: 1s ease-in-out;
+}
+
+.card button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    width: 100%;
+    font-size: 18px;
+    transition: 1s ease-in-out;
+    border-radius: 8px;
+}
+
+.card:hover{
+    box-shadow: 10px 10px 25px white;
+}
+
+.card button:hover {
+    opacity: 0.9;
+    background-color: #370617;
+}
+
+.description{
+    padding: 3%;
+}
+
+.item-img{
+    height: 250px;
+    width: 100%;
+}
+
+.item-price{
+    text-decoration:none; 
+    color:brown; 
+    position:relative; 
+    top:-2%; 
+    margin:0 0 0 2%; 
+    font-style: italic; 
+    font-weight: bold; 
+    font-size: 22px;
+
+}
+
+.price-dropdown{
+    text-decoration:none; 
+    color:grey;
+    position:relative;
+    top:-5%;
+    margin:0 0 0 2%;
+}
+
+/* F O O T E R   +   S O C I A L   I C O N S */
+
+#footer{
+    background-image: linear-gradient(to right, #a15a55, #c7897f);
+    padding: 2.5%;
+}
+
+#social-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.social-icons li a i {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 50%;
+    transition: 1.5s ease-in-out;
+}
+
+
+.social-icons li a i:hover {
+    box-shadow: 0px 0px 6px 4px rgba(255, 255, 255, 0.3);
+}
+
+.footer__contact{
+    font-size: 2rem;
+}
+
+.footer__mail{
+    font-size: 2rem;
+}
+
+.horizontal-list{
+      list-style: none;
+      padding-left: 0px;
+      margin: 0px;
+}
+
+.horizontal-list li{
+  display: inline-block;
+  margin: 0px 8px 8px 0px;
+  font-weight: 100;
+  font-size: 2.5rem;
+}
+
+.horizontal-list li a{
+    text-decoration: none;
+}
+
+
+.social-icons li a i{
+    padding: 10px;
+    font-size: 2.5rem;
+    border-radius: 50%;
+    color:  black;
+}

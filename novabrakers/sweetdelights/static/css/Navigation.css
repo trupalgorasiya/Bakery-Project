@@ -1,0 +1,145 @@
+/*NAVIGATION*/
+.navtop {
+    overflow: hidden;
+    background-color: #ffffff;
+    width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.navtop a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navtop .icon {
+    display: none;
+}
+
+.drop_down {
+    float: left;
+    overflow: hidden;
+}
+
+.drop_down .dropdown_btn {
+    font-size: 17px;    
+    border: none;
+    outline: none;
+    color: black;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.drop-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 137px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.drop-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.navtop a:hover, .drop_down:hover .dropdown_btn, .search-container button:hover{
+    background-color: rgb(156 96 67 / 56%);
+    color: white;
+}
+
+.drop-content a:hover {
+    background-color: rgb(156 96 67 / 56%);
+    color: white;
+}
+
+.drop_down:hover .drop-content {
+    display: block;
+}
+
+@media screen and (max-width: 920px) {
+    .navtop input[type=text] {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 698px) {
+    .navtop a:not(:first-child), .dropdown .dropbtn {
+        display: none;
+    }
+
+    .navtop a.icon {
+        float: right;
+        display: block;
+    }
+}
+
+@media screen and (max-width: 698px) {
+    .navtop.responsive {position: relative;}
+    .navtop.responsive .icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .navtop.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+
+    .navtop.responsive .drop_down {float: none;}
+    .navtop.responsive .drop-content {position: relative;}
+    .navtop.responsive .drop_down .dropdown_btn {
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+
+    .navtop input[type=text] {
+        display: inline;
+        padding: 6px;
+        margin-top: 8px;
+        font-size: 17px;
+        border: none;
+    }
+
+}
+
+@media screen and (max-width: 488px) {
+    .navtop input[type=text] {
+        display: none;
+    }
+}
+
+.search-container {
+    float: right;
+}
+
+.navtop input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+}
+
+.search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #7CB2A4;
+    font-size: 17px;
+    border: none;
+}

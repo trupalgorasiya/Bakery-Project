@@ -1,0 +1,149 @@
+body{
+    font-family: "Helvetica Neue", HelveticaNeue, Arial, sans-serif;
+    margin: 0px;
+}
+
+
+
+.search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddbea9;
+    font-size: 17px;
+    border: none;
+}
+
+
+.open-button {
+    background-color:rgba(124, 172, 218, 0.6);
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    bottom: 5%;
+    left: 93%;
+    }
+
+    /* The popup chat - hidden by default */
+    .chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    }
+
+/* Add styles to the form container */
+.form-container {
+max-width: 300px;
+padding: 10px;
+background-color: white;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+width: 100%;
+padding: 15px;
+margin: 5px 0 22px 0;
+border: none;
+background: #f1f1f1;
+resize: none;
+min-height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+background-color: #ddd;
+outline: none;
+}
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+background-color: #04AA6D;
+color: white;
+padding: 16px 20px;
+border: none;
+cursor: pointer;
+width: 100%;
+margin-bottom:10px;
+opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+opacity: 1;
+}
+
+
+
+/*  I M A G E S   A N D   O T H E R    P A R T S  */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", HelveticaNeue, Arial, sans-serif;
+}
+
+.header {
+  text-align: center;
+  padding: 5%;
+  text-decoration-line: underline;
+  text-decoration-style: double;
+  text-shadow: 2px 2px #ddbea9;
+  } 
+
+.subheader{
+  margin: 5% 5%;
+  font-style: italic;
+}
+
+.subheader h2{
+  text-decoration: underline;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 5%;
+}
+
+.column {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+  padding: 1%;
+}
+
+
+/*   A D D I N G   R E S P O N S I V E N E S S   */
+
+@media screen and (max-width: 800px) {
+    .column {
+        flex: 50%;
+        max-width: 50%;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    .column {
+        flex: 100%;
+        max-width: 100%;
+    }
+}

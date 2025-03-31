@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/static/css/ParticipationForm.css">
+	<title>
+		Participation Form
+	</title>
+<script>
+ function myfunction(){
+                var x=document.getElementById("a1");
+                x.value=x.value.style.color="pink";
+                a1.style.backgroundColor ="yellow";
+            }
+
+</script>
+<style>
+
+</style>
+</head>
+<body>
+<div class="whole">
+<img src="https://i.pinimg.com/564x/c0/69/8f/c0698faf591fc743fddefe9e06537f2c.jpg" id="image">
+<div class="form">
+<form >
+<p class="text1">CONTEST PARTICIPATION</p>
+
+		
+
+
+	  <p  class="text"><u>Dessert's Name:</u>&nbsp &nbsp &nbsp &nbsp &nbsp<input type="text" name="dname" class="text2"></p>
+
+
+	  <p  class="text"><u>Complete Recipe</u> :&nbsp&nbsp &nbsp &nbsp &nbsp<input type="file" name="recipe" class="text2"></p>
+	   <p  class="text"><u>Image of the Dessert </u>:&nbsp &nbsp &nbsp &nbsp &nbsp <input type="file" name="image" class="text2"></p>
+	  
+		<p class="text"><u>First Name</u>:&nbsp &nbsp &nbsp &nbsp &nbsp<input type="text" name="fname" class="text2"></p>
+
+	 <p  class="text"><u>Last Name</u>:&nbsp &nbsp &nbsp &nbsp &nbsp<input type="text" name="lname" class="text2"></p>
+
+	
+
+
+	 <p  class="text"><u>Email Adress</u>:&nbsp &nbsp &nbsp &nbsp &nbsp <input type="email" name="mail" class="text2"></p>
+
+
+	  <p class="text"><u>Phone Number</u>:&nbsp &nbsp &nbsp &nbsp &nbsp<input type="text" name="phone" class="text2"></p>
+	 
+
+</table>
+</form>
+</div>
+</div>
+{% include "footer.html" %}
+</body
+</html>

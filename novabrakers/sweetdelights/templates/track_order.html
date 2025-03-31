@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order</title>
+    
+    <!-- Bootstrap 3.4.1 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            font-family: "initial" ;
+            background-color: #f9e0db;
+            color: #333;
+        }
+        .tracking-container {
+            max-width: 700px;
+            background: #fff;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .order-header {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .order-info-container {
+            display: flex;
+            justify-content: space-between;  /* Align left and right */
+            align-items: center;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .order-details {
+            text-align: left;
+        }
+        .status-box-container {
+            text-align: right;
+        }
+        
+        .order-details {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .status-box {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .Returned { 
+            background: #f0ad4e; /* Orange background */
+            color: #fff; /* White text */
+        }
+        
+        /* Style the returned step in the tracking progress */
+        .tracking-steps li.returned span {
+            background: #f0ad4e !important; /* Orange background for step */
+        }
+        
+        .Delivered { background: #d4edda; color: #155724; }
+        .Shipped { background: #cce5ff; color: #004085; }
+        .Processing { background: #fff3cd; color: #856404; }
+        .Cancelled { background: #f8d7da; color: #721c24; }
+
+        /* Order Tracking Timeline */
+        .tracking-steps {
+            list-style: none;
+            padding: 0;
+            position: relative;
+        }
+        .tracking-steps::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: #d1d1d1;
+            transform: translateX(-50%);
+        }
+        .tracking-steps li {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            position: relative;
+        }
+        .tracking-steps li span {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+            z-index: 2;
+        }
+        .tracking-steps li p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .tracking-steps li.completed span {
+            background: #007bff;
+        }
+        .tracking-steps li.cancelled span {
+            background: #dc3545;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tracking-container {
+                width: 90%;
+                padding: 20px;
+            }
+            .tracking-steps::before {
+                left: 25px;
+            }
+            .tracking-steps li {
+                flex-direction: row-reverse;
+                justify-content: flex-start;
+            }
+            .tracking-steps li span {
+                margin-right: 0;
+                margin-left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+
+    <div class="tracking-container">
+        <div class="order-header">Track Your Order</div>
+        <div class="order-info-container">
+            <div class="order-details">
+                <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+                <p><strong>Date:</strong> {{ order.order_datetime|date:"Y-m-d h:i A" }}</p>
+                <p><strong>Total:</strong> ₹{{ order.total_amount }}</p>
+            </div>
+            <div class="status-box-container">
+                <p><strong>Status:</strong> <span class="status-box {{ order.delivery_status }}">{{ order.delivery_status }}</span></p>
+            </div>
+        </div>
+        
+
+        <h4>Order Progress</h4>
+        <ul class="tracking-steps">
+            <li class="{% if order.delivery_status in 'Processing Shipped Delivered Returned' %}completed{% endif %}">
+                <span>✔</span>
+                <p>Order Placed</p>
+            </li>
+            <li class="{% if order.delivery_status in 'Shipped Delivered Returned' %}completed{% endif %}">
+                <span>✔</span>
+                <p>Shipped</p>
+            </li>
+            <li class="{% if order.delivery_status == 'Delivered' %}completed{% endif %}">
+                <span>✔</span>
+                <p>Delivered</p>
+            </li>
+            {% if order.delivery_status == "Returned" %}
+            <li class="returned">
+                <span>↩</span>  <!-- Return symbol -->
+                <p>Returned</p>
+            </li>
+            {% endif %}
+            {% if order.delivery_status == "Cancelled" %}
+            <li class="cancelled">
+                <span>✖</span>
+                <p>Cancelled</p>
+            </li>
+            {% endif %}
+        </ul>
+        
+
+        <a href="{% url 'Myorder' %}" class="btn btn-primary mt-3">Back to Orders</a>
+    </div>
+
+    {% include "footer.html" %}
+</body>
+</html>

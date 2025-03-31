@@ -1,0 +1,697 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>{{ product.name }}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="/static/js/fontawesome.js"></script>
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="/static/js/fontawason.js"></script>
+        <script src="/static/js/jquary.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/static/css/Navigation.css">
+    </head>
+    <style>
+        /* General Styles */
+        body {
+            background-color: #f9e0db;
+            font-family: "Initial";
+            margin: 0;
+            padding: 0;
+        }
+    
+        /* Product Detail Container */
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+    
+        /* Image Section */
+        .image-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .product-img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    
+        /* Info Section */
+        .info-section {
+            flex: 1;
+        }
+    
+        h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+    
+        .description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+    
+        /* Price Dropdown */
+        .price-dropdown {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+    
+        /* Cart & Wishlist Section */
+        .cart-wishlist-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+    
+        /* Add to Cart Button */
+        .button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        .button:hover {
+            background-color: #cc0000;
+        }
+    
+        .out-of-stock {
+            background-color: red;
+            font-weight: bold;
+            cursor: not-allowed;
+        }
+    
+        /* Wishlist Button */
+        .wishlist-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 28px;
+            transition: transform 0.3s;
+        }
+    
+        .wishlist-btn i {
+            transition: color 0.3s;
+        }
+    
+        .wishlist-btn:hover {
+            transform: scale(1.2);
+        }
+    
+        /* Reviews Section */
+        .reviews-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+    
+        h3 {
+            color: #333;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+    
+        /* Review Box */
+        .review {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #ff4d4d;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+    
+        /* Review Header */
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        /* Review Date */
+        .review-date {
+            font-size: 14px;
+            color: #666;
+        }
+    
+        /* Star Ratings */
+        .star-rating {
+            color: gold;
+            font-size: 18px;
+        }
+        /* Feedback Form Container */
+        .feedback-form {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        /* Form Labels */
+        .feedback-form label {
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-top: 10px;
+        }
+    
+        /* Dropdown Styling */
+        .feedback-dropdown {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    
+        /* Textarea for Feedback */
+        .feedback-form textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+    
+        /* Submit Feedback Button */
+        .submit-feedback {
+            background: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s ease-in-out;
+        }
+    
+        .submit-feedback:hover {
+            background: #218838;
+        }
+        /* Average Rating */
+        .average-rating {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        /* Review Sorting */
+        #review-filter {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        /* Verified Badge */
+        .verified-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        /* Review Image */
+        .review-photo {
+            width: 100px;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+        
+        /* Review Actions */
+        .review-actions {
+            margin-top: 10px;
+        }
+        
+        .edit-review, .delete-review {
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .delete-review {
+            color: red;
+        }
+        .similar-products-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .similar-products {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+        
+        .product-card {
+            flex: 1;
+            min-width: 200px;
+            background: #fff;
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-card img {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+        }
+        
+        .product-card h4 {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .product-card p {
+            font-size: 14px;
+            color: #ff4d4d;
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+    
+        .inquiry-container {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        .inquiry-form {
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .inquiry-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+    
+        .inquiry-btn {
+            align-self: flex-start;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s ease-in-out;
+        }
+    
+        .inquiry-btn:hover {
+            background: #cc0000;
+        }
+    
+        .inquiries-list {
+            margin-top: 20px;
+        }
+    
+        .inquiry-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    
+        .admin-response {
+            background: #eaf7ea;
+            padding: 8px;
+            border-left: 5px solid #28a745;
+            border-radius: 5px;
+            color: #155724;
+        }
+    
+        .awaiting-response {
+            color: #666;
+            font-style: italic;
+        }
+    
+        .no-inquiries {
+            color: #999;
+            font-style: italic;
+        }
+        /* Ingredients Container */
+.ingredients-container {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Ingredients Title */
+.ingredients-container p strong {
+    font-size: 18px;
+    color: #ff6600; /* Highlighted Title */
+}
+
+/* Ingredients List */
+.ingredients-list {
+    list-style: none; /* Remove default bullets */
+    padding: 0;
+    margin-top: 10px;
+}
+
+/* Each Ingredient Item */
+.ingredients-list li {
+    background: #f8f8f8;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    border-left: 5px solid #ff6600; /* Orange Accent */
+    font-size: 16px;
+}
+
+/* Ingredient Name */
+.ingredients-list li strong {
+    color: #333;
+}
+.wishlist-btn{
+    color:red;
+}
+/* No Ingredients Message */
+.ingredients-container p {
+    color: #888;
+    font-style: italic;
+}
+
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+            }
+    
+            .product-img {
+                max-width: 100%;
+            }
+    
+            .cart-wishlist-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        </style>
+    <body>
+
+  
+
+    {% include "navigation.html" %}
+    {% comment %} {% load static %} {% endcomment %}
+    
+    
+    <div class="container">
+        <!-- Product Image & Details -->
+        <div class="image-section">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
+        </div>
+        
+        <div class="info-section">
+            <h1>{{ product.name }}</h1>
+            <p class="description">{{ product.description }}</p>
+    
+            <!-- Price Selection -->
+            <form action="{% url 'add_to_cart' product.product_id %}" method="post" class="cart-form">
+                {% csrf_token %}
+                <label for="price_option">Select Price:</label>
+                <select name="selected_price_option" id="price_option" class="price-dropdown">
+                    {% for price_option in product.price_options %}
+                        <option value="{{ price_option|default:''|striptags }}">
+                            ₹{{ price_option|default:''|striptags }}
+                        </option>
+                    {% endfor %}
+                </select>
+           
+                <div class="cart-wishlist-container">
+                    {% if product.stock > 0 %}
+                        <button class="button" type="submit">Add to Cart</button>
+                    {% else %}
+                        <button class="button out-of-stock" disabled>Out of Stock</button>
+                    {% endif %}
+                </form>
+                    <!-- Wishlist Button -->
+                    <form action="{% url 'add_to_wishlist' product.product_id %}" method="post" class="wishlist-form">
+                        {% csrf_token %}
+                        <button type="submit" class="wishlist-btn">
+                            <i class="fa fa-heart"></i>  <!-- ❤️ Font Awesome Heart -->
+                        </button>
+                    </form>
+                </div>
+              
+               
+        </div>
+    </div>
+    <div class="ingredients-container">
+        <p><strong>Ingredients:</strong></p>
+        {% if product_ingredients %}
+            <ul class="ingredients-list">
+                {% for item in product_ingredients %}
+                    <li><strong>{{ item.ingredient.name }}</strong> : {{ item.description }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No ingredients listed for this product.</p>
+        {% endif %}
+    </div>
+    
+    <div class="similar-products-container">
+        <h3>You Also Like This?</h3>
+        <div class="similar-products">
+            {% for similar in similar_products %}
+                <div class="product-card">
+                    <a href="{% url 'product_detail' similar.product_id %}">
+                        <img src="{{ similar.image.url }}" alt="{{ similar.name }}" class="similar-product-img">
+                        <h4>{{ similar.name }}</h4>
+                        <p>{{ similar.price_options.0 }}</p>  <!-- Display the first price option -->
+                    </a>
+                </div>
+            {% empty %}
+                <p>No similar products found.</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+
+    
+    <div class="reviews-container">
+        <!-- Give Feedback & Review Section -->
+        <h3 class="section-title">Have a Question About This Product?</h3>
+        <div class="inquiry-container">
+            <form method="POST" action="{% url 'submit_inquiry' product.product_id %}" class="inquiry-form">
+                {% csrf_token %}
+                <textarea name="question" rows="3" required placeholder="Ask your question..." class="form-control inquiry-textarea"></textarea>
+                <button type="submit" class="btn btn-primary inquiry-btn">Submit Inquiry</button>
+            </form>
+        </div>
+        
+        <!-- Customer Inquiries & Admin Responses -->
+        <h4 class="section-title">Customer Questions</h4>
+        <div class="inquiries-list">
+            {% for inquiry in inquiries %}
+                <div class="inquiry-item">
+                    <p><strong>{{ inquiry.user.first_name }}:</strong> {{ inquiry.question }}</p>
+                    {% if inquiry.response %}
+                        <p class="admin-response"><em>Admin Response:</em> {{ inquiry.response }}</p>
+                    {% else %}
+                        <p class="awaiting-response">Awaiting response...</p>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p class="no-inquiries">No inquiries yet. Be the first to ask!</p>
+            {% endfor %}
+        </div>
+    </div>
+         <!-- Customer Reviews Section -->
+   <div class="reviews-container">
+         <!-- Display Average Rating -->
+    <div class="average-rating">
+        <h3>Overall Rating:  
+            <span class="star-rating">
+                {% for i in "12345"|make_list %}
+                    {% if forloop.counter <= average_rating %}
+                        ⭐
+                    {% else %}
+                        ☆
+                    {% endif %}
+                {% endfor %}
+            </span>
+            (<span class="total-reviews">{{ total_reviews }}</span> Reviews)
+        </h3>
+    </div>
+    
+    
+    <div class="feedback-form">
+        <h3>Give Feedback & Review</h3>
+        <form action="{% url 'submit_review' product.product_id %}" method="post" enctype="multipart/form-data" class="review-form">
+            {% csrf_token %}
+            
+            <label for="rating">Rating:</label>
+            <select name="rating" id="rating" class="feedback-dropdown">
+                <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+                <option value="4">⭐⭐⭐⭐ - Good</option>
+                <option value="3">⭐⭐⭐ - Average</option>
+                <option value="2">⭐⭐ - Poor</option>
+                <option value="1">⭐ - Bad</option>
+            </select>
+
+            <label for="comment">Your Feedback:</label>
+            <textarea name="comment" id="comment" placeholder="Write your feedback here..." required></textarea>
+
+            <!-- Image Upload -->
+            <label for="photo">Upload Image:</label>
+            <input type="file" name="photo" id="photo" accept="image/*">
+
+            <button type="submit" class="submit-feedback">Submit Review</button>
+        </form>
+    </div>
+        <h3>Customer Reviews</h3>
+        <div class="reviews" id="review-list">
+            {% for review in reviews %}
+                <div class="review" id="review-{{ review.id }}">
+                    <div class="review-header">
+                        <strong>{{ review.user.first_name }}</strong>
+                        {% if review.verified %}
+                            <span class="verified-badge">✔ Verified Purchase</span>
+                        {% endif %}
+                        <span class="review-date">{{ review.created_at|date:"M d, Y H:i A" }}</span>
+                    </div>
+                    
+                    <p class="star-rating">
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= review.rating %}
+                                ⭐
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>{{ review.comment }}</p>
+    
+                    <!-- Show Uploaded Review Image -->
+                    {% if review.photo %}
+                        <img src="{{ review.photo.url }}" alt="User Review Image" class="review-photo">
+                    {% endif %}
+    
+                    <!-- Edit & Delete Buttons for User -->
+                    {% if current_user == review.user %}
+                        <div class="review-actions">
+                            <a href="{% url 'edit_review' review.id %}" class="edit-review">Edit</a> | 
+                            <button class="delete-review" onclick="deleteReview({{ review.id }})">Delete</button>
+                        </div>
+                    {% endif %}
+                    
+                </div>
+            {% empty %}
+                <p>No reviews yet. Be the first to review this product!</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    
+          
+    
+    
+    <script>
+        function deleteReview(reviewId) {
+            if (confirm("Are you sure you want to delete this review?")) {
+                $.ajax({
+                    url: "/review/delete/" + reviewId + "/",
+                    type: "POST",
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+                    success: function (response) {
+                        $("#review-" + reviewId).fadeOut(); 
+                    },
+                    error: function () {
+                        alert("Error deleting review.");
+                    }
+                });
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            var message = "{{ messages|join:' ' }}"; // Get Django messages as a string
+    
+            if (message.trim() !== "") {
+                Swal.fire({
+                    title: "Notification",
+                    text: message,
+                    icon: "warning",  // Change to "success", "error", "info" as needed
+                    confirmButtonText: "OK",
+                    timer: 3000, // Auto close after 3 seconds
+                    showConfirmButton: false
+                });
+            }
+        });
+    </script>
+    
+ 
+    
+    {% include "footer.html" %}
+    </body>
+    </html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FAQ</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+        <script src="https://kit.fontawesome.com/815d5311a8.js" crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/static/css/FAQ.css">
+        <style>
+           
+        </style>
+    </head>
+    <body>
+        <div class="heading">
+            <h1 class="faq">FREQUENTLY ASKED QUESTIONS!</h1>
+        </div>
+
+        <div class="parent">
+            <div class="ques">
+                <div class="child"><b>What payment methods do you accept?</b><i class="fas fa-chevron-down"></i></div>
+                <div class="ans hide">We accept payment through credit card, debit card and other online payment gateways. Cash on Delivery is also available! :)</div>
+            </div>
+            <div class="ques">
+                <div class="child"><b>How many days prior to the event should I place an order?</b><i class="fas fa-chevron-down"></i></div>
+                <div class="ans hide">You should place it 3-4 weeks before the event. Or you may place it even before that. The earlier, the better!</div>
+            </div>
+            <div class="ques">
+                <div class="child"><b>Do you make eggless cakes?</b><i class="fas fa-chevron-down"></i></div>
+                <div class="ans hide">Yes, we make eggless cakes as well. Along with cakes, we have eggless pastries, breads, donuts, etc. as well!</div>
+            </div>
+            <div class="ques">
+                <div class="child"><b>What all items do you make?</b><i class="fas fa-chevron-down"></i></div>
+                <div class="ans hide">We make cakes, pastries, cupcakes, cookies, donuts, waffles, breads and many more items. You can refer to them in the items section on the home page of our website. Happy treats! :)</div>
+            </div>
+            <div class="ques">
+                <div class="child"><b>Do you take care of the hygiene while preparing the items?</b><i class="fas fa-chevron-down"></i></div>
+                <div class="ans hide">Yes! Hygiene is our first priority. We take great care of it while preparing the items.</div>
+            </div>
+        </div>
+        <script>
+            // ROTATING ARROWS AND SHOW AND HIDE DIV'S
+
+            const arrow = document.querySelectorAll(".fas");
+            const answer = document.querySelectorAll(".hide");
+            // console.log(arrow);
+            arrow.forEach((cur,i,arr)=>{cur.addEventListener("click",function(){
+                cur.classList.toggle("rot");
+                answer[i].classList.toggle("hide");
+            })});
+        </script>
+    </body>
+</html>

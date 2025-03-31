@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    
+    <style>
+        body {
+            background-color: #f9e0db;
+            font-family: "initial";
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+            margin: 30px auto;
+            max-width: 900px;
+        }
+
+        .order-info {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .order-info .left, .order-info .right {
+            width: 48%; /* Adjusts both columns */
+        }
+        
+        .order-info p {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .order-info .left, .order-info .right {
+                width: 100%; /* Stacks on small screens */
+            }
+        }
+        
+        .order-info {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .size { font-size: 30px; }
+        .center { text-align: center; }
+        
+        .table {
+            width: 100%;
+            text-align: center;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            padding: 12px;
+            font-size: 16px;
+        }
+        
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: 0.3s;
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+
+    <div class="container mt-4">
+        <h2 class="center">Order Details</h2>
+
+       <!-- ✅ Order Information - Two Column Layout -->
+<div class="order-info">
+    <div class="left">
+        <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+        <p><strong>Order Date:</strong> {{ order.order_datetime|date:"Y-m-d h:i A" }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+        <p><strong>Payment Method:</strong> {{ order.payment.payment_method }}</p>
+        {% if discount %}
+                    <tr>
+                        
+                        <td><strong>Discount ({{ discount.code }}):</strong></td>
+                        <td>- (₹{{ discount_amount|floatformat:2 }})</td>
+                    </tr>
+                    {% endif %}
+    </div>
+    
+    <div class="right">
+        <p><strong>Order Status:</strong> <span class="status-label {{ order.delivery_status }}">{{ order.delivery_status }}</span></p>
+        <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+        <p><strong>Payment Status:</strong> {{ order.payment.status }}</p>
+    </div>
+</div>
+
+
+        <!-- ✅ Ordered Items Table -->
+        <div class="table-container">
+            <h4 class="size">Ordered Items</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Image</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price(₹)/Waight</th>
+                        <th>Sub Total (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" class="product-img" alt="Product Image">
+                            {% else %}
+                                No Image
+                            {% endif %}
+                        </td>
+                        <td>{{ item.product.description }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>₹{{ item.selected_price_option }}</td>
+                        <td>₹{{ item.subtotal|floatformat:2 }}</td>
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No products found in this order.</td>
+                    </tr>
+                    {% endfor %}
+                    
+                    <!-- ✅ Order Summary -->
+                    <tr>
+                        <td colspan="4"></td>
+                        <td><strong>Subtotal:</strong></td>
+                        <td>₹{{ subtotal|floatformat:2 }}</td>
+                    </tr>
+                    
+                    {% if discount %}
+                    <tr>
+                        <td colspan="4"></td>
+                        <td><strong>Discount ({{ discount.code }}):</strong></td>
+                        <td>- ₹{{ discount_amount|floatformat:2 }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    <tr>
+                        <td colspan="4"></td>
+                        <td><strong>Shipping Cost:</strong></td>
+                        <td>₹{{ shipping_cost }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                        <td><strong>Total Price:</strong></td>
+                        <td><strong>₹{{ total_price|floatformat:2 }}</strong></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+
+       <!-- ✅ Canceled Items Table -->
+<div class="table-container">
+    <h4 class="size">Canceled Items</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Cancel Reason</th>
+                <th>Cancel Date</th>
+                <th>Quantity</th>
+                <th>Price(₹)/Waight</th>
+                <th>Subtotal (₹)</th>
+                <th>Refund Status</th>
+                <th>Refund Amount (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cancel_item in canceled_items %}
+            <tr>
+                <td>{{ cancel_item.product.name }}</td>
+                <td>
+                    {% if cancel_item.image %}
+                        <img src="{{ cancel_item.image }}" class="product-img" alt="Product Image">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+                <td>{{ cancel_item.cancel_reason|default:"No reason provided" }}</td>
+                <td>{{ cancel_item.cancel_datetime }}</td>
+                <td>{{ cancel_item.quantity }}</td>
+                <td>₹{{ cancel_item.selected_price_option }}</td>
+                <td>₹{{ cancel_item.subtotal|floatformat:2 }}</td>
+                <td>{{ cancel_item.refund_status }}</td>
+                <td>₹{{ cancel_item.refund_amount|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="text-center">No canceled items</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="5"></td>
+                <td colspan="2"><strong>Total Canceled Refundable Amount:</strong></td>
+                <td colspan="2"><strong>₹{{ total_canceled_refund|floatformat:2 }}</strong></td>
+            </tr>
+            
+            
+        </tbody>
+    </table>
+</div>
+
+<!-- ✅ Returned Items Table -->
+<div class="table-container">
+    <h4 class="size">Returned Items</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Return Reason</th>
+                <th>Return Date</th>
+                <th>Quantity</th>
+                <th>Price(₹)/Waight</th>
+                <th>Subtotal (₹)</th>
+                <th>Refund Status</th>
+                <th>Refund Amount (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for return_item in returned_items %}
+            <tr>
+                <td>{{ return_item.product.name }}</td>
+                <td>
+                    {% if return_item.image %}
+                        <img src="{{ return_item.image }}" class="product-img" alt="Product Image">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+                <td>{{ return_item.return_reason|default:"No reason provided" }}</td>
+                <td>{{ return_item.return_datetime }}</td>
+                <td>{{ return_item.quantity }}</td>
+                <td>₹{{ return_item.selected_price_option }}</td>
+                <td>₹{{ return_item.subtotal|floatformat:2 }}</td>
+                <td>{{ return_item.refund_status }}</td>
+                <td>₹{{ return_item.refund_amount|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="text-center">No returned items</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="5"></td>
+                <td colspan="2"><strong>Total Returned Refundable Amount:</strong></td>
+                <td colspan="2"><strong>₹{{ total_returned_refund|floatformat:2 }}</strong></td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
+
+
+
+
+        <!-- ✅ Action Buttons -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'Myorder' %}" class="btn btn-primary btn-lg" style="width: 200px;">Back to Orders</a>
+            
+<!-- Download Invoice Button -->
+<a href="{% url 'download_invoice' order.order_id %}" class="btn btn-success btn-lg" style="width: 200px; margin-left: 10px;">Download Invoice</a>
+
+<!-- View Invoice Button -->
+<a href="{% url 'view_invoice' order.order_id %}" class="btn btn-primary btn-lg" style="width: 200px; margin-left: 10px;">View Invoice</a>
+
+            
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+</body>
+</html>

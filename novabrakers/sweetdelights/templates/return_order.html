@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return Order</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background: #f0f8ff;
+            font-family: "initial";
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        h2 {
+            color: #007bff;
+            font-size: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .li {
+            background: #f1f8ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            width: 100%;
+            font-size: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            transition: 0.3s ease-in-out;
+            font-weight: bold;
+        }
+
+        .btn-danger {
+            background: #007bff;
+            border: none;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #0056b3;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            border: none;
+            color: black;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        /* ✅ Improved Textarea Styling */
+        .form-group {
+            text-align: left;
+            margin-top: 15px;
+            display: none;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 16px;
+            resize: none;
+            transition: 0.3s ease-in-out;
+        }
+
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+    {% include "navigation.html" %}
+    <div class="container">
+        <h2>Return Order</h2>
+        <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+        <p><strong>Date:</strong> {{ order.order_datetime|date:"Y-m-d h:i A" }}</p>
+        <p><strong>Total:</strong> ₹{{ order.total_amount }}</p>
+
+        <form method="POST" action="{% url 'process_return_order' order.order_id %}" id="returnForm">
+            {% csrf_token %}
+
+            <h4>Select items to return:</h4>
+            <ul>
+                {% for item in order_items %}
+                <li class="li">
+                    <label>
+                        <input type="checkbox" name="return_items" value="{{ item.order_detail_id }}" onclick="toggleReasonBox('{{ item.order_detail_id }}')"> 
+                        {{ item.product.name }} - Price / waight: ({{ item.selected_price_option }})
+                    </label>
+                    <input type="number" name="return_quantity_{{ item.order_detail_id }}" min="1" max="{{ item.quantity }}" value="1">
+                </li>
+
+                <div class="form-group" id="reason_box_{{ item.order_detail_id }}" style="display: none;">
+                    <label>Reason for returning {{ item.product.name }}:</label>
+                    <textarea name="return_reason_{{ item.order_detail_id }}" placeholder="Enter your reason here..."></textarea>
+                </div>
+                {% endfor %}
+            </ul>
+
+            <!-- ✅ Reason for Entire Order Return -->
+            <div class="form-group" id="entire_order_reason_box" style="display: none;">
+                <label><strong>Reason for returning the entire order:</strong></label>
+                <textarea id="entire_order_reason" name="return_reason_entire_order" placeholder="Enter your reason here..."></textarea>
+            </div>
+
+            <button type="button" name="return_all" class="btn btn-danger" onclick="confirmReturn('return_all')">Return Entire Order</button>
+            <button type="button" name="return_selected" class="btn btn-warning" onclick="confirmReturn('return_selected')">Return Selected Items</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleReasonBox(itemId) {
+            var reasonBox = document.getElementById("reason_box_" + itemId);
+            var checkbox = document.querySelector("input[value='" + itemId + "']");
+    
+            if (checkbox.checked) {
+                reasonBox.style.display = "block"; // ✅ Show reason box if checked
+            } else {
+                reasonBox.style.display = "none";  // ✅ Hide if unchecked
+            }
+        }
+
+        function confirmReturn(actionType) {
+            let message = actionType === "return_all" 
+                ? "Are you sure you want to return the entire order?" 
+                : "Are you sure you want to return the selected items?";
+    
+            if (actionType === "return_all") {
+                document.getElementById("entire_order_reason_box").style.display = "block";
+                let entireOrderReason = document.getElementById("entire_order_reason").value.trim();
+                if (entireOrderReason === "") {
+                    alert("Please enter a reason for returning the entire order.");
+                    return;
+                }
+            }
+    
+            if (confirm(message)) {
+                let form = document.getElementById("returnForm");
+                let input = document.createElement("input");
+                input.type = "hidden";
+                input.name = actionType;
+                input.value = "true";
+                form.appendChild(input);
+                form.submit();
+            }
+        }
+    
+        function removeFullyReturnedItems() {
+            document.querySelectorAll(".li").forEach((item) => {
+                let quantityInput = item.querySelector("input[type='number']");
+                if (quantityInput && quantityInput.value == 0) {
+                    item.remove();  // ✅ Remove from page
+                }
+            });
+        }
+    
+        window.onload = removeFullyReturnedItems;
+    </script>
+    
+
+    {% include "footer.html" %}
+</body>
+</html>

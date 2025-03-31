@@ -1,0 +1,69 @@
+<div class="topnav" id="myTopnav">
+
+    <div class="navtop" id="mynavTop" style="font-family: Initial;" >
+
+        <a href="{% url 'Homepage' %}">Home</a>
+        <div class="drop_down">
+            <button class="dropdown_btn">Our Products 
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="drop-content">
+                {% comment %} <a href="Cakes.html">Cakes</a>
+                <a href="Pastries.html">Pastries</a>
+                <a href="Cupcakes.html">Cupcakes</a>
+                <a href="BiscuitsAndCookies.html">Cookies</a>
+                <a href="Donut.html">Donuts</a>
+                <a href="Waffles.html">Waffles</a>
+                <a href="Breads.html">Breads</a>
+                <a href="Others.html">Others</a>   {% endcomment %}
+                <a href="{% url 'Cakes' %}">Cakes</a>
+                <a href="{% url 'Pastries' %}">Pastries</a>
+                <a href="{% url 'Cupcakes' %}">Cupcakes</a>
+                <a href="{% url 'Cookies' %}">Cookies</a>
+                <a href="{% url 'Donuts' %}">Donuts</a>
+                <a href="{% url 'Waffles' %}">Waffles</a>
+                <a href="{% url 'Breads' %}">Breads</a>
+                <a href="{% url 'Others' %}">Others</a>
+            </div>  
+        </div>
+    
+    <a href="Ourservices.html">Our Service</a>
+    <a href="{% url 'about' %}">About Us</a>
+    <a href="{% url 'Customizeorder' %}">Customize Cakes</a>
+    {% comment %} <a href="PartyProps.html">Props</a> {% endcomment %}
+    <a href="Gallery.html">Gallery</a>
+    {% comment %} <a href="FAQ.html" target="_blank">FAQ</a> {% endcomment %}
+    {% comment %} <a href="" data-toggle="modal" data-target="#wishlistModal"><i class="wishlist-icon wishlistIcon "></i><span class="">( 0 )</span>&#10084;</a> {% endcomment %}
+ 
+   
+    
+   <!-- Cart Icon to Open the Modal -->
+   <a href="{% url 'cart_view' %}" id="cartIcon" style="float: right;">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-items">({{ total_cart_items|default:0 }})</span>
+</a>
+
+
+{% comment %}     
+    <a href="Registration.html" target="_blank" style="float: right;"><i class="fas fa-user"></i></a> {% endcomment %}
+
+    <!-- Conditional logic for Registration/User Details link -->
+    {% if request.session.user_id %}
+    <!-- If user is logged in, show User Details -->
+    <a href="{% url 'UserDetails' %}" style="float: right;"><i class="fas fa-user"></i> Welcome, {{ user.first_name }}!</a>
+    <a href="{% url 'Logout' %}" style="float: right;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+{% else %}
+    <!-- If user is not logged in, show Registration link -->
+    <a href="{% url 'Login' %}" target="_blank" style="float: right;"><i class="fas fa-user"></i> Login</a>
+{% endif %}
+    {% comment %} <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a> {% endcomment %}
+    <form action="{% url 'search_results' %}" method="GET" class="navbar-form navbar-right">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search for products, categories...">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </span>
+        </div>
+    </form>
+ </div>
+</div>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <style>
+        body {
+            font-family:"initial";
+            background-color: #f8f9fa;
+        }
+        .success-container {
+            margin-right: 1px;
+            margin-left: 300px;
+            margin-top: 100px;
+        }
+        .success-icon {
+            font-size: 80px;
+            color: green;
+        }
+        .btn-home {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 success-container">
+                <div class="success-icon">✔️</div>
+                <h2 class="mt-3 text-success">Order Placed Successfully!</h2>
+                <p>Your order has been placed successfully. We will notify you when it ships.</p>
+                <a href="{% url 'Homepage' %}" class="btn btn-success btn-home">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

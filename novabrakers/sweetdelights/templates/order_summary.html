@@ -1,0 +1,36 @@
+
+
+<div class="container">
+    <h2>Order Summary</h2>
+    <h3>User Details</h3>
+    <p><strong>Name:</strong> {{ custom_order.user.first_name }}</p>
+    <p><strong>Email:</strong> {{ custom_order.user.email_id }}</p>
+    <p><strong>Contact:</strong> {{ custom_order.user.contact_no }}</p>
+    
+    <p><strong>Order ID:</strong> {{ custom_order.id }}</p>
+    <p><strong>Theme:</strong> {{ custom_order.theme }}</p>
+    <p><strong>Color:</strong> {{ custom_order.color }}</p>
+    <p><strong>Flavor:</strong> {{ custom_order.flavor }}</p>
+    <p><strong>Filling:</strong> {{ custom_order.filling }}</p>
+    <p><strong>Topping:</strong> {{ custom_order.topping }}</p>
+    <p><strong>Layers:</strong> {{ custom_order.cakelayer }}</p>
+    <p><strong>Dietary Option:</strong> {{ custom_order.dietary }}</p>
+    <p><strong>Delivery Date:</strong> {{ custom_order.delivery_date }}</p>
+    <p><strong>Delivery Address:</strong> {{ custom_order.delivery_address }}</p>
+    <p><strong>Delivery Time:</strong> {{ custom_order.delivery_time }}</p>
+    <p><strong>Gift Message:</strong> {{ custom_order.gift_message }}</p>
+
+    <h3>Payment Details</h3>
+    <p><strong>Total Price:</strong> ₹{{ custom_order.total_price|default:"Not Set" }}</p>
+    <p><strong>Paid Amount:</strong> ₹{{ custom_order.paid_amount }}</p>
+    <p><strong>Remaining Amount:</strong> ₹{{ remaining_amount }}</p>
+
+    {% if is_payment_due %}
+        <p style="color: red;"><strong>Payment Pending</strong></p>
+        <a href="{% url 'complete_payment' custom_order.id %}" class="btn btn-primary">Pay Now</a>
+    {% else %}
+        <p style="color: green;"><strong>Payment Completed</strong></p>
+    {% endif %}
+
+    <a href="{% url 'Homepage' %}" class="btn btn-secondary">Back to Home</a>
+</div>

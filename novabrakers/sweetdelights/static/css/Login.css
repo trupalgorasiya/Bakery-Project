@@ -1,0 +1,203 @@
+body {
+    font-family: initial;
+    background-image: url('/static/img/bg-img/loginpage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden; 
+    position: relative;  /* Added to allow background to be below nav */
+    z-index: 0;  /* Ensure background is below navbar */
+}
+
+.topnav {
+    /* overflow: hidden; */
+    background-color: rgba(183, 119, 74, 0.9);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.topnav a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    /* text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); */
+}
+
+.topnav .icon {
+    display: none;
+}
+
+.topnav a:hover, .drop_down:hover .dropdown_btn {
+    background-color: rgba(243, 215, 187, 0.9);
+    color: rgb(0, 0, 0);
+}
+
+.drop_down {
+    float: left;
+    overflow: hidden;
+}
+
+.drop_down .dropdown_btn {
+    font-size: 17px;    
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+    cursor: pointer;
+}
+
+.drop-content {
+    display: none;
+    position: absolute; 
+    background-color: rgba(183, 119, 74, 0.9);
+    min-width: 147.5px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.drop-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.drop-content a:hover {
+    background-color: rgba(243, 215, 187, 0.9);
+}
+
+.drop_down:hover .drop-content {
+    display: block;
+}
+
+
+
+.login-container {
+    background-color: rgba(243, 215, 187, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.login-container h2 {
+    text-align: center;
+    color: #8B4513;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.login-container .form-group {
+    margin-bottom: 15px;
+}
+
+.login-container .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #8B4513;
+    font-size: 16px;
+}
+
+.login-container .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #C9A27E;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.login-container .form-group input:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.login-container button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #8B4513;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-container button[type="submit"]:hover {
+    background-color: #c47220;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.links a {
+    color: #FF5733;
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.links a:hover {
+    color: #C70039;
+    text-decoration: underline;
+}
+
+/* Align Forgot Password to the Right */
+.forgot-password {
+    margin-left: auto;
+    font-size: 0.9rem;
+    color: #FF5733;
+}
+
+.forgot-password:hover {
+    color: #C70039;
+    text-decoration: underline;
+}
+
+.form-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.form-footer a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    .login-container {
+        margin-top: 30px;
+    }
+}

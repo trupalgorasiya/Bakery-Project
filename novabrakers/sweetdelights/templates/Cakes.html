@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>{{ category.name }}</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/Cakes.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <!-- SweetAlert2 for Attractive Popups -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+    .back-button {
+
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #f8c471;
+        color: #000;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    
+    .back-button:hover {
+        background-color: #f39c12;
+        color: white;
+    }
+
+</style>    
+<body>
+
+<!-- Navigation Bar -->
+{% include "navigation.html" %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var message = "{{ messages|join:' ' }}";
+
+        if (message.trim() !== "") {
+            Swal.fire({
+                title: "Notification",
+                text: message,
+                icon: "{{ messages.tags|default:'info' }}",
+                confirmButtonText: "OK",
+                timer: 3000,
+                showConfirmButton: false
+            });
+        }
+    });
+</script>
+
+<!-- Main Content -->
+<div>
+    <h1 id="heading">I was trying to lose weight.<br>Then, I saw a cake, and cake saw me.<br> The cake disappeared !!!</h1>
+</div>
+<p id="heading1">Which flavor would you like to order?</p>
+
+<div id="main">
+    {% load custom_filters %}
+
+    {% block content %}
+        <h1>{{ cakes_category.name }}</h1>
+
+        
+
+        <!-- Show Subcategories Only If No Specific Subcategory Is Selected -->
+        {% if not selected_subcategory %}
+            {% if subcategories %}
+                <div id="subcategories">
+                    <div id="subcategory-list">
+                        {% for subcategory in subcategories %}
+                            <div class="subcategory">
+                                <div class="cards">
+                                    <a href="{% url 'cakes_by_subcategory' subcategory.id %}">
+                                        <img src="{{ subcategory.image.url|default:'/static/img/default.jpg' }}" alt="{{ subcategory.name }}">
+                                        <h1 class="addcs">{{ subcategory.name }}</h1>
+                                        <div class="image_overlay">
+                                            <div class="name">{{ subcategory.name }} Cake</div><br>
+                                            <div class="description">{{ subcategory.description }}</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+        <!-- Show "Back to Subcategories" Button If Inside a Specific Subcategory -->
+        {% if selected_subcategory %}
+            <div style="margin-bottom: 20px;">
+                <a href="{% url 'Cakes' %}" class="back-button">⬅ Back to Subcategories</a>
+            </div>
+        {% endif %}
+        <!-- Products (Always Show) -->
+        <div id="main">
+            {% for product in products %}
+            <div class="card">
+                <!-- Wishlist Heart Icon (Top Right) -->
+                <form action="{% url 'add_to_wishlist' product.product_id %}" method="post" class="wishlist-form">
+                    {% csrf_token %}
+                    <button type="submit" class="wishlist-btn">
+                        <i class="fa fa-heart"></i>  <!-- ❤️ Font Awesome Heart -->
+                    </button>
+                </form>
+        
+                <!-- Product Image -->
+                <a href="{% url 'product_detail' product.product_id %}">
+                    <img src="{{ product.image.url }}" class="item-img" alt="{{ product.name }}">
+                </a>                <h1>{{ product.name }}</h1>
+                <p class="description">{{ product.description }}</p>
+        
+                <!-- Price Selection -->
+                <form action="{% url 'add_to_cart' product.product_id %}" method="post">
+                    {% csrf_token %}
+                    <label for="price_option_{{ product.id }}">Select Price:</label>
+                    <select name="selected_price_option" id="price_option_{{ product.id }}" class="price-dropdown">
+                        {% for price_option in product.price_options %}
+                            <option value="{{ price_option|default:''|striptags }}">₹{{ price_option|default:''|striptags }}</option>
+                        {% endfor %}
+                    </select>
+        
+                    {% if product.stock > 0 %}
+                        <button class="button" type="submit">Add to Cart</button>
+                    {% else %}
+                        <button  class="button" style="background-color: red; color: white; font-weight: bold;" disabled>Out of Stock</button>
+                    {% endif %}
+                </form>
+
+                
+            </div>
+        {% empty %}
+         
+        {% endfor %}
+     
+    {% endblock %}
+            </div>
+</div>
+
+
+
+
+{% include "footer.html" %}
+</body>
+</html>
+
+
+<!-- Subcategories -->
+{% comment %}<div id="subcategories">
+     <div id="subcategory-list">
+        {% for subcategory in subcategories %}
+            <div class="subcategory">
+                <div class="card" onclick="showProducts({{ subcategory.id }})">
+                    <img src="{{ subcategory.image.url }}" alt="{{ subcategory.name }}">
+                    <h1 class="addcs">{{ subcategory.name }}</h1>
+                    <div class="image_overlay">
+                        <div class="name">{{ subcategory.name }} Cake</div><br>
+                        <div class="description">{{ subcategory.description }}</div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Products -->
+<div id="products" style="display:none;">
+    <div id="product-list"></div>
+    <button id="back-button" style="display:none;" onclick="backToSubcategories()">Back to Subcategories</button>
+</div>
+
+<!-- Inject product data as JSON -->
+<script>
+    const productsData = JSON.parse('{{ products_json|escapejs }}');
+
+    function showProducts(subcategoryId) {
+        document.getElementById("subcategories").style.display = 'none';
+        document.getElementById("products").style.display = 'block';
+        document.getElementById("back-button").style.display = 'inline-block';
+
+        const productList = document.getElementById('product-list');
+        productList.innerHTML = '';
+
+        const products = productsData[subcategoryId] || [];
+
+        if (products.length === 0) {
+            productList.innerHTML = '<p>No products available for this subcategory.</p>';
+            return;
+        }
+
+        products.forEach(product => {
+            console.log(`Product: ${product.name}, Stock: ${product.stock}`); // ✅ Debugging Stock Value
+
+            if (!product.product_id) {
+                console.error("⚠️ Missing product_id for:", product);
+            }
+
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('card');
+
+            const productImage = document.createElement('img');
+            productImage.src = product.image_url || '/static/img/default.jpg';
+            productImage.alt = product.name;
+            productDiv.appendChild(productImage);
+
+            const productName = document.createElement('h3');
+            productName.textContent = product.name;
+            productDiv.appendChild(productName);
+
+            const productDescription = document.createElement('p');
+            productDescription.textContent = product.description || "No description available.";
+            productDiv.appendChild(productDescription);
+
+            const form = document.createElement('form');
+            form.action = `/add_to_cart/${product.product_id || 0}/`;
+            form.method = 'post';
+
+            const csrfTokenInput = document.createElement('input');
+            csrfTokenInput.type = 'hidden';
+            csrfTokenInput.name = 'csrfmiddlewaretoken';
+            csrfTokenInput.value = '{{ csrf_token }}';
+            form.appendChild(csrfTokenInput);
+
+            const priceSelect = document.createElement('select');
+            priceSelect.name = 'selected_price_option';
+            priceSelect.id = `price_option_${product.product_id}`;
+            priceSelect.classList.add('price-dropdown');
+
+            product.price_options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = `₹${option}`;
+                priceSelect.appendChild(optionElement);
+            });
+
+            form.appendChild(priceSelect);
+
+            // Button Container
+            const buttonContainer = document.createElement('div');
+            buttonContainer.style.marginTop = "10px";
+
+            // ✅ Ensure stock is treated as a number
+            if (parseInt(product.stock) > 0) {
+                const addToCartButton = document.createElement('button');
+                addToCartButton.type = 'submit';
+                addToCartButton.textContent = 'Add to Cart';
+                addToCartButton.classList.add('btn', 'btn-primary');
+
+                addToCartButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    fetch(form.action, {
+                        method: "POST",
+                        body: new FormData(form),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: "Success",
+                                text: data.message,
+                                icon: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Error",
+                                text: data.message,
+                                icon: "error",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+
+                buttonContainer.appendChild(addToCartButton);
+            } else {
+                const outOfStockButton = document.createElement('button');
+                outOfStockButton.textContent = 'Out of Stock';
+                outOfStockButton.disabled = true;
+                outOfStockButton.style.backgroundColor = 'red';
+                outOfStockButton.style.color = 'white';
+                outOfStockButton.style.fontWeight = 'bold';
+                buttonContainer.appendChild(outOfStockButton);
+            }
+
+            form.appendChild(buttonContainer);
+            productDiv.appendChild(form);
+            productList.appendChild(productDiv);
+        });
+    }
+
+    function backToSubcategories() {
+        document.getElementById("subcategories").style.display = 'block';
+        document.getElementById("products").style.display = 'none';
+        document.getElementById('product-list').innerHTML = '';
+        document.getElementById("back-button").style.display = 'none';
+    }
+</script> {% endcomment %}
+
+

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Cake Order</title>
+      <!-- Bootstrap 3.4.1 -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+      <!-- Custom Styles -->
+      <link rel="stylesheet" href="/static/css/Navigation.css">
+      <script src="/static/js/fontawason.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="/static/js/bootstrap.min.js"></script>
+      <style>
+        /* General Styles */
+        body {
+            font-family: 'initial';
+            background-color:rgb(244, 223, 223);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .form-container {
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+        }
+    
+        h2 {
+            text-align: center;
+            color: #d6336c;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+    
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 16px;
+        }
+    
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+    
+        input:focus, textarea:focus, select:focus {
+            border-color: #d6336c;
+            outline: none;
+            box-shadow: 0px 0px 8px rgba(214, 51, 108, 0.3);
+        }
+    
+        .input-group {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+    
+        .input-group .form-group {
+            flex: 1;
+        }
+    
+        /* Radio & Checkbox Styles */
+        .radio-checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+    
+        .radio-checkbox-group label {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+    
+        input[type="checkbox"], input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #d6336c; /* Custom color for radio/checkbox */
+        }
+    
+        /* Button Styles */
+        button {
+            width: 100%;
+            background: #d6336c;
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+    
+        button:hover {
+            background: #b52a57;
+        }
+    
+        /* Image Preview */
+        img#imagePreview {
+            display: none;
+            max-width: 150px;
+            margin-top: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    
+        /* Coupon Box */
+        .coupon-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+    
+        .coupon-box input[type="text"] {
+            flex: 1;
+        }
+    
+        /* Total Price Section */
+        .total-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d6336c;
+        }
+        .p{
+            background-color: #efe4d2;
+        }
+        /* Confirm Customization Section */
+        .confirm-customization {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            
+        }
+    
+        /* Responsive Styling */
+        @media (max-width: 768px) {
+            .form-container {
+                margin: 20px;
+                padding: 20px;
+            }
+    
+            .input-group {
+                flex-direction: column;
+            }
+    
+            .input-group .form-group {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    {% include "navigation.html" %}
+    <!-- Customizeorder.html -->
+
+
+    <div class="form-container">
+        <h2>Create Your Treate </h2>
+        <form action="{% url 'Customizeorder' %}" method="POST" enctype="multipart/form-data" onsubmit="return confirmOrder(event);">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input class="p" type="text" id="name" name="name" value="{{ user.first_name }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile:</label>
+                <input type="tel" class="p"id="mobile" name="mobile" value="{{ user.contact_no }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="p"id="email" name="email" value="{{ user.email_id }}" readonly>
+            </div>
+            <div class="input-group">
+            <div class="form-group">
+                <label for="cake_type">Cake Type:</label>
+                <input type="text" id="cake_type" name="cake_type" placeholder="Regular, Vegan, Gluten-Free" required>
+            </div>
+            <div class="form-group">
+                <label for="size">Cake Size:</label>
+                <input type="text" id="size" name="size" placeholder="e.g., 1kg, 2kg, 3-tier" required>
+            </div>
+            
+        </div>
+        <div class="input-group">
+           
+            <div class="form-group">
+                <label for="shape">Cake Shape:</label>
+                <input type="text" id="shape" name="shape" placeholder="e.g., Round, Square, Heart" required>
+            </div>
+            <div class="form-group">
+                <label for="flavor">Cake Flavor:</label>
+                <input type="text" id="flavor" name="flavor" placeholder="e.g., Chocolate, Vanilla, Red Velvet" required>
+            </div>
+        </div>
+        
+        <div class="input-group">
+            
+            <div class="form-group">
+                <label for="filling">Filling Flavor:</label>
+                <input type="text" id="filling" name="filling" placeholder="e.g., Strawberry, Chocolate Ganache, Custard" required>
+            </div>
+            <div class="form-group">
+                <label for="icing">Icing Type:</label>
+                <input type="text" id="icing" name="icing" placeholder="Buttercream, Fondant, Whipped Cream, Ganache" required>
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="form-group">
+                <label for="cake_layers">Cake Layers:</label>
+                <input type="text" id="cake_layers" name="cake_layers" placeholder="Single-layer, Double-layer, Multi-tiered" required>
+            </div>
+            <div class="form-group">
+                <label for="occasion">Occasion Type:</label>
+                <input type="text" id="occasion" name="occasion" placeholder="Birthday, Wedding, Anniversary, Baby Shower, Other">
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="form-group">
+                <label for="cake_texture">Preferred Cake Texture:</label>
+                <input type="text" id="cake_texture" name="cake_texture" placeholder="e.g., Soft, Moist, Dense, Fluffy">
+            </div>
+            <div class="form-group">
+                <label for="sweetness_level">Preferred Cake Sweetness Level:</label>
+                <input type="text" id="sweetness_level" name="sweetness_level" placeholder="Less Sweet, Normal, Extra Sweet" required>
+            </div>        
+        </div>
+        <div class="input-group">
+         
+            <div class="form-group">
+                <label for="serving_size">Number of Servings:</label>
+                <input type="text" id="serving_size" name="serving_size" placeholder="e.g., 10-15 people, 20-30 people">
+            </div>
+            <div class="form-group">
+                <label for="cake_theme">Cake Theme/Design Inspiration:</label>
+                <input id="cake_theme" name="cake_theme"  placeholder="Describe your theme or add a reference link"></input>
+            </div>
+        </div>
+            <div class="form-group">
+                <label for="allergy_info">Allergy Information:</label>
+                <textarea id="allergy_info" name="allergy_info" rows="2" placeholder="Specify any allergies (nuts, dairy, gluten, etc.)"></textarea>
+            </div>
+            <div class="input-group">
+            <div class="form-group">
+                <label for="egg">Egg Preference:</label>
+                <input type="radio" id="with_egg" name="egg" value="with_egg" checked required>
+                <label for="with_egg">With Egg</label>
+                <input type="radio" id="without_egg" name="egg" value="without_egg" required>
+                <label for="without_egg">Without Egg</label>
+            </div>
+            <div class="form-group">
+                <label>Dietary Preferences:</label><br>
+                <input type="checkbox" id="sugar_free" name="diet" value="sugar_free">
+                <label for="sugar_free">Sugar-Free</label>
+            
+                <input type="checkbox" id="low_calorie" name="diet" value="low_calorie">
+                <label for="low_calorie">Low-Calorie</label>
+            
+                <input type="checkbox" id="vegan" name="diet" value="vegan">
+                <label for="vegan">Vegan</label>
+            </div>
+        </div>
+            <div class="input-group">
+                <div class="form-group">
+                    <label for="extra_addons">Extra Add-ons:</label>
+                    <input type="text" id="extra_addons" name="extra_addons" placeholder="Custom Topper, Edible Print, Extra Fruits">
+                </div>
+                <div class="form-group">
+                    <label for="packaging">Special Packaging:</label>
+                    <input type="text" id="packaging" name="packaging" placeholder="Gift Box, Transparent Box, Ribbon, etc.">
+                </div>
+               
+            </div>
+  
+            <div class="form-group">
+                <label for="message">Message on Cake:</label>
+                <textarea id="message" name="message" rows="2"></textarea>
+            </div>
+
+            <div class="input-group">
+                <div class="form-group">
+                    <label for="pickup_date">Preferred Pickup/Store Visit Date:</label>
+                    <input type="date" id="pickup_date" name="pickup_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="pickup_time">Preferred Pickup Time:</label>
+                    <input type="time" id="pickup_time" name="pickup_time" required>
+                </div>
+            </div>
+   
+            <div class="form-group">
+                <label for="additional_customization">Additional Customization Requests:</label>
+                <textarea id="additional_customization" name="additional_customization" rows="2" placeholder="Mention any extra customization like edible gold, multi-flavor sections, or special design requests"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="hidden_surprise">Hidden Surprise Inside Cake:</label>
+                <input type="text" id="hidden_surprise" name="hidden_surprise" placeholder="e.g., Chocolates, Sprinkles, Hidden Message">
+            </div>
+            
+            <div class="form-group">
+                <label for="photo">Upload Image for Cake:</label>
+                <input type="file" id="photo" name="photo" accept="image/*" onchange="previewImage(event)">
+                <br>
+                <img id="imagePreview" src="" alt="Image Preview" style="display: none; max-width: 150px; margin-top: 10px; border-radius: 5px;">
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Additional Notes:</label>
+                <textarea id="notes" name="notes" rows="3"></textarea>
+            </div>
+            
+            
+            <div class="form-group">
+                <label for="discount_coupon">Discount Coupon:</label>
+                <input type="text" id="discount_coupon" name="discount_coupon" placeholder="Enter coupon code">
+                <button type="button" onclick="checkCoupon()">Check Coupon</button>
+                <button type="button" onclick="cancelCoupon()">Remove Coupon</button>
+            </div>
+        
+            <p id="coupon_message" style="color: green; font-weight: bold;"></p>
+        
+            <div class="form-group">
+                <strong>Total Price: ₹<span id="total_price_display">{{ total_price }}</span></strong>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="confirm_customization" name="confirm_customization" required>
+                <label for="confirm_customization">
+                    I confirm all details are correct and understand that custom cakes are non-refundable and non-cancel.
+                </label>
+            </div>
+            
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+    {% include "footer.html" %}
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var img = document.getElementById('imagePreview');
+                img.src = reader.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+       
+            function confirmOrder(event) {
+                event.preventDefault(); // Prevent form submission
+        
+                let confirmation = confirm("Your customized order costs ₹1500. Do you want to proceed?");
+                
+                if (confirmation) {
+                    event.target.submit(); // Submit the form if user clicks OK
+                }
+            }
+            function checkCoupon() {
+                let couponCode = document.getElementById("discount_coupon").value.trim();
+            
+                if (couponCode === "") {
+                    alert("Please enter a coupon code.");
+                    return;
+                }
+            
+                fetch("{% url 'check_coupon' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    },
+                    body: `coupon_code=${couponCode}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let messageElement = document.getElementById("coupon_message");
+                    let totalPriceElement = document.getElementById("total_price_display");
+                    let originalTotalPrice = parseFloat("{{ total_price }}"); // Get the base total price
+            
+                    if (data.status === "valid") {
+                        let discountAmount = 0;
+            
+                        if (data.discount_type === "percentage") {
+                            discountAmount = (originalTotalPrice * data.value) / 100;
+                            if (data.max_discount) {
+                                discountAmount = Math.min(discountAmount, data.max_discount); // Apply max discount cap
+                            }
+                        } else {
+                            discountAmount = data.value; // Fixed amount discount
+                        }
+            
+                        let newTotalPrice = Math.max(originalTotalPrice - discountAmount, 0); // Ensure price never goes negative
+            
+                        // Update UI with discount message and new total price
+                        messageElement.style.color = "green";
+                        messageElement.textContent = `Coupon Applied! You saved ₹${discountAmount.toFixed(2)}.`;
+                        totalPriceElement.textContent = newTotalPrice.toFixed(2); // Update total price display
+                    } else {
+                        // If coupon is invalid, reset message and total price
+                        messageElement.style.color = "red";
+                        messageElement.textContent = data.message;
+                        totalPriceElement.textContent = originalTotalPrice.toFixed(2); // Reset total price
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            }
+            
+            function cancelCoupon() {
+                document.getElementById("discount_coupon").value = "";
+                alert("Coupon canceled.");
+            }
+    </script>
+  
+</body>
+</html>

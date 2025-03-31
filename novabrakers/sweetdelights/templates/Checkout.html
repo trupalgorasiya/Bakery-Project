@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Checkout</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/Checkout.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <style>
+        body { background-color: rgb(244, 223, 223); font-family:"initial"; margin: 0; }
+        .checkout-container { display: flex; justify-content: space-between; gap: 30px; margin: 30px 0; }
+        .order-summary-container, .order-details-container {
+            background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 48%;
+        }
+        .order-summary-item {
+            display: flex; justify-content: space-between; margin-bottom: 10px;
+        }
+        .hrbold{
+            border  :1px solid black;
+            
+        }
+        .hidden { display: none; }
+        .payment-method-container {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        
+        .payment-method-container label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .payment-method-container input[type="radio"] {
+            accent-color: #28a745;
+            transform: scale(1.2);
+            margin-right: 8px;
+        }
+        
+        .payment-method-container input[type="radio"] + br {
+            display: none;
+        }
+        
+        .payment-method-container input[type="radio"]:checked + label {
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .payment-method-container label[for] {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        
+        .payment-method-container label[for]:hover {
+            background: rgba(0, 123, 255, 0.1);
+        }
+        
+        
+        
+    </style>
+</head>
+<body>
+{% include "navigation.html" %}
+<div class="container">
+    <div class="checkout-container">
+        <div class="order-details-container">
+            <h1 class="text-center"><u>Your Details For Order</u></h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                
+                
+                <div class="form-group">
+                    <label for="name">Customer Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ user.first_name }}" readonly>
+                </div>
+            
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ user.email_id }}" readonly>
+                </div>
+            
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" class="form-control" id="mobile" name="mobile" value="{{ user.contact_no }}" readonly>
+                </div>
+            
+                <div class="form-group">
+                    <label for="address1">Address</label>
+                    <textarea class="form-control" id="address1" name="address1" rows="2" readonly>{{ user.address }}</textarea>
+                </div>
+                <div class="form-group hidden" id="cakeCustomizationField">
+                    <label for="cake_customization">Message on Cake: (for cakes only)</label>
+                    <textarea class="form-control" id="cake_customization" name="cake_customization" rows="2" placeholder="Add cake toppings, custom message, etc."></textarea>
+                </div>
+                
+                <!-- Checkbox to enable shipping to a different address -->
+                <div class="form-group">
+                    <input type="checkbox" id="differentAddressCheckbox" name="different_address_checkbox">
+                    <label for="differentAddressCheckbox">Ship to a different address</label>
+                </div>
+            
+                <!-- Hidden field for the new shipping address -->
+                <div class="form-group hidden" id="differentAddressField">
+                    <label for="address2">New Shipping Address</label>
+                    <textarea class="form-control" id="address2" name="address2" rows="2" placeholder="Enter different shipping address"></textarea>
+                </div>
+        
+                
+                
+            
+            <!-- JavaScript to show/hide the new address field -->
+           
+            
+            <!-- Add CSS to hide the new address field initially -->
+         
+                       
+        </div>
+        <div class="order-summary-container">
+            <h1 class="text-center"><u>Order Summary</u></h1>
+            <hr class="hrbold">
+            <div>
+                {% for item in cart_items %}
+                    <div class="order-summary-item">
+                        <p><strong>{{ item.product.name }}</strong> ({{ item.quantity }} x)</p>
+                        <p>₹{{ item.subtotal|floatformat:2 }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if discount %}
+            {% if discount and discount_amount > 0 %}
+            <div class="order-summary-item">
+                <p><strong>Discount ({{ discount.code }}):</strong></p>
+                <p>- ₹{{ discount_amount|floatformat:2 }}</p>
+            </div>
+        {% endif %}
+        
+{% endif %}
+
+            <hr>
+            <div class="order-summary-item">
+                <p><strong>Subtotal:</strong></p>
+                <p>₹{{ subtotal|floatformat:2 }}</p>
+            </div>
+            <div class="order-summary-item">
+                <p><strong>Shipping Cost:</strong></p>
+                <p>₹{{ shipping_cost }}</p>
+            </div>
+            <hr class="hrbold">
+            <div class="order-summary-item">
+                <p><strong>Total Price:</strong></p>
+                <p>₹{{ total_price }}</p>
+            </div>
+           <hr class="hrbold">
+            
+            <div class="payment-method-container">
+                <label>Select Payment Method</label>
+                <input type="radio" name="payment_method" value="COD" checked> Cash on Delivery (COD)<br>
+                <input type="radio" name="payment_method" value="Online"> Pay Online (Razorpay)
+            </div>
+            <div class="text-center">
+                <a href="/cart" class="btn btn-link">View Your Cart</a>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" id="orderNowBtn">
+                    Order Now
+                </button>
+            </form>     
+                <a href="/" class="btn btn-primary">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("differentAddressCheckbox").addEventListener("change", function() {
+        var addressField = document.getElementById("differentAddressField");
+        if (this.checked) {
+            addressField.classList.remove("hidden");
+        } else {
+            addressField.classList.add("hidden");
+        }
+    });
+
+
+
+
+    var isCakeInCart = false;
+    
+    {% for item in cart_items %}
+        {% if item.product.subcategory and item.product.subcategory.main_category.name == "Cakes" %}
+            isCakeInCart = true;
+        {% elif item.product.main_category and item.product.main_category.name == "Cakes" %}
+            isCakeInCart = true;
+        {% endif %}
+    {% endfor %}
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var cakeField = document.getElementById("cakeCustomizationField");
+        if (isCakeInCart) {
+            cakeField.classList.remove("hidden");
+        }
+    });
+</script>
+
+{% include "footer.html" %}
+
+</body>
+</html> 

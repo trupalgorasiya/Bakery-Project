@@ -1,0 +1,219 @@
+*{
+    margin : 0;
+    padding : 0;
+}
+
+body{
+    background-image: url("https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/1040595/1360/906/m1/fpnw/wm1/kdz6auqy0tlzwy7r56o0s6hwcmesntwruv9lbrs6trkftkhxjak4htlilpgt9a7c-.jpg?1456819327&s=d82d33a295a628b85e89d8ba2ea47d4a");
+    background-size:cover; 
+    background-repeat: no-repeat;
+    height : 100vh;
+}
+
+#signUp{
+    height : 92vh;
+    width: 40vw;
+    background: #ffece6;
+    margin-left : 56vw;
+    margin-top: 4vh;
+}
+
+input{
+    border : 0;
+    border-bottom : 0.25vh solid black;
+    border-left : 0.25vh solid black;
+    height:4vh;
+}
+
+label{
+    font-family: 'Cinzel', serif;
+    font-size:3vh;
+}
+
+#letsGo{
+    height: 12vh;
+    width: 38.6vw;
+    background: #ffd9cc;
+    text-align:center;
+    padding: 1.5vh;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    text-align:center;
+    margin-top:-2vh;
+    padding: 3rem 4rem;
+}
+
+.inp{
+    margin-bottom: 1rem;
+}
+
+::placeholder{
+    font-size:2.7vh;
+    text-align:center;
+}
+
+.login:hover{
+    color:red;
+    font-weight:bold;
+    font-size:3.2vh;
+}
+
+@media only screen and (max-width:75em){
+    #signUp{
+        margin-left : 55vw;
+    }
+    #letsGo{
+        width : 38.58vw;
+    }
+    .btn{
+        width : 0; /* error aavti hati atle 0 lakhel 6e baki kay value aapel noti*/
+    }
+}
+@media only screen and (max-width:70em){
+    #signUp{
+        margin-left : 53vw;
+    }
+    #letsGo{
+        width : 38.5vw;
+    }
+    .btn{
+        width : 100%;
+    }
+}
+@media only screen and (max-width:67em){
+    #signUp{
+        margin-left : 50vw;
+    }
+    #letsGo{
+        width : 38.4vw;
+    }
+}
+@media only screen and (max-width:65em){
+    #signUp{
+        margin-left : 50vw;
+    }
+    #letsGo{
+        width : 38.3vw;
+    }
+}
+@media only screen and (max-width:60em){
+    #signUp{
+        margin-left : 48vw;
+    }
+    #letsGo{
+        width : 38.2vw;
+    }
+}
+@media only screen and (max-width:58em){
+    #signUp{
+        margin-left : 47vw;
+        width: 42vw;
+    }
+    #letsGo{
+        width : 40.2vw;
+    }
+}
+@media only screen and (max-width:56em){
+    #signUp{
+        margin-left : 43vw;
+        width: 45vw;
+    }
+    #letsGo{
+        width : 43vw;
+    }
+}
+@media only screen and (max-width:54em){
+    #signUp{
+        margin-left : 25vw;
+        width: 47vw;
+        
+    }
+    #letsGo{
+        width : 45vw;
+    }
+}
+@media only screen and (max-width:50em){
+    #signUp{
+        margin-left : 23vw;
+        width : 50vw;
+        
+    }
+    #letsGo{
+        width : 47.9vw;
+    }
+}
+@media only screen and (max-width:48em){
+    #signUp{
+        margin-left : 20vw;
+        width: 53vw;
+    }
+    #letsGo{
+        width : 50.8vw;
+    }
+}
+@media only screen and (max-width:44em){
+    #signUp{
+        margin-left : 18vw;
+        width: 57vw;
+    }
+    #letsGo{
+        width : 54.56vw;
+    }
+}
+@media only screen and (max-width:42em){
+    #signUp{
+        margin-left : 17vw;
+        width: 60vw;
+    }
+    #letsGo{
+        width : 57.56vw;
+    }
+}
+@media only screen and (max-width:39em){
+    #signUp{
+        margin-left : 15vw;
+        width: 62vw;
+    }
+    #letsGo{
+        width : 59.4vw;
+    }
+}
+@media only screen and (max-width:35em){
+    #signUp{
+        margin-left : 15vw;
+        width: 64vw;
+    }
+    #letsGo{
+        width : 61vw;
+    }
+}
+@media only screen and (max-width:33em){
+    #signUp{
+        margin-left : 14vw;
+        width: 66vw;
+    }
+    #letsGo{
+        width : 62.55vw;
+    }
+}
+@media only screen and (max-width:25.875em){
+    #signUp{
+        margin-left :6vw;
+        width: 88vw;
+    }
+    #letsGo{
+        width : 83vw;
+    }
+}
+@media only screen and (max-width:23.75em){
+    #signUp{
+        margin-left: 0vw;
+        width: 100vw;
+    }
+    #letsGo{
+        width : 93.6vw;
+    }
+}

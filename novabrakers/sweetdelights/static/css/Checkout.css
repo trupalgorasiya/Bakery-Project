@@ -1,0 +1,65 @@
+body{
+    background-color: #f9e0db;
+   
+    margin: 0px;
+}
+
+
+.checkout-container { 
+    display: flex; 
+    justify-content: space-between; 
+    gap: 30px; 
+    margin: 30px 0;
+    font-family: "Initial";
+ }
+.order-summary-container, .order-details-container {
+    background-color: #fff; 
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 48%;
+}
+.order-summary-item {
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 10px;
+}
+.hrbold{
+    border  :1px solid rgb(0, 0, 0);
+    
+}
+/* Hide the new address field initially */
+.hidden {
+    display: none;
+}
+
+/* Style the checkbox */
+#differentAddressCheckbox {
+    transform: scale(1.2); /* Make it slightly larger */
+    margin-right: 5px;
+    cursor: pointer;
+    appearance: none; /* Remove default styling */
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cccccc;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+}
+
+/* Change checkbox to green when checked */
+#differentAddressCheckbox:checked {
+    background-color: green;
+    /* border-color: green; */
+}
+
+/* Add a checkmark when checked */
+#differentAddressCheckbox:checked::after {
+    content: "✔";
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    left: 3px;
+    top: -1px;
+    font-weight: bold;
+}

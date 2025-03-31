@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+    <link rel="stylesheet" href="/static/css/Cart.css">
+</head>
+<style>
+    body {
+        background-color: rgb(244, 223, 223);
+        font-family: "Initial";
+        margin: 0px;
+    }
+    
+    .cart-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 50px;
+    }
+    
+    .cart-section {
+        width: 48%;
+    }
+    
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .cart-table th, .cart-table td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .cart-summary {
+        text-align: right;
+        margin-top: 20px;
+    }
+    
+    .discount-section {
+        margin-top: 15px;
+        padding: 10px;
+        background: #eef7e6;
+        border-radius: 5px;
+        border: 1px solid #a3d9a5;
+        text-align: center;
+    }
+
+    .discount-section .remove-discount {
+        background-color: #ff4d4d;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        margin-top: 5px;
+    }
+
+    .discount-section .remove-discount:hover {
+        background-color: #cc0000;
+    }
+</style>
+<body>
+
+{% include "navigation.html" %}
+
+<section class="cart-container">
+    <div class="cart-section">
+        <h1 class="text-center"><u>Your Selected Items</u></h1>
+        {% if messages %}
+            <div class="alert alert-warning">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Waight Of Item</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                        </td>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product.cleaned_price }}</td>
+                        <td>{{ item.product.cleaned_weight }}</td>
+                        <td>
+                            <div class="quantity-controls">
+                                <a href="{% url 'update_cart_quantity' item.product.product_id item.selected_price_option 'decrease' %}" class="btn btn-warning">-</a>
+                                {{ item.quantity }}
+                                <a href="{% url 'update_cart_quantity' item.product.product_id item.selected_price_option 'increase' %}" class="btn btn-success">+</a>
+                            </div>
+                        </td>
+                        <td>₹{{ item.subtotal|floatformat:2  }}</td>
+                        <td>
+                            <a href="{% url 'remove_from_cart' item.product.product_id %}?price_option_id={{ item.selected_price_option.id }}" class="remove-item">Remove</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="cart-section">
+        <h1 class="text-center"><u>Cart Summary</u></h1>
+        <div class="cart-summary">
+            
+            <div class="discount-section">
+                <form action="{% url 'apply_discount' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="discount_code" placeholder="Enter Discount Code" required>
+                    <button type="submit" class="btn btn-primary">Apply Discount</button>
+                </form>
+                <a href="{% url 'discount_list' %}" class="btn btn-info">View Discounts</a>
+                {% if discount %}
+                <p><strong>Discount Applied:</strong> {{ discount.code }} ({{ discount.value }}{% if discount.discount_type == "percentage" %}%{% endif %})</p>
+                <p><strong>Discount Amount:</strong> -₹{{ discount_amount|floatformat:2 }}</p>
+                
+                <form action="{% url 'remove_discount' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="remove-discount">Remove Discount</button>
+                </form>
+            {% endif %}
+            
+            
+            </div>
+           
+            <p><strong>Subtotal:</strong> ₹{{ subtotal|floatformat:2 }}</p>
+            <p><strong>Shipping Cost:</strong> ₹{{ shipping_cost }}</p>
+            <p><strong>Discount Amount:</strong> -₹{{ discount_amount|floatformat:2 }}</p>
+            <p><strong>Total Price:</strong> ₹{{ total_price|floatformat:2 }}</p>
+            <a href="{% url 'Checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+        </div>
+    </div>
+</section>
+
+{% include "footer.html" %}
+
+</body>
+</html>

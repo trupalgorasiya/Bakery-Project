@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Delights</title>
+    <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/Homepage.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
+    
+</head>
+
+<body>
+
+    <!--  N A V I G A T I O N  -->
+
+    {% include "navigation.html" %}
+
+
+    <!--  B A K E R Y   N A M E   D I V  -->
+
+     {% comment %} <div id="bakery-name">
+        <img src="https://i.pinimg.com/originals/5b/08/e7/5b08e7e7c1d646f249791941bcdc274c.png">
+    </div>  {% endcomment %}
+
+    {% comment %} <div id="bakery-name">
+        <img src="/static/img/bg-img/novabakerslogo.png">
+    </div> {% endcomment %}
+
+
+    <!--   S L I D E S H O W   -->
+
+    <div class="slideshow">
+    <div class="slider">
+        <div class="slides">
+            {% comment %} <input type="radio" name="radio-btn" id="radio1" />
+            <input type="radio" name="radio-btn" id="radio2" /> {% endcomment %}
+            <input type="radio" name="radio-btn" id="radio3" />
+            {% comment %} <input type="radio" name="radio-btn" id="radio4" /> {% endcomment %}
+            <input type="radio" name="radio-btn" id="radio5" />
+            {% comment %} <input type="radio" name="radio-btn" id="radio6" />
+            <input type="radio" name="radio-btn" id="radio7" /> {% endcomment %}
+
+            {% comment %} <div class="slide first">
+                <img src="/static/img/core-img/slideshow1.jpg"/>
+            </div>
+
+            <div class="slide">
+                <img src="/static/img/core-img/slideshow2.jpg"/>
+            </div> {% endcomment %}
+
+            <div class="slide">
+                <img src="/static/img/core-img/slideshow3.jpg"/>
+            </div>
+
+            {% comment %} <div class="slide">
+                <img src="/static/img/core-img/slideshow4.jpg"/>
+            </div> {% endcomment %}
+
+            {% comment %} <div class="slide">
+                <img src="/static/img/core-img/slideshow5.jpg"/>
+            </div> {% endcomment %}
+
+            {% comment %} <div class="slide">
+                <img src="/static/img/core-img/slideshow6.jpg"/>
+            </div>
+
+            <div class="slide">
+                <img src="/static/img/core-img/slideshow7.jpg"/>
+            </div> {% endcomment %}
+{% comment %} 
+            <div class="navigation-auto">
+                <div class="auto-btn1"></div>
+                <div class="auto-btn2"></div>
+                <div class="auto-btn3"></div>
+                <div class="auto-btn4"></div>
+                <div class="auto-btn5"></div>
+                <div class="auto-btn6"></div>
+                <div class="auto-btn7"></div>
+            </div> {% endcomment %}
+        </div>
+
+        <div class="navigation-manual">
+            <label for="radio1" class="manual-btn"></label>
+            <label for="radio2" class="manual-btn"></label>
+            <label for="radio3" class="manual-btn"></label>
+            <label for="radio4" class="manual-btn"></label>
+            <label for="radio5" class="manual-btn"></label>
+            <label for="radio6" class="manual-btn"></label>
+            <label for="radio7" class="manual-btn"></label>
+        </div>
+    </div>
+    </div>
+        <div class="marq"> 
+            <marquee width="40%" direction="side" height="55px" behavior="scroll" scrollamount="20">
+                    Welcome to Our Website! 🌟 Stay Updated with the Latest News and Offers. 📢 Check Back Often for More Updates!
+                    Welcome to Our Website! 🌟 Stay Updated with the Latest News and Offers. 📢 Check Back Often for More Updates!
+                    Welcome to Our Website! 🌟 Stay Updated with the Latest News and Offers. 📢 Check Back Often for More Updates!
+                    Welcome to Our Website! 🌟 Stay Updated with the Latest News and Offers. 📢 Check Back Often for More Updates!
+            </marquee>
+        </div>
+        <div class="center-container">
+            <h2>You'll love</h2>
+        </div>
+    <div class="cup">
+        {% comment %} <img src="/static/img/bg-img/cup.png" alt="hello" class="cup-img"> {% endcomment %}
+        <h6 class="cup-title">Our Products</h6>
+        {% comment %} <img src="/static/img/bg-img/cup.png" alt="hello" class="cup-img"> {% endcomment %}
+    </div>
+    
+    
+    
+    <style>
+        .cup {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Space between items */
+            margin-top:17px;
+        }
+        
+        .cup-img {
+            width: 50px; /* Adjust size as needed */
+            height: auto;
+        }
+        
+        .cup-title {
+            font-size: 40px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 10px;
+            color:#623434;
+        }
+        
+        h2 {
+            text-align: center; /* Centers text horizontally */
+            font-size: 38px; /* Adjust size as needed */
+            font-weight: bold;
+            color:#623434;
+            {% comment %} margin: 50px 0; /* Adds spacing */ {% endcomment %}
+        }
+
+    
+        
+    </style>        
+ 
+    <!--I T E M S  -->
+
+    <div id="items-container">
+
+      
+        {% for category in categories %}
+        <a href="{{ category.name|title }}.html">
+            <div class="items">
+                {% if category.image %}
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                {% else %}
+                    <img src="/static/img/core-img/default.jpg" alt="Default Image">
+                {% endif %}
+                <p class="item-names">{{ category.name }}</p>
+            </div>
+        </a>
+    {% endfor %}
+    
+    </div>
+
+
+    <!--  P A R T Y   P R O P S  -->
+{% comment %} 
+    <div id="props">
+        <img src="https://i.pinimg.com/736x/a6/93/98/a69398e27635d32c5ea887feecdd0747.jpg">
+        <div id="props-text">
+            <a href="PartyProps.html">
+                <h3>Party Props</h3>
+            </a>
+        </div>
+    </div> {% endcomment %}
+
+
+    <!-- P O L L  A N D   N E W   I T E M S -->
+
+     {% comment %} <div class="flex-container">
+
+        <div class="flex-child">
+
+            <h1 class="blink">
+                    Today's Poll!
+                </h1>
+            <p style="font-size:20px;">Check the customer's opinion on our top items and select the perfect one for you!</p>
+
+            <div id="div" class="poll1" >
+                <div id="div1" class="poll">Cookies</div>
+                <div id="div2" class="poll">Pastries</div>
+                <div id="div3" class="poll">Donuts</div>
+                <div id="div4" class="poll">Cupcakes</div>
+                <div id="div5" class="poll">Waffles</div>
+                <div id="div6" class="poll">Breads</div>
+                <div id="div7" class="poll">Croissant</div>
+                <div id="div8" class="poll">Cakes </div>
+            </div>
+
+            <p style="font-size:18px;"><I>Order our top 3 rated items now and get <b>20% off</b>!</I> </p>
+            <button type="button" class="btn btn-outline-secondary btn-sm">
+                <a href="#items-container">Order Now</a>
+            </button><br>
+
+            <div id="new-item-container">
+
+                <h1 class="blink">
+                    SPECIALS!
+                </h1>
+
+                    <p style="font-size:20px;">We're always excited to serve our customers the latest in the trend and best in the quality. So, here we bring two new mouth watering special desserts for you!</p>
+
+                    <div class="newitem">
+
+                        <h1 id="special-heading">Pinata Cake</h1>
+                        <p style="font-size:20px;">The piñata cake is named after the Mexican party centrepieces made from papier mache and filled with gifts, and has a hollow centre which is used to hold your favourite sweets.</p>
+                        <img src="https://i.pinimg.com/474x/c1/02/6b/c1026b1286f4b608e91dceab98f324ef.jpg" class="special-image">
+                        <br>
+                        <button type="button" onclick="add_to_cart('1','Pinata Cake','199')"  class="btn btn-outline-secondary btn-sm">
+                            Order Now
+                        </button>
+
+                    </div>
+
+                    <div  class="newitem">
+
+                        <h1 id="special-heading">Cheese Cake</h1>
+                        <p style="font-size:20px;">Cheesecake is a sweet dessert consisting of one or more layers. The main, and thickest, layer consists of a mixture of a soft, fresh cheese, eggs, and sugar. If there is a bottom layer, it most often consists of a crust or base made from crushed cookies, graham crackers, pastry, or sometimes sponge cake.</p>
+                        <img src="https://i.pinimg.com/474x/24/6a/d2/246ad261e4e928b2f25c4658ff3017eb.jpg" class="special-image">
+                        <br>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="add_to_cart('2','Cheese Cake','250')">
+                           Order Now
+                        </button>
+
+                    </div>
+            </div>
+
+            <div class="new-item-container">
+                <h1 class="blink">
+                    Participate and Earn!
+                </h1>
+                <i><p style="font-size:22px;">"Find something you're passionate about and keep yourself tremendously interested in it."<br>-Julia Child</p></i>
+                <p style="font-size:20px;"> Make any of the item found in a bakery and upload its recipe and picture; along with some other necessary personal details and send it to us to win exciting prizes!<br> <a href="ParticipationForm.html" class="participate" style="text-decoration: none; color:blue"  target="_blank"><i>Click here for the participation form!</i></a></p>
+                <img src="https://i.pinimg.com/474x/4d/4b/c6/4d4bc6763ed4769d202dfe3ccb8498ac.jpg" class="special-image">
+            </div>
+
+        </div>  {% endcomment %}
+
+
+       <!-- G A L L E R Y -->
+
+        {% comment %} <div class="flex-child">
+
+            <div id="gallery">
+                    <h1 align="center" style="font-size: 3.5em; color:purple; margin: 2%; text-align: center; width:100%;"><u>GALLERY</u></h1>
+                    <div class="pics" id="pic1"></div>
+                    <div class="pics" id="pic2"></div>
+                    <div class="pics" id="pic3"></div>
+                    <div class="pics" id="pic4"></div>
+                    <div class="pics" id="pic5"></div>
+                    <div class="pics" id="pic6"></div>
+                    <div class="pics" id="pic7"></div>
+                    <div class="pics" id="pic9"></div>
+                    <div class="pics" id="pic10"></div>
+                    <div class="pics" id="pic11"></div>
+                    <div class="pics" id="pic12"></div>
+                    <div class="pics" id="pic15"></div>
+                    <div class="pics" id="pic16"></div>
+                    <div class="pics" id="pic17"></div>
+                    <div class="pics" id="pic18"></div>
+                    <div class="pics" id="pic19"></div>   
+                    <div class="pics" id="pic20"></div>
+                    <div class="pics" id="pic21"></div>             
+            </div><br>
+            <button type="button" class="btn btn-outline-secondary btn-bg" style="margin-left: 10%">
+                <a href="Gallery.html">View More</a>
+            </button>
+
+        </div>
+
+    </div>
+  {% endcomment %}
+
+
+    <!--  O U R   K I T C H E N  -->
+
+    {% comment %} <div id="props">
+        <img src="https://www.buzztime.com/business/wp-content/uploads/2017/09/kitchen-inspection-750-x-340.jpg">
+        <div id="props-text">
+            <a href="KitchenPage.html">
+                <h3>Our Kitchen</h3>
+            </a>
+        </div>
+    </div> 
+ {% endcomment %}
+
+
+   <!-- A B O U T -->
+
+    <div id="about">
+        {% comment %} <h1 style="font-style: italic; text-align: center;"><b>Presence</b></h1>
+        <h4 style="font-style: italic; text-align: center; color: grey; font-size: 18px;">"Our aim is to continue enriching the global sweet market."</h4><br>
+        <p style="text-align: justify;">
+            Consisting of a team of field experts and talented management board, we are collectively concentrating our effort to spread the goodness of organically baked goods as far as possible. Over the course of the production, we have been challenging ourselves every single step. In search for a unique and fulfilling experience for our customers, our sweet team has been sharing and discussing the tastes and knowledge with our quality-demanding food experts from numerous cafés, restaurants, and hotels worldwide. We are trying to smoothly build a healthy, medium-sized company; placing emphasis on creating and maintaining a warm relationships with our customers and business partners.
+        </p>
+        <div>
+            <img src="http://www.sweetdelight.eu/archiv/about1.jpg" id="values-img">
+        </div>
+
+        <h1 style="font-style: italic; text-align: center;"><b>Values</b></h1>
+        <h4 style="font-style: italic; text-align: center; color: grey; font-size: 18px;">"We believe in uniqueness."</h4><br>
+        <p style="text-align: justify;">
+            Our philosophy is baked from the freshest of ingredients. We have combined systematic and inspiring collaboration with our employees by using the best raw materials and machines, together with customers’ expectations, high technological approaches to producing sweets our aspirations, as well as undying respect for quality and safety. We believe that the results will always be absolutely unique and fulfilling!
+        </p>
+        <div>
+            <img src="http://www.sweetdelight.eu/archiv/about1.jpg" id="values-img">
+        </div>
+
+        <div id="details-container">
+
+          <div class="details-child">
+            <h3 class="about-subheading"><b>10 years</b></h3>
+            <h4 class="subheading-content">delivering the unmatched<br>quality to all passionate<br>cake lovers.</h4>
+          </div>
+
+          <div class="details-child">
+            <h3 class="about-subheading"><b>50 employees</b></h3>
+            <h4 class="subheading-content">producing the unique sweet<br>solutions delighting<br>customers' demands.</h4>
+          </div>
+
+          <div class="details-child">
+              <h3 class="about-subheading"><b>7,500,000 Kg</b></h3>
+              <h4 class="subheading-content">of baked goodies adored,<br>eaten and appreciated<br>by customers.</h4>
+          </div>
+
+          <div class="details-child">
+              <h3 class="about-subheading"><b>25 destinations</b></h3>
+              <h4 class="subheading-content">all around the world <br>taking pleasure<br> in our cakes.</h4>
+          </div> {% endcomment %}
+
+          <div class = "googlemap">
+            {% comment %} <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1715.209484784108!2d76.801824!3d30.706620000000004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x947c146c0695123!2sElante%20Mall!5e0!3m2!1sen!2sus!4v1636646428176!5m2!1sen!2sus" width="1000" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe> {% endcomment %}
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.987346361757!2d72.54063997477027!3d23.024236816267198!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e85c3cac5a0e5%3A0x7eea24c0c18278c2!2sNova%20Bakers!5e0!3m2!1sen!2sin!4v1743138718418!5m2!1sen!2sin" width="1200" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        </div>
+
+    </div>  
+   
+
+
+    <!-- F O O T E R   S O C I A L   I C O N S -->
+    {% include "footer.html" %}
+
+    <script src="/static/js/jquary.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/fontawason.js"></script>
+	
+    <script src="/static/js/Slidshow.js"></script>
+   
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Red Velvet Cakes</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="/static/js/fontawason.js"></script>
+    <script src="/static/js/jquary.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/mycart.js"></script>
+	<script src="/static/js/myscript.js"></script>
+    <script src="/static/js/selectingitem.js"> </script>
+    <link rel="stylesheet" href="/static/css/RedVelvetCake.css">
+    <link rel="stylesheet" href="/static/css/Navigation.css">
+
+    <script>
+
+        //
+
+        /* S E L E C T I N G   I T E M S */
+
+        
+    </script>
+
+    <style>
+
+       
+    </style>
+
+</head>
+
+<body>
+
+	<!--  N A V I G A T I O N   B A R  -->
+
+    {% include "navigation.html" %}
+
+
+    <!--  M A I N   C O N T E N T  -->
+
+    <div>
+    	<h1 id="heading">Red Velvet Cakes</h1>
+    </div>
+
+    <!--  I T E M   C A R D S  -->
+
+    <div id="main">
+
+    	<div class="card">
+    		<img src="/static/img/core-img/rvcake1.jpg" class="item-img">
+    		<h1>Red Berries</h1>
+            <form name="form">
+                <select id="a7" class="price-dropdown" name="select" Onchange="change(7)" value="Quanity and Price">
+                    <option value="499,1">1kg ~ ₹499</option>
+                    <option value="949,2">2kg ~ ₹949</option>
+                    <option value="1399,3">3Kg ~ ₹1399</option>
+                    <option value="1849,4">4Kg ~ ₹1849</option>
+                </select>
+            </form>
+            <p id="demo7" class="item-price"></p>    
+    		<p class="description">Red velvet with the goodness of berries!</p>
+    		<p><button onclick="add_to_cart('7','Red Berries',document.getElementById('a7').value)">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="/static/img/core-img/rvcake2.jpg" class="item-img">
+    		<h1>Velvet Flowers</h1>
+    		<form name="form2">
+                <select id="a8" class="price-dropdown" name="select2" Onchange="change(8)" value="Quanity and Price-2">
+                    <option value="499,1">1kg ~ ₹499</option>
+                    <option value="949,2">2kg ~ ₹949</option>
+                    <option value="1399,3">3Kg ~ ₹1399</option>
+                    <option value="1849,4">4Kg ~ ₹1849</option>
+                </select>
+            </form>
+            <p id="demo8" class="item-price"></p>
+    		<p class="description">Red velvet designed with white cream flowers!</p>
+    		<p><button onclick="add_to_cart('8','Velvet Flowers',document.getElementById('a8').value)">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="/static/img/core-img/rvcake3.jpg" class="item-img">
+    		<h1>Nutty Rain</h1>
+    		<form name="form3">
+                <select id="a9" class="price-dropdown" name="select3" Onchange="change(9)" value="Quanity and Price-3">
+                    <option value="549,1">1kg ~ ₹549</option>
+                    <option value="1149,2">2kg ~ ₹1149</option>
+                    <option value="1549,3">3Kg ~ ₹1549</option>
+                    <option value="2049,4">4Kg ~ ₹2049</option>
+                </select>
+            </form>
+            <p id="demo9" class="item-price"></p>
+    		<p class="description">Red velvet cade designed with cry frits on the top!</p>
+    		<p><button onclick="add_to_cart('9','Nutty Rain',document.getElementById('a9').value)">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="/static/img/core-img/redvelvetcake4.jpg" class="item-img">
+    		<h1>Velvet Fall</h1>
+    		<form name="form4">
+                <select id="a10" class="price-dropdown" name="select4" Onchange="change(10)" value="Quanity and Price-4">
+                    <option value="549,1">1kg ~ ₹549</option>
+                    <option value="1149,2">2kg ~ ₹1149</option>
+                    <option value="1549,3">3Kg ~ ₹1549</option>
+                    <option value="2049,4">4Kg ~ ₹2049</option>
+                </select>
+            </form>
+            <p id="demo10" class="item-price"></p>
+    		<p class="description">Red velvet designed with strayberries cut like flower petals!</p>
+    		<p><button onclick="add_to_cart('10','Velvet Fall',document.getElementById('a10').value)">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="/static/img/core-img/redvelvetcake5.jpg" class="item-img">
+    		<h1>Layered</h1>
+    		<form name="form6">
+                <select id="a11" class="price-dropdown" name="select6" Onchange="change(11)" value="Quanity and Price-6">
+                    <option value="699,1">1kg ~ ₹699</option>
+                    <option value="1349,2">2kg ~ ₹1349</option>
+                    <option value="1999,3">3Kg ~ ₹1999</option>
+                    <option value="2649,4">4Kg ~ ₹2649</option>
+                </select>
+            </form>
+            <p id="demo11" class="item-price"></p>
+    		<p class="description">Cake with multiple red velvet, strawberrr and vanilla layers!</p>
+    		<p><button onclick="add_to_cart('11','Layered',document.getElementById('a11').value)">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="/static/img/core-img/redvelvetcake.jpg"6 class="item-img">
+    		<h1>Red Love</h1>
+    		<form name="form7">
+                <select id="a12" class="price-dropdown" name="select7" Onchange="change(12)" value="Quanity and Price-7">
+                    <option value="799,1">1kg ~ ₹799</option>
+                    <option value="1549,2">2kg ~ ₹1549</option>
+                    <option value="2299,3">3Kg ~ ₹2299</option>
+                    <option value="3049,4">4Kg ~ ₹3049</option>
+                </select>
+            </form>
+            <p id="demo12" class="item-price"></p>
+    		<p class="description">Red velvet cake topped with heart shaped jelly!</p>
+    		<p><button onclick="add_to_cart('12','Red Love',document.getElementById('a12').value)">Add to Cart</button></p>
+    	</div>
+
+    	{% comment %} <div class="card">
+    		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSULFc2csZMK8KVxt0Nzaz3RT7CuY5Typ2OEQ&usqp=CAU" class="item-img">
+    		<h1>Cherry Blush</h1>
+    		<form name="form8">
+                <select id="a8" class="price-dropdown" name="select8" Onchange="change8()" value="Quanity and Price-8">
+                    <option value="1kg ~ ₹799">1kg ~ ₹799</option>
+                    <option value="2kg ~ ₹1549">2kg ~ ₹1549</option>
+                    <option value="3Kg ~ ₹2299">3Kg ~ ₹2299</option>
+                    <option value="4Kg ~ ₹3049">4Kg ~ ₹3049</option>
+                </select>
+            </form>
+            <p id="demo8" class="item-price"></p>
+    		<p class="description">Red velvet cake with a LOT of cherries!!</p>
+    		<p><button onclick="add_to_cart('7','Cherry Blush','799')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKokzDC9iwbBhnKHXE_VgknmyUnRkdvtMvig&usqp=CAU" class="item-img">
+    		<h1>Berry Blast</h1>
+    		<form name="form9">
+                <select id="a9" class="price-dropdown" name="select9" Onchange="change9()" value="Quanity and Price-9">
+                    <option value="1kg ~ ₹799">1kg ~ ₹799</option>
+                    <option value="2kg ~ ₹1549">2kg ~ ₹1549</option>
+                    <option value="3Kg ~ ₹2299">3Kg ~ ₹2299</option>
+                    <option value="4Kg ~ ₹3049">4Kg ~ ₹3049</option>
+                </select>
+            </form>
+            <p id="demo9" class="item-price"></p>
+    		<p class="description">Thick cream filled in between, topped with strawberries!</p>
+    		<p><button onclick="add_to_cart('8','Berry Blast','799')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVQNxhGvIA8KmdJ9iZ5gnOXMy6BLVrhPHJFw&usqp=CAU" class="item-img">
+    		<h1>Berry Dance</h1>
+    		<form name="form10">
+                <select id="a10" class="price-dropdown" name="select10" Onchange="change10()" value="Quanity and Price-10">
+                    <option value="1kg ~ ₹849">1kg ~ ₹849</option>
+                    <option value="2kg ~ ₹1649">2kg ~ ₹1649</option>
+                    <option value="3Kg ~ ₹2449">3Kg ~ ₹2449</option>
+                    <option value="4Kg ~ ₹3249">4Kg ~ ₹3249</option>
+                </select>
+            </form>
+            <p id="demo10" class="item-price"></p>
+    		<p class="description">Red velvet with strawberries and blackberries!</p>
+    		<p><button onclick="add_to_cart('9','Berry Dance','849')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcxF0G-BL7JWFxqrUtQWj02xsr5O30tm7jWw&usqp=CAU" class="item-img">
+    		<h1>Velvet Overload</h1>
+    		<form name="form11">
+                <select id="a11" class="price-dropdown" name="select11" Onchange="change11()" value="Quanity and Price-11">
+                    <option value="1kg ~ ₹899">1kg ~ ₹899</option>
+                    <option value="2kg ~ ₹1749">2kg ~ ₹1749</option>
+                    <option value="3Kg ~ ₹2599">3Kg ~ ₹2599</option>
+                    <option value="4Kg ~ ₹3449">4Kg ~ ₹3499</option>
+                </select>
+            </form>
+            <p id="demo11" class="item-price"></p>
+    		<p class="description">The all time favourite - red velvet - inside out!</p>
+    		<p><button onclick="add_to_cart('10','Velvet Overload','899')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8XX1wdJnh1aBFZjGplzaGcVAxH9Qxkxhh0Q&usqp=CAU" class="item-img">
+    		<h1>Velvet Cream</h1>
+    		<form name="form12">
+                <select id="a12" class="price-dropdown" name="select12" Onchange="change12()" value="Quanity and Price-12">
+                    <option value="1kg ~ ₹899">1kg ~ ₹899</option>
+                    <option value="2kg ~ ₹1749">2kg ~ ₹1749</option>
+                    <option value="3Kg ~ ₹2599">3Kg ~ ₹2599</option>
+                    <option value="4Kg ~ ₹3449">4Kg ~ ₹3499</option>
+                </select>
+            </form>
+            <p id="demo12" class="item-price"></p>
+    		<p class="description">Red velvet topped with thick cream and nuts!</p>
+    		<p><button onclick="add_to_cart('11','Velvet Cream','899')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/474x/d7/c9/e1/d7c9e1e96d2a60cb9c25462b94229cd1.jpg" class="item-img">
+    		<h1>Heart For You</h1>
+    		<form name="form13">
+                <select id="a13" class="price-dropdown" name="select13" Onchange="change13()" value="Quanity and Price-13">
+                    <option value="1kg ~ ₹899">1kg ~ ₹899</option>
+                    <option value="2kg ~ ₹1749">2kg ~ ₹1749</option>
+                    <option value="3Kg ~ ₹2599">3Kg ~ ₹2599</option>
+                    <option value="4Kg ~ ₹3449">4Kg ~ ₹3499</option>
+                </select>
+            </form>
+            <p id="demo13" class="item-price"></p>
+    		<p class="description">Red velvet lined with strawberries and white chocolate!</p>
+    		<p><button onclick="add_to_cart('12','Heart For You','899')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/474x/b2/4d/1f/b24d1f5d8def11bd69b3c583a0be2687.jpg" class="item-img">
+    		<h1>Infinite Joy</h1>
+    		<form name="form14">
+                <select id="a14" class="price-dropdown" name="select14" Onchange="change14()" value="Quanity and Price-14">
+                    <option value="1kg ~ ₹899">1kg ~ ₹899</option>
+                    <option value="2kg ~ ₹1749">2kg ~ ₹1749</option>
+                    <option value="3Kg ~ ₹2599">3Kg ~ ₹2599</option>
+                    <option value="4Kg ~ ₹3449">4Kg ~ ₹3499</option>
+                </select>
+            </form>
+            <p id="demo14" class="item-price"></p>
+    		<p class="description">Red velvet lined with imported white chocolate and thick cream!</p>
+    		<p><button onclick="add_to_cart('13','Infinite Joy','899')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/474x/52/69/87/526987f48ecf1faa626bb2a35e559c9b.jpg" class="item-img">
+    		<h1>Velvet Pink</h1>
+    		<form name="form15">
+                <select id="a15" class="price-dropdown" name="select15" Onchange="change15()" value="Quanity and Price-15">
+                    <option value="1kg ~ ₹999">1kg ~ ₹999</option>
+                    <option value="2kg ~ ₹1949">2kg ~ ₹1949</option>
+                    <option value="3Kg ~ ₹2899">3Kg ~ ₹2899</option>
+                    <option value="4Kg ~ ₹3849">4Kg ~ ₹3849</option>
+                </select>
+            </form>
+            <p id="demo15" class="item-price"></p>
+    		<p class="description">The perfect combo of red velvet cake with strawberries and thick cream!</p>
+    		<p><button onclick="add_to_cart('14','Velvet Pink','999')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/474x/13/38/44/133844cd7e9b53f073f2c869aeba794b.jpg" class="item-img">
+    		<h1>Velvet Drops</h1>
+    		<form name="form16">
+                <select id="a16" class="price-dropdown" name="select16" Onchange="change16()" value="Quanity and Price-16">
+                    <option value="1kg ~ ₹999">1kg ~ ₹999</option>
+                    <option value="2kg ~ ₹1949">2kg ~ ₹1949</option>
+                    <option value="3Kg ~ ₹2899">3Kg ~ ₹2899</option>
+                    <option value="4Kg ~ ₹3849">4Kg ~ ₹3849</option>
+                </select>
+            </form>
+            <p id="demo16" class="item-price"></p>
+    		<p class="description">Red velvet mixed with two layers of milk chocolate and cream!</p>
+    		<p><button onclick="add_to_cart('15','Velvet Drops','999')">Add to Cart</button></p>
+    	</div>
+
+    	<div class="card">
+    		<img src="https://i.pinimg.com/474x/2a/0e/ca/2a0ecafd17db9e42e32a005666be2020.jpg" class="item-img">
+    		<h1>Choco Velvet</h1>
+    		<form name="form17">
+                <select id="a17" class="price-dropdown" name="select17" Onchange="change17()" value="Quanity and Price-17">
+                    <option value="1kg ~ ₹999">1kg ~ ₹999</option>
+                    <option value="2kg ~ ₹1949">2kg ~ ₹1949</option>
+                    <option value="3Kg ~ ₹2899">3Kg ~ ₹2899</option>
+                    <option value="4Kg ~ ₹3849">4Kg ~ ₹3849</option>
+                </select>
+            </form>
+            <p id="demo17" class="item-price"></p>
+    		<p class="description">Red velvet lined with chocolate and a big heart!</p>
+    		<p><button onclick="add_to_cart('16','Choco Velvet','999')">Add to Cart</button></p>
+    	</div>
+
+        <div class="card">
+            <img src="https://i.pinimg.com/474x/47/be/11/47be11f25fb1885426f9479add2d3038.jpg" class="item-img">
+            <h1>Levels</h1>
+            <form name="form5">
+                <select id="a5" class="price-dropdown" name="select5" Onchange="change5()" value="Quanity and Price-5">
+                    <option value="1kg ~ ₹999">1kg ~ ₹999</option>
+                    <option value="2kg ~ ₹1949">2kg ~ ₹1949</option>
+                    <option value="3Kg ~ ₹2899">3Kg ~ ₹2899</option>
+                    <option value="4Kg ~ ₹3849">4Kg ~ ₹3849</option>
+                </select>
+            </form>
+            <p id="demo5" class="item-price"></p>
+            <p class="description">Four levels of red velvet and cherry magic!</p>
+            <p><button onclick="add_to_cart('17','Levels','999')">Add to Cart</button></p>
+        </div>
+
+    	<div class="card">
+    		<img src="https://th.bing.com/th/id/OIP.rYM208yxYzi-hKrVQ8tcnAHaLH?w=200&h=300&c=7&o=5&dpr=1.5&pid=1.7" class="item-img">
+    		<h1>Red Burst</h1>
+    		<form name="form18">
+                <select id="a18" class="price-dropdown" name="select18" Onchange="change18()" value="Quanity and Price-18">
+                    <option value="1kg ~ ₹999">1kg ~ ₹999</option>
+                    <option value="2kg ~ ₹1949">2kg ~ ₹1949</option>
+                    <option value="3Kg ~ ₹2899">3Kg ~ ₹2899</option>
+                    <option value="4Kg ~ ₹3849">4Kg ~ ₹3849</option>
+                </select>
+            </form>
+            <p id="demo18" class="item-price"></p>
+    		<p class="description">Spongy red velvet topped with a lot of berries!</p>
+    		<p><button onclick="add_to_cart('18','Red Burst','999')">Add to Cart</button></p>
+    	</div> {% endcomment %}
+
+    </div>
+
+    <!-- Modal -->
+    {% include "Model.html"%}
+
+    <!-- F O O T E R   S O C I A L   I C O N S -->
+
+    {% include "footer.html" %}
+
+</body>
+</html>
